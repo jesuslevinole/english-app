@@ -117,3 +117,145 @@
     justify-self: center;
   }
 }
+
+/* ── Lección (modo Aprender) ───────────────────────── */
+.modo-chips {
+  padding-bottom: 0;
+}
+
+.seccion-leccion h3 {
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+  color: var(--verde-900);
+}
+
+.seccion-explicacion {
+  white-space: pre-wrap;
+  margin-bottom: 10px;
+}
+
+.tabla-leccion {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+  background: #fff;
+}
+
+.tabla-leccion th,
+.tabla-leccion td {
+  border: 2px solid var(--tinta);
+  padding: 6px 10px;
+  text-align: left;
+}
+
+.tabla-leccion th {
+  background: var(--verde-100);
+}
+
+.ejemplos-lista {
+  display: grid;
+  gap: 8px;
+}
+
+.ejemplos-lista li {
+  display: flex;
+  flex-direction: column;
+  border-left: 6px solid var(--verde-500);
+  padding-left: 10px;
+}
+
+.ejemplo-en {
+  font-weight: 900;
+}
+
+.ejemplo-es {
+  color: var(--gris-texto);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Conversación tipo chat */
+.dialogo h3 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.dialogo-lista {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.linea-dialogo {
+  max-width: 85%;
+  background: var(--verde-100);
+  border: var(--borde);
+  border-radius: 14px 14px 14px 4px;
+  padding: 8px 12px;
+  justify-self: start;
+}
+
+.linea-dialogo.derecha {
+  background: #fff;
+  border-radius: 14px 14px 4px 14px;
+  justify-self: end;
+}
+
+/* ── Lección (pestaña Aprender) ─────────────────────── */
+.leccion {
+  display: grid;
+  gap: 14px;
+}
+
+.seccion-leccion h3 {
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+}
+
+.seccion-contenido {
+  white-space: pre-wrap;
+  font-weight: 600;
+}
+
+.ejemplos-lista {
+  margin-top: 10px;
+  display: grid;
+  gap: 8px;
+}
+
+.ejemplo {
+  border-left: 4px solid var(--verde-500);
+  padding-left: 10px;
+}
+
+.ejemplo-en {
+  font-weight: 900;
+}
+
+.dialogo-lista {
+  display: grid;
+  gap: 8px;
+}
+
+.linea-dialogo {
+  display: flex;
+  gap: 8px;
+  background: var(--papel);
+  border: var(--borde);
+  border-radius: 12px;
+  padding: 8px 12px;
+  max-width: 90%;
+}
+
+.linea-dialogo:nth-child(even) {
+  background: var(--verde-100);
+  justify-self: end;
+}
+
+.dialogo-hablante {
+  font-weight: 900;
+  color: var(--verde-900);
+  flex-shrink: 0;
+}

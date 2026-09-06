@@ -16,6 +16,7 @@ import {
   guardarPersonaje,
   sembrarNivel1,
 } from './services/datos';
+import { SEMILLA_NIVEL1 } from './data/nivel1';
 import { fechaHoy, nivelDeXp } from './utils/nivelXp';
 import Encabezado from './components/Encabezado';
 import NavInferior from './components/NavInferior';
@@ -28,7 +29,7 @@ import './App.css';
 // App.tsx es el único dueño de los datos: carga cada colección una vez
 // (con caché de sesión, ver services/datos.ts) y las vistas los reciben
 // por props. Las mutaciones actualizan este estado local — nunca se
-// re-fetchea una colección completa tras crear/borrar.
+// re-fetchea una colección completa tras crear/editar/borrar.
 export default function App() {
   const [vista, setVista] = useState<Vista>('inicio');
   const [cargando, setCargando] = useState(true);
@@ -90,13 +91,27 @@ export default function App() {
 
   const nivel = personaje ? nivelDeXp(personaje.xp) : 1;
 
-  // ── Semilla del Nivel 1 (contenido de la academia) ─
+  // ── Semilla del Nivel 1 (material de la academia) ──
+  // El botón aparece si falta algún tema de la semilla o si alguno existe
+  // en versión vieja, sin lección (explicacion) — en ese caso lo actualiza.
+  const necesitaSemilla = SEMILLA_NIVEL1.temas.some((s) => {
+    const existente = temas.find((t) => t.nombre === s.nombre);
+    return !existente || (existente.explicacion ?? []).length === 0;
+  });
+
   async function sembrar() {
-    const r = await sembrarNivel1();
+    const r = await sembrarNivel1({ categorias, palabras, temas, recursos });
     setCategorias((previas) => [...previas, ...r.categorias]);
     setPalabras((previas) => [...previas, ...r.palabras]);
-    setTemas((previos) => [...previos, ...r.temas]);
-    setRecursos((previos) => [...previos, ...r.recursos]);
+    // temas y listening pueden venir actualizados (mismo id): reemplazar, no duplicar
+    setTemas((previos) => [
+      ...previos.filter((t) => !r.temas.some((rt) => rt.id === t.id)),
+      ...r.temas,
+    ]);
+    setRecursos((previos) => [
+      ...previos.filter((x) => !r.recursos.some((rr) => rr.id === x.id)),
+      ...r.recursos,
+    ]);
   }
 
   // ── Vocabulario ────────────────────────────────────
@@ -167,7 +182,7 @@ export default function App() {
           <Inicio
             personaje={personaje}
             onGuardarPersonaje={actualizarPersonaje}
-            mostrarSemilla={palabras.length === 0 && temas.length === 0}
+            mostrarSemilla={necesitaSemilla}
             onSembrar={sembrar}
           />
         )}
@@ -180,6 +195,9 @@ export default function App() {
             onCrearPalabra={crearPalabra}
             onBorrarPalabra={borrarPalabra}
             onRondaTerminada={(cartas) => completarActividad('vocabulario', 10 + cartas + nivel * 2)}
+            onEscrituraTerminada={(aciertos) =>
+              completarActividad('vocabulario', aciertos * 3 + nivel * 2)
+            }
           />
         )}
         {vista === 'gramatica' && (
@@ -190,6 +208,9 @@ export default function App() {
             onBorrarTema={borrarTema}
             onCuestionarioTerminado={(aciertos) =>
               completarActividad('gramatica', aciertos * 5 + nivel * 2)
+            }
+            onJuegoTerminado={(aciertos) =>
+              completarActividad('gramatica', aciertos * 4 + nivel * 2)
             }
           />
         )}

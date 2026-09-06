@@ -49,7 +49,7 @@ export default function Cuestionario({ ejercicios, maxPreguntas, onTerminar }: P
         <p className="texto-suave">
           {aciertos === orden.length
             ? '¡Perfecto! Dominas este tema.'
-            : 'Repasa los videos del tema y vuelve a intentarlo.'}
+            : 'Repasa la lección y los videos del tema y vuelve a intentarlo.'}
         </p>
       </div>
     );

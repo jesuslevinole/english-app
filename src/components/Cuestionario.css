@@ -45,17 +45,3 @@
   display: flex;
   justify-content: flex-end;
 }
-
-.cuestionario-final {
-  text-align: center;
-  display: grid;
-  gap: 12px;
-  justify-items: center;
-  padding: 10px 0;
-}
-
-.cuestionario-puntaje {
-  font-size: 2rem;
-  font-weight: 900;
-  color: var(--verde-700);
-}

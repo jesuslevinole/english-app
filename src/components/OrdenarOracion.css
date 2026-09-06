@@ -1,0 +1,74 @@
+.ordenar {
+  display: grid;
+  gap: 14px;
+}
+
+.ordenar-zona {
+  min-height: 64px;
+  border: 2px dashed var(--verde-700);
+  border-radius: var(--radio);
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  background: var(--papel);
+}
+
+.ordenar-zona.correcta {
+  border-style: solid;
+  background: var(--verde-100);
+}
+
+.ordenar-zona.incorrecta {
+  border-color: var(--coral);
+}
+
+.ordenar-fichas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 48px;
+}
+
+.ficha {
+  background: var(--papel);
+  border: var(--borde);
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-weight: 800;
+  box-shadow: 3px 3px 0 rgba(28, 42, 31, 0.85);
+}
+
+.ficha:hover {
+  background: var(--verde-100);
+}
+
+.ficha:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 rgba(28, 42, 31, 0.85);
+}
+
+.ficha.puesta {
+  background: var(--verde-500);
+  color: #fff;
+}
+
+.ordenar-acciones {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.ordenar-mensaje {
+  font-weight: 800;
+}
+
+.ordenar-mensaje.bien {
+  color: var(--verde-700);
+}
+
+.ordenar-mensaje.mal {
+  color: var(--coral);
+}

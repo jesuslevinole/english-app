@@ -30,11 +30,34 @@ export interface VideoRef {
 
 export type Nivel = 'A1' | 'A2' | 'B1' | 'B2' | 'C1';
 
+// Frase de ejemplo bilingüe dentro de una lección
+export interface EjemploFrase {
+  en: string;
+  es: string;
+}
+
+// Sección de teoría de una lección (explicación simplificada en español)
+export interface SeccionLeccion {
+  titulo: string;
+  contenido: string;
+  ejemplos?: EjemploFrase[];
+}
+
+export interface LineaDialogo {
+  hablante: string;
+  texto: string;
+}
+
 export interface TemaGramatica {
   id: string;
   nombre: string;
   nivel: Nivel;
   notas: string;
+  // Material de estudio (los temas creados a mano desde el formulario pueden no tenerlo)
+  explicacion?: SeccionLeccion[];
+  dialogo?: LineaDialogo[];
+  // Oraciones para el juego de "ordenar palabras"
+  oraciones?: string[];
   videos: VideoRef[];
   ejercicios: Ejercicio[];
 }

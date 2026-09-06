@@ -40,13 +40,6 @@
   justify-items: center;
 }
 
-.juego-estado {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
 .carta {
   width: 100%;
   min-height: 220px;
@@ -69,12 +62,6 @@
   color: var(--tinta);
 }
 
-.carta-pista {
-  font-size: 0.85rem;
-  font-weight: 700;
-  opacity: 0.85;
-}
-
 .juego-botones {
   display: flex;
   gap: 10px;
@@ -86,13 +73,6 @@
   flex: 1;
 }
 
-.juego-final {
-  text-align: center;
-  display: grid;
-  gap: 10px;
-  justify-items: center;
-  padding: 24px 0;
-}
 
 @media (min-width: 900px) {
   .palabras-lista {
@@ -114,4 +94,34 @@
     min-height: 320px;
     font-size: 2rem;
   }
+}
+
+/* ── Juego de deletreo ─────────────────────────────── */
+.deletreo {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  border-left: 10px solid var(--cat-color);
+  padding: 24px 18px;
+}
+
+.deletreo-significado {
+  font-size: 1.5rem;
+  font-weight: 900;
+  text-align: center;
+}
+
+.deletreo-entrada {
+  max-width: 320px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.deletreo .feedback {
+  width: 100%;
+  max-width: 320px;
+  text-align: center;
 }

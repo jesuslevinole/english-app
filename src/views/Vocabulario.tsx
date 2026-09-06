@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
-import { Check, Play, Plus, RotateCcw, Shuffle, Trash2, Trophy } from 'lucide-react';
+import { Check, Keyboard, Play, Plus, RotateCcw, Shuffle, Trash2, Trophy } from 'lucide-react';
 import type { Categoria, Palabra } from '../types';
 import { barajar } from '../utils/barajar';
 import { cartasPorRonda, proporcionInversa } from '../utils/dificultad';
 import Modal from '../components/Modal';
+import JuegoEscritura from '../components/JuegoEscritura';
 import './Vocabulario.css';
 
 // Carta del juego: en modo inverso se muestra el español y hay que
@@ -22,6 +23,8 @@ interface Props {
   onCrearPalabra: (datos: Omit<Palabra, 'id'>) => void;
   onBorrarPalabra: (palabra: Palabra) => void;
   onRondaTerminada: (cartasJugadas: number) => void;
+  // XP del modo escritura (spelling)
+  onEscrituraTerminada: (aciertos: number, total: number) => void;
 }
 
 const COLORES_CATEGORIA = ['#2e9e63', '#e0b13e', '#ec6a55', '#2f6690', '#8a5a35', '#1f7a4d'];
@@ -34,6 +37,7 @@ export default function Vocabulario({
   onCrearPalabra,
   onBorrarPalabra,
   onRondaTerminada,
+  onEscrituraTerminada,
 }: Props) {
   const [filtro, setFiltro] = useState<string>('todas');
   const [modal, setModal] = useState<'ninguno' | 'palabra' | 'categoria'>('ninguno');
@@ -51,6 +55,9 @@ export default function Vocabulario({
   const [mazo, setMazo] = useState<Carta[] | null>(null);
   const [volteada, setVolteada] = useState(false);
   const [jugadas, setJugadas] = useState(0);
+
+  // modo escritura (spelling)
+  const [escribiendo, setEscribiendo] = useState(false);
 
   const filtradas = useMemo(
     () => (filtro === 'todas' ? palabras : palabras.filter((p) => p.categoriaId === filtro)),
@@ -80,7 +87,7 @@ export default function Vocabulario({
     setModal('ninguno');
   }
 
-  // ── Juego ──────────────────────────────────────────
+  // ── Juego de tarjetas ──────────────────────────────
   function empezarJuego() {
     // La ronda escala con el nivel: más tarjetas y, a partir del nivel 3,
     // una proporción viene en modo inverso (español → inglés).
@@ -114,6 +121,20 @@ export default function Vocabulario({
     }
   }
 
+  // ── Modo escritura ─────────────────────────────────
+  if (escribiendo) {
+    return (
+      <JuegoEscritura
+        palabras={filtradas}
+        cantidad={Math.min(cartasPorRonda(nivel), filtradas.length)}
+        colorDe={colorDe}
+        onTerminar={onEscrituraTerminada}
+        onSalir={() => setEscribiendo(false)}
+      />
+    );
+  }
+
+  // ── Juego de tarjetas (pantallas) ──────────────────
   if (mazo !== null) {
     if (mazo.length === 0) {
       return (
@@ -212,13 +233,21 @@ export default function Vocabulario({
       </div>
 
       <div className="acciones-vocabulario">
-        <button className="btn-primario" onClick={() => setModal('palabra')}>
+        <button className="btn-contorno" onClick={() => setModal('palabra')}>
           <Plus size={18} />
           Nueva palabra
         </button>
         <button className="btn-primario" onClick={empezarJuego} disabled={filtradas.length < 2}>
           <Play size={18} />
-          Jugar
+          Tarjetas
+        </button>
+        <button
+          className="btn-primario"
+          onClick={() => setEscribiendo(true)}
+          disabled={filtradas.length < 2}
+        >
+          <Keyboard size={18} />
+          Escribir
         </button>
       </div>
 

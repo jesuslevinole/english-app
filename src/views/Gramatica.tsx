@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { ArrowLeft, ExternalLink, Play, Plus, Trash2, Youtube } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Plus, Trash2, Youtube } from 'lucide-react';
 import type { Ejercicio, IdiomaVideo, Nivel, TemaGramatica, VideoRef } from '../types';
 import { urlBusqueda } from '../utils/youtube';
+import { oracionesPorJuego, preguntasPorCuestionario } from '../utils/dificultad';
 import Modal from '../components/Modal';
 import Cuestionario from '../components/Cuestionario';
-import { preguntasPorCuestionario } from '../utils/dificultad';
 import EditorEjercicios from '../components/EditorEjercicios';
+import OrdenarOracion from '../components/OrdenarOracion';
 import './Gramatica.css';
 
 interface Props {
@@ -13,6 +14,8 @@ interface Props {
   onCrearTema: (datos: Omit<TemaGramatica, 'id'>) => void;
   onBorrarTema: (tema: TemaGramatica) => void;
   onCuestionarioTerminado: (aciertos: number, total: number) => void;
+  // XP por el juego de ordenar oraciones
+  onJuegoTerminado: (aciertos: number, total: number) => void;
   // nivel del personaje (dificultad); distinto del `nivel` A1–C1 del formulario
   nivelPersonaje: number;
 }
@@ -24,10 +27,11 @@ export default function Gramatica({
   onCrearTema,
   onBorrarTema,
   onCuestionarioTerminado,
+  onJuegoTerminado,
   nivelPersonaje,
 }: Props) {
   const [temaAbiertoId, setTemaAbiertoId] = useState<string | null>(null);
-  const [practicando, setPracticando] = useState(false);
+  const [pestana, setPestana] = useState<'aprender' | 'practicar' | 'jugar'>('aprender');
   const [creando, setCreando] = useState(false);
 
   // formulario de tema nuevo
@@ -64,11 +68,14 @@ export default function Gramatica({
 
   function cerrarDetalle() {
     setTemaAbiertoId(null);
-    setPracticando(false);
+    setPestana('aprender');
   }
 
-  // ── Detalle de un tema ─────────────────────────────
+  // ── Detalle de un tema: Aprender / Practicar / Jugar ──
   if (temaAbierto) {
+    const explicacion = temaAbierto.explicacion ?? [];
+    const dialogo = temaAbierto.dialogo ?? [];
+    const oraciones = temaAbierto.oraciones ?? [];
     const videosEn = temaAbierto.videos.filter((v) => v.idioma === 'en');
     const videosEs = temaAbierto.videos.filter((v) => v.idioma === 'es');
     return (
@@ -81,17 +88,65 @@ export default function Gramatica({
           </button>
         </div>
 
-        {practicando ? (
-          <div className="tarjeta">
-            <Cuestionario
-              ejercicios={temaAbierto.ejercicios}
-              maxPreguntas={preguntasPorCuestionario(nivelPersonaje)}
-              onTerminar={onCuestionarioTerminado}
-            />
-          </div>
-        ) : (
-          <>
+        <div className="fila-chips">
+          <button
+            className={`chip${pestana === 'aprender' ? ' activo' : ''}`}
+            onClick={() => setPestana('aprender')}
+          >
+            Aprender
+          </button>
+          <button
+            className={`chip${pestana === 'practicar' ? ' activo' : ''}`}
+            onClick={() => setPestana('practicar')}
+          >
+            Practicar ({temaAbierto.ejercicios.length})
+          </button>
+          <button
+            className={`chip${pestana === 'jugar' ? ' activo' : ''}`}
+            onClick={() => setPestana('jugar')}
+          >
+            Jugar
+          </button>
+        </div>
+
+        {pestana === 'aprender' && (
+          <div className="leccion">
             {temaAbierto.notas && <p className="tarjeta tema-notas">{temaAbierto.notas}</p>}
+
+            {explicacion.map((seccion) => (
+              <section key={seccion.titulo} className="tarjeta seccion-leccion">
+                <h3>{seccion.titulo}</h3>
+                <p className="seccion-contenido">{seccion.contenido}</p>
+                {seccion.ejemplos && seccion.ejemplos.length > 0 && (
+                  <ul className="ejemplos-lista">
+                    {seccion.ejemplos.map((ejemplo) => (
+                      <li key={ejemplo.en} className="ejemplo">
+                        <p className="ejemplo-en">{ejemplo.en}</p>
+                        <p className="texto-suave">{ejemplo.es}</p>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </section>
+            ))}
+
+            {dialogo.length > 0 && (
+              <section className="tarjeta">
+                <h3>Diálogo modelo</h3>
+                <ul className="dialogo-lista">
+                  {dialogo.map((linea, i) => (
+                    <li key={`${linea.hablante}-${i}`} className="linea-dialogo">
+                      <span className="dialogo-hablante">{linea.hablante}:</span>
+                      <span>{linea.texto}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
+            {explicacion.length === 0 && dialogo.length === 0 && !temaAbierto.notas && (
+              <p className="vacio">Este tema aún no tiene material de estudio.</p>
+            )}
 
             <div className="tarjeta videos-grupo">
               <h3>Videos en inglés</h3>
@@ -142,17 +197,36 @@ export default function Gramatica({
                 </li>
               </ul>
             </div>
-
-            {temaAbierto.ejercicios.length > 0 ? (
-              <button className="btn-primario" onClick={() => setPracticando(true)}>
-                <Play size={18} />
-                Practicar ({temaAbierto.ejercicios.length} ejercicios)
-              </button>
-            ) : (
-              <p className="vacio">Este tema aún no tiene ejercicios.</p>
-            )}
-          </>
+          </div>
         )}
+
+        {pestana === 'practicar' &&
+          (temaAbierto.ejercicios.length > 0 ? (
+            <div className="tarjeta">
+              <Cuestionario
+                key={temaAbierto.id}
+                ejercicios={temaAbierto.ejercicios}
+                maxPreguntas={preguntasPorCuestionario(nivelPersonaje)}
+                onTerminar={onCuestionarioTerminado}
+              />
+            </div>
+          ) : (
+            <p className="vacio">Este tema aún no tiene ejercicios.</p>
+          ))}
+
+        {pestana === 'jugar' &&
+          (oraciones.length > 0 ? (
+            <div className="tarjeta">
+              <OrdenarOracion
+                key={temaAbierto.id}
+                oraciones={oraciones}
+                maxOraciones={Math.min(oracionesPorJuego(nivelPersonaje), oraciones.length)}
+                onTerminar={onJuegoTerminado}
+              />
+            </div>
+          ) : (
+            <p className="vacio">Este tema aún no tiene oraciones para el juego de ordenar.</p>
+          ))}
       </div>
     );
   }
@@ -173,15 +247,23 @@ export default function Gramatica({
 
       {temas.length === 0 ? (
         <p className="vacio">
-          Crea tu primer tema de gramática con sus ejercicios y videos recomendados.
+          Crea tu primer tema de gramática, o carga el material del Nivel 1 desde Inicio.
         </p>
       ) : (
         <ul className="temas-lista">
           {temas.map((t) => (
-            <li key={t.id} className="tarjeta tema-item" onClick={() => setTemaAbiertoId(t.id)}>
+            <li
+              key={t.id}
+              className="tarjeta tema-item"
+              onClick={() => {
+                setTemaAbiertoId(t.id);
+                setPestana('aprender');
+              }}
+            >
               <div className="tema-textos">
                 <p className="tema-nombre">{t.nombre}</p>
                 <p className="texto-suave">
+                  {(t.explicacion ?? []).length > 0 ? 'Lección · ' : ''}
                   {t.ejercicios.length} ejercicios · {t.videos.length} videos
                 </p>
               </div>

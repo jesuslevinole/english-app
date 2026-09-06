@@ -274,3 +274,112 @@ label {
     font-size: 17px;
   }
 }
+
+/* Retroalimentación de juegos (Cuestionario y Deletreo) */
+.feedback {
+  margin-top: 12px;
+  font-weight: 900;
+  padding: 10px 14px;
+  border: var(--borde);
+  border-radius: 12px;
+}
+
+.feedback-ok {
+  background: var(--verde-500);
+  color: #fff;
+}
+
+.feedback-mal {
+  background: var(--coral);
+  color: #fff;
+}
+
+/* Pantallas de juego compartidas (Cuestionario, OrdenarOracion, JuegoEscritura) */
+.cuestionario-final {
+  text-align: center;
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  padding: 10px 0;
+}
+
+.cuestionario-puntaje {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--verde-700);
+}
+
+/* ── Juego de ordenar palabras ─────────────────────── */
+.oracion-armada {
+  min-height: 54px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  border: 2px dashed var(--verde-700);
+  border-radius: 12px;
+  padding: 10px;
+  margin: 10px 0;
+  background: #fff;
+}
+
+.banco-palabras {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.palabra-ficha {
+  background: var(--papel);
+  border: var(--borde);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-weight: 800;
+  box-shadow: 2px 2px 0 rgba(28, 42, 31, 0.85);
+}
+
+.palabra-ficha:hover {
+  background: var(--verde-100);
+}
+
+.palabra-ficha:disabled {
+  opacity: 0.35;
+  box-shadow: none;
+  cursor: default;
+}
+
+.palabra-ficha.en-oracion {
+  background: var(--verde-100);
+}
+
+.palabra-ficha.en-oracion:disabled {
+  opacity: 1;
+  cursor: default;
+}
+
+/* ── Juego de escribir ─────────────────────────────── */
+.campo-escribir {
+  margin: 10px 0 14px;
+}
+
+.juego-estado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.carta-pista {
+  font-size: 0.85rem;
+  font-weight: 700;
+  opacity: 0.85;
+}
+
+.juego-final {
+  text-align: center;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  padding: 24px 0;
+}

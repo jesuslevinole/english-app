@@ -25,3 +25,8 @@ export function descripcionReto(nivel: number): string | null {
   const porcentaje = Math.round(proporcionInversa(nivel) * 100);
   return `Reto de nivel ${nivel}: ~${porcentaje}% de las tarjetas vienen en modo inverso (español → inglés).`;
 }
+
+// Oraciones por partida del juego de ordenar palabras (sube con el nivel).
+export function oracionesPorJuego(nivel: number): number {
+  return 3 + Math.floor(nivel / 2);
+}

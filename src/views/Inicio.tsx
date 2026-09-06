@@ -119,14 +119,15 @@ export default function Inicio({ personaje, onGuardarPersonaje, mostrarSemilla, 
         <section className="tarjeta semilla">
           <Sprout size={28} />
           <div className="semilla-textos">
-            <p className="semilla-titulo">Contenido del Nivel 1 listo para cargar</p>
+            <p className="semilla-titulo">Lecciones del Nivel 1 listas para cargar</p>
             <p className="texto-suave">
-              Vocabulario de familia, descripciones, apariencia, saludos y animales, más 5 temas
-              de gramática con ejercicios y videos, y 3 actividades de listening.
+              6 lecciones completas de la academia (explicaciones, tablas, conversaciones y
+              ejercicios de elegir, ordenar y escribir), ~65 palabras de vocabulario y 3
+              actividades de listening. Si ya cargaste contenido antes, se actualiza sin duplicar.
             </p>
           </div>
           <button className="btn-primario" onClick={sembrar} disabled={sembrando}>
-            {sembrando ? 'Cargando…' : 'Cargar contenido Nivel 1'}
+            {sembrando ? 'Cargando…' : 'Cargar lecciones Nivel 1'}
           </button>
         </section>
       )}

@@ -87,13 +87,24 @@ export async function guardarPersonaje(personaje: Personaje): Promise<void> {
 }
 
 // ── Semilla del Nivel 1 ──────────────────────────────
-// Carga todo el contenido de src/data/nivel1.ts en un solo batch
-// (1 escritura por documento, 0 lecturas) y devuelve los objetos con
-// sus ids para actualizar el estado de React sin re-fetchear.
+// Carga el contenido de src/data/nivel1.ts en un solo batch de escrituras
+// (0 lecturas). Es idempotente:
+// - categorías y palabras que ya existen (mismo nombre/término) se saltan;
+// - temas y recursos con el mismo nombre/título se ACTUALIZAN en el mismo
+//   documento (así una versión nueva de la semilla enriquece lo ya cargado
+//   sin duplicarlo).
 import { writeBatch } from 'firebase/firestore';
 import { SEMILLA_NIVEL1 } from '../data/nivel1';
 import type { Categoria, Palabra, RecursoListening, TemaGramatica } from '../types';
 
+export interface EstadoActual {
+  categorias: Categoria[];
+  palabras: Palabra[];
+  temas: TemaGramatica[];
+  recursos: RecursoListening[];
+}
+
+// Solo lo creado o actualizado por la semilla (para mezclar con el estado).
 export interface ResultadoSemilla {
   categorias: Categoria[];
   palabras: Palabra[];
@@ -101,7 +112,7 @@ export interface ResultadoSemilla {
   recursos: RecursoListening[];
 }
 
-export async function sembrarNivel1(): Promise<ResultadoSemilla> {
+export async function sembrarNivel1(actual: EstadoActual): Promise<ResultadoSemilla> {
   const lote = writeBatch(db);
   const categorias: Categoria[] = [];
   const palabras: Palabra[] = [];
@@ -109,33 +120,43 @@ export async function sembrarNivel1(): Promise<ResultadoSemilla> {
   const recursos: RecursoListening[] = [];
 
   for (const cat of SEMILLA_NIVEL1.categorias) {
-    const refCat = doc(collection(db, 'categorias'));
-    const datosCat = { nombre: cat.nombre, color: cat.color };
-    lote.set(refCat, datosCat);
-    categorias.push({ id: refCat.id, ...datosCat });
+    const existente = actual.categorias.find((c) => c.nombre === cat.nombre);
+    let idCategoria: string;
+    if (existente) {
+      idCategoria = existente.id;
+    } else {
+      const ref = doc(collection(db, 'categorias'));
+      const datos = { nombre: cat.nombre, color: cat.color };
+      lote.set(ref, datos);
+      categorias.push({ id: ref.id, ...datos });
+      idCategoria = ref.id;
+    }
     for (const p of cat.palabras) {
-      const refPal = doc(collection(db, 'palabras'));
-      const datosPal = {
+      if (actual.palabras.some((x) => x.termino === p.termino)) continue;
+      const ref = doc(collection(db, 'palabras'));
+      const datos = {
         termino: p.termino,
         significado: p.significado,
-        categoriaId: refCat.id,
+        categoriaId: idCategoria,
         creadaEn: Date.now(),
       };
-      lote.set(refPal, datosPal);
-      palabras.push({ id: refPal.id, ...datosPal });
+      lote.set(ref, datos);
+      palabras.push({ id: ref.id, ...datos });
     }
   }
 
   for (const t of SEMILLA_NIVEL1.temas) {
-    const refTema = doc(collection(db, 'temas'));
-    lote.set(refTema, t);
-    temas.push({ id: refTema.id, ...t });
+    const existente = actual.temas.find((x) => x.nombre === t.nombre);
+    const ref = existente ? doc(db, 'temas', existente.id) : doc(collection(db, 'temas'));
+    lote.set(ref, t);
+    temas.push({ id: ref.id, ...t });
   }
 
   for (const r of SEMILLA_NIVEL1.listening) {
-    const refRec = doc(collection(db, 'listening'));
-    lote.set(refRec, r);
-    recursos.push({ id: refRec.id, ...r });
+    const existente = actual.recursos.find((x) => x.titulo === r.titulo);
+    const ref = existente ? doc(db, 'listening', existente.id) : doc(collection(db, 'listening'));
+    lote.set(ref, r);
+    recursos.push({ id: ref.id, ...r });
   }
 
   await lote.commit();
