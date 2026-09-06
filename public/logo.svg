@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Aula Crear: búho en un bosque leyendo un libro -->
+  <defs>
+    <clipPath id="marco"><circle cx="60" cy="60" r="58"/></clipPath>
+  </defs>
+  <circle cx="60" cy="60" r="58" fill="#dff0e2"/>
+  <g clip-path="url(#marco)">
+    <!-- bosque de fondo -->
+    <path d="M14 92 L26 52 L38 92 Z" fill="#2e9e63"/>
+    <path d="M82 92 L96 44 L110 92 Z" fill="#2e9e63"/>
+    <path d="M2 96 L12 66 L22 96 Z" fill="#1f7a4d"/>
+    <path d="M98 96 L108 68 L118 96 Z" fill="#1f7a4d"/>
+    <rect x="0" y="90" width="120" height="30" fill="#14532d"/>
+    <!-- rama -->
+    <rect x="18" y="86" width="84" height="6" rx="3" fill="#7a5230"/>
+    <!-- cuerpo del búho -->
+    <ellipse cx="60" cy="62" rx="24" ry="27" fill="#8a5a35"/>
+    <ellipse cx="60" cy="68" rx="16" ry="18" fill="#c99e6a"/>
+    <!-- orejas -->
+    <path d="M40 42 L46 30 L52 42 Z" fill="#8a5a35"/>
+    <path d="M68 42 L74 30 L80 42 Z" fill="#8a5a35"/>
+    <!-- ojos -->
+    <circle cx="50" cy="50" r="9" fill="#fffdf5"/>
+    <circle cx="70" cy="50" r="9" fill="#fffdf5"/>
+    <circle cx="50" cy="51" r="4" fill="#1c1a14"/>
+    <circle cx="70" cy="51" r="4" fill="#1c1a14"/>
+    <!-- pico -->
+    <path d="M56 57 L64 57 L60 64 Z" fill="#e6a23c"/>
+    <!-- libro abierto -->
+    <path d="M38 80 L58 74 L58 92 L38 96 Z" fill="#f5f0e1" stroke="#1c1a14" stroke-width="2"/>
+    <path d="M82 80 L62 74 L62 92 L82 96 Z" fill="#f5f0e1" stroke="#1c1a14" stroke-width="2"/>
+    <line x1="43" y1="82" x2="54" y2="79" stroke="#9aa08a" stroke-width="1.5"/>
+    <line x1="43" y1="86" x2="54" y2="83" stroke="#9aa08a" stroke-width="1.5"/>
+    <line x1="66" y1="79" x2="77" y2="82" stroke="#9aa08a" stroke-width="1.5"/>
+    <line x1="66" y1="83" x2="77" y2="86" stroke="#9aa08a" stroke-width="1.5"/>
+    <!-- alas sobre el libro -->
+    <path d="M38 66 Q30 78 40 82 Q48 78 46 68 Z" fill="#6f472a"/>
+    <path d="M82 66 Q90 78 80 82 Q72 78 74 68 Z" fill="#6f472a"/>
+  </g>
+  <circle cx="60" cy="60" r="58" fill="none" stroke="#14532d" stroke-width="4"/>
+</svg>

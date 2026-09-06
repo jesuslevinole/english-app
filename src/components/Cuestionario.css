@@ -1,0 +1,61 @@
+.cuestionario-progreso {
+  margin-bottom: 10px;
+}
+
+.cuestionario-pregunta {
+  font-size: 1.1rem;
+  font-weight: 900;
+  margin-bottom: 14px;
+}
+
+.cuestionario-opciones {
+  display: grid;
+  gap: 10px;
+}
+
+.opcion {
+  text-align: left;
+  background: var(--papel);
+  border: var(--borde);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-weight: 700;
+}
+
+.opcion:hover {
+  background: var(--verde-100);
+}
+
+.opcion:disabled {
+  cursor: default;
+}
+
+.opcion.correcta {
+  background: var(--verde-500);
+  color: #fff;
+}
+
+.opcion.incorrecta {
+  background: var(--coral);
+  color: #fff;
+}
+
+.cuestionario-pie {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cuestionario-final {
+  text-align: center;
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  padding: 10px 0;
+}
+
+.cuestionario-puntaje {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--verde-700);
+}

@@ -1,0 +1,31 @@
+.encabezado {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 18px 8px;
+}
+
+.encabezado-logo {
+  width: 46px;
+  height: 46px;
+}
+
+.encabezado-textos {
+  flex: 1;
+  min-width: 0;
+}
+
+.encabezado-app {
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: var(--verde-700);
+}
+
+.encabezado-saludo {
+  font-size: 1.3rem;
+  font-weight: 900;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

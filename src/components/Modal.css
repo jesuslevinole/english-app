@@ -1,0 +1,32 @@
+.modal-fondo {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 42, 31, 0.55);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal-cuadro {
+  background: var(--crema);
+  border: var(--borde);
+  border-bottom: none;
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  max-width: 520px;
+  max-height: 88dvh;
+  overflow-y: auto;
+  padding: 18px 18px calc(18px + env(safe-area-inset-bottom));
+}
+
+.modal-encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.modal-encabezado h3 {
+  font-size: 1.2rem;
+}

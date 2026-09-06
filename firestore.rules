@@ -1,0 +1,12 @@
+rules_version = '2';
+// ⚠️ Reglas abiertas: cualquiera con la config pública puede leer/escribir.
+// Suficiente para desarrollo personal, pero antes de compartir la URL pública
+// conviene activar Firebase Auth (aunque sea Anonymous o Google) y cambiar
+// la condición a: allow read, write: if request.auth != null;
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}

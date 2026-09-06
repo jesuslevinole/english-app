@@ -1,0 +1,87 @@
+.temas-lista {
+  display: grid;
+  gap: 10px;
+}
+
+.tema-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--verde-100);
+  cursor: pointer;
+}
+
+.tema-item:hover {
+  background: var(--verde-500);
+  color: #fff;
+}
+
+.tema-textos {
+  flex: 1;
+  min-width: 0;
+}
+
+.tema-nombre {
+  font-weight: 900;
+}
+
+.insignia-nivel {
+  font-size: 0.75rem;
+  font-weight: 900;
+  background: var(--tinta);
+  color: #fff;
+  border-radius: 999px;
+  padding: 2px 10px;
+  flex-shrink: 0;
+}
+
+.tema-detalle {
+  display: grid;
+  gap: 14px;
+}
+
+.tema-notas {
+  white-space: pre-wrap;
+}
+
+.videos-grupo h3 {
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+.videos-grupo ul {
+  display: grid;
+  gap: 6px;
+}
+
+.video-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 800;
+  color: var(--verde-900);
+}
+
+.video-link:hover {
+  color: var(--verde-500);
+}
+
+.editor-video {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.video-guardado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: var(--verde-100);
+  border: var(--borde);
+  border-radius: 12px;
+  padding: 6px 12px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}

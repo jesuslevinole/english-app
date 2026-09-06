@@ -1,0 +1,31 @@
+.editor-ejercicios {
+  display: grid;
+  gap: 12px;
+}
+
+.ejercicio-guardado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: var(--verde-100);
+  border: var(--borde);
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-weight: 700;
+}
+
+.editor-opcion {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.editor-opcion input[type='radio'] {
+  width: auto;
+}
+
+.editor-nota {
+  font-size: 0.85rem;
+}

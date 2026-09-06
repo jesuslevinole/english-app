@@ -1,0 +1,95 @@
+.chip-categoria {
+  border-left: 10px solid var(--cat-color); /* color configurable de la categoría */
+}
+
+.palabras-lista {
+  display: grid;
+  gap: 10px;
+}
+
+.palabra-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-left: 10px solid var(--cat-color);
+}
+
+.palabra-textos {
+  flex: 1;
+  min-width: 0;
+}
+
+.palabra-termino {
+  font-weight: 900;
+}
+
+.acciones-vocabulario {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.acciones-vocabulario .btn-primario {
+  flex: 1;
+}
+
+/* ── Juego de tarjetas ─────────────────────────────── */
+.juego {
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+}
+
+.juego-estado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.carta {
+  width: 100%;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 1.5rem;
+  font-weight: 900;
+  text-align: center;
+  background: var(--cat-color); /* color de la categoría de la palabra */
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+}
+
+.carta.volteada {
+  background: var(--papel);
+  color: var(--tinta);
+}
+
+.carta-pista {
+  font-size: 0.85rem;
+  font-weight: 700;
+  opacity: 0.85;
+}
+
+.juego-botones {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.juego-botones .btn-primario,
+.juego-botones .btn-contorno {
+  flex: 1;
+}
+
+.juego-final {
+  text-align: center;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  padding: 24px 0;
+}
