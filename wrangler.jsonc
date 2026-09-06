@@ -1,8 +1,9 @@
 {
-  // Configuración de Cloudflare Pages para Aula Crear.
-  // Con este archivo, `npx wrangler pages deploy` (o el build automático
-  // conectado a GitHub) sabe que el sitio estático sale de `dist/`.
+  // Worker con assets estáticos: `npx wrangler deploy` sube el contenido de dist/.
   "name": "aula-crear",
   "compatibility_date": "2026-09-01",
-  "pages_build_output_dir": "dist"
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  }
 }
