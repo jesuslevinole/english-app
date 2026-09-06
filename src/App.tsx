@@ -14,6 +14,7 @@ import {
   cargarPersonaje,
   crearDocumento,
   guardarPersonaje,
+  sembrarNivel1,
 } from './services/datos';
 import { fechaHoy, nivelDeXp } from './utils/nivelXp';
 import Encabezado from './components/Encabezado';
@@ -89,6 +90,15 @@ export default function App() {
 
   const nivel = personaje ? nivelDeXp(personaje.xp) : 1;
 
+  // ── Semilla del Nivel 1 (contenido de la academia) ─
+  async function sembrar() {
+    const r = await sembrarNivel1();
+    setCategorias((previas) => [...previas, ...r.categorias]);
+    setPalabras((previas) => [...previas, ...r.palabras]);
+    setTemas((previos) => [...previos, ...r.temas]);
+    setRecursos((previos) => [...previos, ...r.recursos]);
+  }
+
   // ── Vocabulario ────────────────────────────────────
   async function crearCategoria(datos: Omit<Categoria, 'id'>) {
     const id = await crearDocumento('categorias', datos);
@@ -154,12 +164,18 @@ export default function App() {
       <Encabezado nombre={personaje.nombre} />
       <main className="app-contenido">
         {vista === 'inicio' && (
-          <Inicio personaje={personaje} onGuardarPersonaje={actualizarPersonaje} />
+          <Inicio
+            personaje={personaje}
+            onGuardarPersonaje={actualizarPersonaje}
+            mostrarSemilla={palabras.length === 0 && temas.length === 0}
+            onSembrar={sembrar}
+          />
         )}
         {vista === 'vocabulario' && (
           <Vocabulario
             categorias={categorias}
             palabras={palabras}
+            nivel={nivel}
             onCrearCategoria={crearCategoria}
             onCrearPalabra={crearPalabra}
             onBorrarPalabra={borrarPalabra}
@@ -169,6 +185,7 @@ export default function App() {
         {vista === 'gramatica' && (
           <Gramatica
             temas={temas}
+            nivelPersonaje={nivel}
             onCrearTema={crearTema}
             onBorrarTema={borrarTema}
             onCuestionarioTerminado={(aciertos) =>
@@ -179,6 +196,7 @@ export default function App() {
         {vista === 'listening' && (
           <Listening
             recursos={recursos}
+            nivelPersonaje={nivel}
             onCrearRecurso={crearRecurso}
             onBorrarRecurso={borrarRecurso}
             onCuestionarioTerminado={(aciertos) =>

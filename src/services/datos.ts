@@ -85,3 +85,60 @@ export async function cargarPersonaje(): Promise<Personaje> {
 export async function guardarPersonaje(personaje: Personaje): Promise<void> {
   await setDoc(doc(db, ...REF_PERSONAJE), personaje);
 }
+
+// ── Semilla del Nivel 1 ──────────────────────────────
+// Carga todo el contenido de src/data/nivel1.ts en un solo batch
+// (1 escritura por documento, 0 lecturas) y devuelve los objetos con
+// sus ids para actualizar el estado de React sin re-fetchear.
+import { writeBatch } from 'firebase/firestore';
+import { SEMILLA_NIVEL1 } from '../data/nivel1';
+import type { Categoria, Palabra, RecursoListening, TemaGramatica } from '../types';
+
+export interface ResultadoSemilla {
+  categorias: Categoria[];
+  palabras: Palabra[];
+  temas: TemaGramatica[];
+  recursos: RecursoListening[];
+}
+
+export async function sembrarNivel1(): Promise<ResultadoSemilla> {
+  const lote = writeBatch(db);
+  const categorias: Categoria[] = [];
+  const palabras: Palabra[] = [];
+  const temas: TemaGramatica[] = [];
+  const recursos: RecursoListening[] = [];
+
+  for (const cat of SEMILLA_NIVEL1.categorias) {
+    const refCat = doc(collection(db, 'categorias'));
+    const datosCat = { nombre: cat.nombre, color: cat.color };
+    lote.set(refCat, datosCat);
+    categorias.push({ id: refCat.id, ...datosCat });
+    for (const p of cat.palabras) {
+      const refPal = doc(collection(db, 'palabras'));
+      const datosPal = {
+        termino: p.termino,
+        significado: p.significado,
+        categoriaId: refCat.id,
+        creadaEn: Date.now(),
+      };
+      lote.set(refPal, datosPal);
+      palabras.push({ id: refPal.id, ...datosPal });
+    }
+  }
+
+  for (const t of SEMILLA_NIVEL1.temas) {
+    const refTema = doc(collection(db, 'temas'));
+    lote.set(refTema, t);
+    temas.push({ id: refTema.id, ...t });
+  }
+
+  for (const r of SEMILLA_NIVEL1.listening) {
+    const refRec = doc(collection(db, 'listening'));
+    lote.set(refRec, r);
+    recursos.push({ id: refRec.id, ...r });
+  }
+
+  await lote.commit();
+  for (const nombre of ['categorias', 'palabras', 'temas', 'listening']) invalidar(nombre);
+  return { categorias, palabras, temas, recursos };
+}

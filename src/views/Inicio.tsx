@@ -1,14 +1,18 @@
 import { useState } from 'react';
 import type { CSSProperties } from 'react';
-import { BookOpen, CheckCircle2, GraduationCap, Headphones, Pencil } from 'lucide-react';
+import { BookOpen, CheckCircle2, GraduationCap, Headphones, Pencil, Sprout } from 'lucide-react';
 import type { Personaje, TipoActividad } from '../types';
 import { fechaHoy, nivelDeXp, progresoDeNivel } from '../utils/nivelXp';
+import { cartasPorRonda, descripcionReto } from '../utils/dificultad';
 import Modal from '../components/Modal';
 import './Inicio.css';
 
 interface Props {
   personaje: Personaje;
   onGuardarPersonaje: (personaje: Personaje) => void;
+  // Semilla del contenido Nivel 1 de la academia (solo si la app está vacía)
+  mostrarSemilla: boolean;
+  onSembrar: () => Promise<void>;
 }
 
 const EMOJIS = ['🦉', '🦊', '🐸', '🐻', '🐨', '🦁', '🐯', '🐼'];
@@ -26,7 +30,7 @@ function actividadesDelDia(nivel: number): ActividadDia[] {
   return [
     {
       id: 'vocabulario',
-      texto: `Termina una ronda de ${5 + nivel * 2} tarjetas de vocabulario`,
+      texto: `Termina una ronda de ${cartasPorRonda(nivel)} tarjetas de vocabulario`,
       xp: 10 + nivel * 2,
       Icono: BookOpen,
     },
@@ -45,13 +49,15 @@ function actividadesDelDia(nivel: number): ActividadDia[] {
   ];
 }
 
-export default function Inicio({ personaje, onGuardarPersonaje }: Props) {
+export default function Inicio({ personaje, onGuardarPersonaje, mostrarSemilla, onSembrar }: Props) {
   const [editando, setEditando] = useState(false);
+  const [sembrando, setSembrando] = useState(false);
   const [nombre, setNombre] = useState(personaje.nombre);
   const [emoji, setEmoji] = useState(personaje.emoji);
   const [color, setColor] = useState(personaje.color);
 
   const nivel = nivelDeXp(personaje.xp);
+  const reto = descripcionReto(nivel);
   const hechasHoy = personaje.diario[fechaHoy()] ?? [];
   const actividades = actividadesDelDia(nivel);
 
@@ -60,6 +66,15 @@ export default function Inicio({ personaje, onGuardarPersonaje }: Props) {
     setEmoji(personaje.emoji);
     setColor(personaje.color);
     setEditando(true);
+  }
+
+  async function sembrar() {
+    setSembrando(true);
+    try {
+      await onSembrar();
+    } finally {
+      setSembrando(false);
+    }
   }
 
   function guardar() {
@@ -100,6 +115,22 @@ export default function Inicio({ personaje, onGuardarPersonaje }: Props) {
         </button>
       </section>
 
+      {mostrarSemilla && (
+        <section className="tarjeta semilla">
+          <Sprout size={28} />
+          <div className="semilla-textos">
+            <p className="semilla-titulo">Contenido del Nivel 1 listo para cargar</p>
+            <p className="texto-suave">
+              Vocabulario de familia, descripciones, apariencia, saludos y animales, más 5 temas
+              de gramática con ejercicios y videos, y 3 actividades de listening.
+            </p>
+          </div>
+          <button className="btn-primario" onClick={sembrar} disabled={sembrando}>
+            {sembrando ? 'Cargando…' : 'Cargar contenido Nivel 1'}
+          </button>
+        </section>
+      )}
+
       <div className="titulo-seccion">
         <h2>
           Misiones de hoy
@@ -123,6 +154,8 @@ export default function Inicio({ personaje, onGuardarPersonaje }: Props) {
           );
         })}
       </ul>
+
+      {reto && <p className="texto-suave nota-reto">{reto}</p>}
 
       {editando && (
         <Modal titulo="Personalizar personaje" onCerrar={() => setEditando(false)}>

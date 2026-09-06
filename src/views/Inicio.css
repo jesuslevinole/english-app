@@ -112,3 +112,26 @@
     align-self: flex-end;
   }
 }
+
+/* Tarjeta de carga del contenido Nivel 1 (solo con la app vacía) */
+.semilla {
+  background: var(--amarillo);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.semilla-textos {
+  flex: 1;
+  min-width: 220px;
+}
+
+.semilla-titulo {
+  font-weight: 900;
+}
+
+.nota-reto {
+  margin-top: 10px;
+}

@@ -6,14 +6,16 @@ import './Cuestionario.css';
 
 interface Props {
   ejercicios: Ejercicio[];
+  // Máximo de preguntas por sesión (sube con el nivel del personaje).
+  maxPreguntas?: number;
   // Se llama una sola vez al terminar, con los aciertos obtenidos.
   onTerminar: (aciertos: number, total: number) => void;
 }
 
 // Cuestionario de opción múltiple, compartido por Gramática y Listening.
 // Baraja las preguntas al montar para que el orden nunca sea predecible.
-export default function Cuestionario({ ejercicios, onTerminar }: Props) {
-  const [orden] = useState(() => barajar(ejercicios));
+export default function Cuestionario({ ejercicios, maxPreguntas, onTerminar }: Props) {
+  const [orden] = useState(() => barajar(ejercicios).slice(0, maxPreguntas ?? ejercicios.length));
   const [indice, setIndice] = useState(0);
   const [seleccion, setSeleccion] = useState<number | null>(null);
   const [aciertos, setAciertos] = useState(0);

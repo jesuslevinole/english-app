@@ -4,6 +4,7 @@ import type { Ejercicio, IdiomaVideo, Nivel, TemaGramatica, VideoRef } from '../
 import { urlBusqueda } from '../utils/youtube';
 import Modal from '../components/Modal';
 import Cuestionario from '../components/Cuestionario';
+import { preguntasPorCuestionario } from '../utils/dificultad';
 import EditorEjercicios from '../components/EditorEjercicios';
 import './Gramatica.css';
 
@@ -12,6 +13,8 @@ interface Props {
   onCrearTema: (datos: Omit<TemaGramatica, 'id'>) => void;
   onBorrarTema: (tema: TemaGramatica) => void;
   onCuestionarioTerminado: (aciertos: number, total: number) => void;
+  // nivel del personaje (dificultad); distinto del `nivel` A1–C1 del formulario
+  nivelPersonaje: number;
 }
 
 const NIVELES: Nivel[] = ['A1', 'A2', 'B1', 'B2', 'C1'];
@@ -21,6 +24,7 @@ export default function Gramatica({
   onCrearTema,
   onBorrarTema,
   onCuestionarioTerminado,
+  nivelPersonaje,
 }: Props) {
   const [temaAbiertoId, setTemaAbiertoId] = useState<string | null>(null);
   const [practicando, setPracticando] = useState(false);
@@ -81,6 +85,7 @@ export default function Gramatica({
           <div className="tarjeta">
             <Cuestionario
               ejercicios={temaAbierto.ejercicios}
+              maxPreguntas={preguntasPorCuestionario(nivelPersonaje)}
               onTerminar={onCuestionarioTerminado}
             />
           </div>

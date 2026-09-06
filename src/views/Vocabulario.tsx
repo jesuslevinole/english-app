@@ -3,12 +3,21 @@ import type { CSSProperties } from 'react';
 import { Check, Play, Plus, RotateCcw, Shuffle, Trash2, Trophy } from 'lucide-react';
 import type { Categoria, Palabra } from '../types';
 import { barajar } from '../utils/barajar';
+import { cartasPorRonda, proporcionInversa } from '../utils/dificultad';
 import Modal from '../components/Modal';
 import './Vocabulario.css';
+
+// Carta del juego: en modo inverso se muestra el español y hay que
+// recordar la palabra en inglés (dificultad de niveles altos).
+interface Carta {
+  palabra: Palabra;
+  invertida: boolean;
+}
 
 interface Props {
   categorias: Categoria[];
   palabras: Palabra[];
+  nivel: number;
   onCrearCategoria: (datos: Omit<Categoria, 'id'>) => void;
   onCrearPalabra: (datos: Omit<Palabra, 'id'>) => void;
   onBorrarPalabra: (palabra: Palabra) => void;
@@ -20,6 +29,7 @@ const COLORES_CATEGORIA = ['#2e9e63', '#e0b13e', '#ec6a55', '#2f6690', '#8a5a35'
 export default function Vocabulario({
   categorias,
   palabras,
+  nivel,
   onCrearCategoria,
   onCrearPalabra,
   onBorrarPalabra,
@@ -38,7 +48,7 @@ export default function Vocabulario({
   const [colorCategoria, setColorCategoria] = useState(COLORES_CATEGORIA[0]);
 
   // juego de tarjetas
-  const [mazo, setMazo] = useState<Palabra[] | null>(null);
+  const [mazo, setMazo] = useState<Carta[] | null>(null);
   const [volteada, setVolteada] = useState(false);
   const [jugadas, setJugadas] = useState(0);
 
@@ -72,7 +82,13 @@ export default function Vocabulario({
 
   // ── Juego ──────────────────────────────────────────
   function empezarJuego() {
-    setMazo(barajar(filtradas));
+    // La ronda escala con el nivel: más tarjetas y, a partir del nivel 3,
+    // una proporción viene en modo inverso (español → inglés).
+    const cantidad = Math.min(cartasPorRonda(nivel), filtradas.length);
+    const cartas = barajar(filtradas)
+      .slice(0, cantidad)
+      .map((palabra) => ({ palabra, invertida: Math.random() < proporcionInversa(nivel) }));
+    setMazo(cartas);
     setVolteada(false);
     setJugadas(0);
   }
@@ -113,6 +129,8 @@ export default function Vocabulario({
       );
     }
     const carta = mazo[0];
+    const frente = carta.invertida ? carta.palabra.significado : carta.palabra.termino;
+    const reverso = carta.invertida ? carta.palabra.termino : carta.palabra.significado;
     return (
       <div className="juego">
         <div className="juego-estado">
@@ -124,7 +142,7 @@ export default function Vocabulario({
         </div>
         <div
           className={`tarjeta carta${volteada ? ' volteada' : ''}`}
-          style={{ '--cat-color': colorDe(carta.categoriaId) } as CSSProperties}
+          style={{ '--cat-color': colorDe(carta.palabra.categoriaId) } as CSSProperties}
           onClick={() => setVolteada(!volteada)}
           role="button"
           tabIndex={0}
@@ -132,9 +150,15 @@ export default function Vocabulario({
             if (e.key === 'Enter' || e.key === ' ') setVolteada(!volteada);
           }}
         >
-          <span>{volteada ? carta.significado : carta.termino}</span>
+          <span>{volteada ? reverso : frente}</span>
           <span className="carta-pista">
-            {volteada ? 'Significado en español' : 'Toca para ver el significado'}
+            {carta.invertida && !volteada
+              ? 'Modo inverso: di la palabra en inglés y voltea'
+              : volteada
+                ? carta.invertida
+                  ? 'Palabra en inglés'
+                  : 'Significado en español'
+                : 'Toca para ver el significado'}
           </span>
         </div>
         <div className="juego-botones">

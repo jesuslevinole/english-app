@@ -4,6 +4,7 @@ import type { Ejercicio, Nivel, RecursoListening } from '../types';
 import { urlEmbed } from '../utils/youtube';
 import Modal from '../components/Modal';
 import Cuestionario from '../components/Cuestionario';
+import { preguntasPorCuestionario } from '../utils/dificultad';
 import EditorEjercicios from '../components/EditorEjercicios';
 import './Listening.css';
 
@@ -12,6 +13,8 @@ interface Props {
   onCrearRecurso: (datos: Omit<RecursoListening, 'id'>) => void;
   onBorrarRecurso: (recurso: RecursoListening) => void;
   onCuestionarioTerminado: (aciertos: number, total: number) => void;
+  // nivel del personaje (dificultad); distinto del `nivel` A1–C1 del formulario
+  nivelPersonaje: number;
 }
 
 const NIVELES: Nivel[] = ['A1', 'A2', 'B1', 'B2', 'C1'];
@@ -21,6 +24,7 @@ export default function Listening({
   onCrearRecurso,
   onBorrarRecurso,
   onCuestionarioTerminado,
+  nivelPersonaje,
 }: Props) {
   const [abiertoId, setAbiertoId] = useState<string | null>(null);
   const [respondiendo, setRespondiendo] = useState(false);
@@ -76,7 +80,11 @@ export default function Listening({
 
         {respondiendo ? (
           <div className="tarjeta">
-            <Cuestionario ejercicios={abierto.preguntas} onTerminar={onCuestionarioTerminado} />
+            <Cuestionario
+              ejercicios={abierto.preguntas}
+              maxPreguntas={preguntasPorCuestionario(nivelPersonaje)}
+              onTerminar={onCuestionarioTerminado}
+            />
           </div>
         ) : abierto.preguntas.length > 0 ? (
           <button className="btn-primario" onClick={() => setRespondiendo(true)}>
