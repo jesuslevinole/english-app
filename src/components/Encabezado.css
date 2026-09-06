@@ -29,3 +29,21 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+@media (min-width: 900px) {
+  .encabezado {
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 30px 40px 10px;
+  }
+
+  /* el logo ya vive en el menú lateral; aquí sobra */
+  .encabezado-logo {
+    display: none;
+  }
+
+  .encabezado-saludo {
+    font-size: 1.7rem;
+  }
+}

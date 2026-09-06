@@ -85,3 +85,35 @@
   font-weight: 700;
   margin-bottom: 6px;
 }
+
+@media (min-width: 900px) {
+  .temas-lista {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+  }
+
+  /* detalle: videos EN y ES lado a lado; lo demás a lo ancho */
+  .tema-detalle {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+
+  .tema-detalle > .titulo-seccion,
+  .tema-detalle > .tema-notas,
+  .tema-detalle > .tarjeta:not(.videos-grupo),
+  .tema-detalle > .btn-primario,
+  .tema-detalle > .vacio {
+    grid-column: 1 / -1;
+  }
+
+  .tema-detalle > .btn-primario {
+    justify-self: start;
+  }
+
+  .tema-detalle > .tarjeta:not(.videos-grupo) {
+    max-width: 680px;
+    width: 100%;
+    justify-self: center;
+  }
+}

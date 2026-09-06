@@ -51,3 +51,21 @@
   font-weight: 900;
   vertical-align: middle;
 }
+
+@media (min-width: 900px) {
+  .app {
+    /* deja espacio al menú lateral fijo */
+    padding-left: 240px;
+  }
+
+  .app-contenido {
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 40px 48px;
+  }
+
+  .titulo-seccion h2 {
+    font-size: 1.6rem;
+  }
+}

@@ -30,3 +30,20 @@
 .modal-encabezado h3 {
   font-size: 1.2rem;
 }
+
+@media (min-width: 900px) {
+  /* en escritorio el modal se centra en pantalla en vez de ser hoja inferior */
+  .modal-fondo {
+    align-items: center;
+    padding: 32px;
+  }
+
+  .modal-cuadro {
+    border-bottom: var(--borde);
+    border-radius: 20px;
+    max-width: 600px;
+    box-shadow: var(--sombra-dura);
+    max-height: 85dvh;
+    padding: 24px;
+  }
+}

@@ -14,9 +14,15 @@ const OPCIONES: { id: Vista; etiqueta: string; Icono: typeof House }[] = [
   { id: 'listening', etiqueta: 'Listening', Icono: Headphones },
 ];
 
+// Barra inferior en móvil; en escritorio (≥900px) el CSS la convierte
+// en menú lateral fijo y muestra la marca.
 export default function NavInferior({ vista, onCambiar }: Props) {
   return (
     <nav className="nav-inferior" aria-label="Secciones">
+      <div className="nav-marca">
+        <img src="/logo.svg" alt="" />
+        <span>Aula Crear</span>
+      </div>
       {OPCIONES.map(({ id, etiqueta, Icono }) => (
         <button
           key={id}

@@ -50,3 +50,16 @@
   display: grid;
   gap: 14px;
 }
+
+@media (min-width: 900px) {
+  .recursos-lista {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+  }
+
+  /* el detalle no necesita todo el ancho: se centra como reproductor */
+  .listening-detalle {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+}

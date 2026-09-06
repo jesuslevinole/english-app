@@ -31,7 +31,7 @@ import './App.css';
 export default function App() {
   const [vista, setVista] = useState<Vista>('inicio');
   const [cargando, setCargando] = useState(true);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const [categorias, setCategorias] = useState<Categoria[]>([]);
   const [palabras, setPalabras] = useState<Palabra[]>([]);
@@ -57,9 +57,9 @@ export default function App() {
         setPersonaje(per);
         setCargando(false);
       })
-      .catch(() => {
+      .catch((e: unknown) => {
         if (!activo) return;
-        setError(true);
+        setError(e instanceof Error ? e.message : 'Error desconocido');
         setCargando(false);
       });
     return () => {
@@ -136,11 +136,12 @@ export default function App() {
     );
   }
 
-  if (error || !personaje) {
+  if (error !== null || !personaje) {
     return (
       <div className="app-cargando">
         <img src="/logo.svg" alt="" />
         <p>No se pudo conectar con la base de datos.</p>
+        {error && <p className="texto-suave">{error}</p>}
         <button className="btn-primario" onClick={() => window.location.reload()}>
           Reintentar
         </button>
