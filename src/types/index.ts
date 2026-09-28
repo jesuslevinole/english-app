@@ -72,6 +72,17 @@ export interface RecursoListening {
   preguntas: Ejercicio[];
 }
 
+export type RolUsuario = 'admin' | 'estudiante';
+
+// Cuenta de la app (colección usuarios/{uid} de Firebase Auth)
+export interface Usuario {
+  id: string; // uid de Firebase Auth
+  nombre: string;
+  correo: string;
+  rol: RolUsuario;
+  creadoEn: number;
+}
+
 // Tipos de actividad diaria que suman XP al personaje
 export type TipoActividad = 'vocabulario' | 'gramatica' | 'listening';
 
@@ -84,4 +95,4 @@ export interface Personaje {
   diario: Record<string, TipoActividad[]>;
 }
 
-export type Vista = 'inicio' | 'vocabulario' | 'gramatica' | 'listening';
+export type Vista = 'inicio' | 'vocabulario' | 'gramatica' | 'listening' | 'usuarios';

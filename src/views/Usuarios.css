@@ -1,0 +1,56 @@
+.usuarios-lista {
+  display: grid;
+  gap: 10px;
+}
+
+.tarjeta.usuario-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.usuario-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: var(--borde);
+  background: var(--verde-500);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.usuario-textos {
+  flex: 1;
+  min-width: 0;
+}
+
+.usuario-nombre {
+  font-weight: 900;
+}
+
+.usuario-correo {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.usuario-rol {
+  width: auto;
+  flex-shrink: 0;
+}
+
+.usuarios-nota {
+  margin-top: 12px;
+}
+
+@media (min-width: 900px) {
+  .usuarios-lista {
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 14px;
+  }
+}

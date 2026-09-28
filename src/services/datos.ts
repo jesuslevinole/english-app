@@ -67,23 +67,35 @@ export async function borrarDocumento(nombre: string, id: string): Promise<void>
 // El personaje vive en un único documento fijo: progreso/personaje (1 lectura).
 const REF_PERSONAJE = ['progreso', 'personaje'] as const;
 
-export async function cargarPersonaje(): Promise<Personaje> {
-  const ref = doc(db, ...REF_PERSONAJE);
+// Personaje por usuario: progreso/{uid}. La primera vez que entra el admin,
+// hereda el personaje de la versión monousuario (progreso/personaje) para no
+// perder el XP acumulado.
+export async function cargarPersonaje(
+  uid: string,
+  nombre: string,
+  heredarViejo: boolean,
+): Promise<Personaje> {
+  const ref = doc(db, 'progreso', uid);
   const snap = await getDoc(ref);
   if (snap.exists()) return snap.data() as Personaje;
-  const inicial: Personaje = {
-    nombre: 'Estudiante',
+
+  let inicial: Personaje = {
+    nombre,
     emoji: '🦉',
     color: '#1f7a4d',
     xp: 0,
     diario: {},
   };
+  if (heredarViejo) {
+    const anterior = await getDoc(doc(db, ...REF_PERSONAJE));
+    if (anterior.exists()) inicial = { ...(anterior.data() as Personaje), nombre };
+  }
   await setDoc(ref, inicial);
   return inicial;
 }
 
-export async function guardarPersonaje(personaje: Personaje): Promise<void> {
-  await setDoc(doc(db, ...REF_PERSONAJE), personaje);
+export async function guardarPersonaje(uid: string, personaje: Personaje): Promise<void> {
+  await setDoc(doc(db, 'progreso', uid), personaje);
 }
 
 // ── Semilla del Nivel 1 ──────────────────────────────

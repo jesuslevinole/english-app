@@ -19,6 +19,7 @@ interface Props {
   onJuegoTerminado: (aciertos: number, total: number) => void;
   // nivel del personaje (dificultad); distinto del `nivel` A1–C1 del formulario
   nivelPersonaje: number;
+  esAdmin: boolean;
 }
 
 const NIVELES: Nivel[] = ['A1', 'A2', 'B1', 'B2', 'C1'];
@@ -30,6 +31,7 @@ export default function Gramatica({
   onCuestionarioTerminado,
   onJuegoTerminado,
   nivelPersonaje,
+  esAdmin,
 }: Props) {
   const [temaAbiertoId, setTemaAbiertoId] = useState<string | null>(null);
   const [pestana, setPestana] = useState<'aprender' | 'practicar' | 'jugar'>('aprender');
@@ -245,10 +247,12 @@ export default function Gramatica({
           Gramática
           <span className="contador-seccion">{temas.length}</span>
         </h2>
-        <button className="btn-primario" onClick={() => setCreando(true)}>
-          <Plus size={18} />
-          Nuevo tema
-        </button>
+        {esAdmin && (
+          <button className="btn-primario" onClick={() => setCreando(true)}>
+            <Plus size={18} />
+            Nuevo tema
+          </button>
+        )}
       </div>
 
       {temas.length === 0 ? (
@@ -274,16 +278,18 @@ export default function Gramatica({
                 </p>
               </div>
               <span className="insignia-nivel">{t.nivel}</span>
-              <button
-                className="btn-icono btn-peligro"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onBorrarTema(t);
-                }}
-                aria-label={`Borrar tema ${t.nombre}`}
-              >
-                <Trash2 size={18} />
-              </button>
+              {esAdmin && (
+                <button
+                  className="btn-icono btn-peligro"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onBorrarTema(t);
+                  }}
+                  aria-label={`Borrar tema ${t.nombre}`}
+                >
+                  <Trash2 size={18} />
+                </button>
+              )}
             </li>
           ))}
         </ul>

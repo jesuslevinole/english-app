@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { CSSProperties } from 'react';
-import { ArrowRight, Check, RotateCcw, Trophy } from 'lucide-react';
+import { ArrowRight, Check, RotateCcw } from 'lucide-react';
+import GatoSuerte from './GatoSuerte';
 import type { Palabra } from '../types';
 import { barajar } from '../utils/barajar';
 import { normalizarRespuesta } from '../utils/texto';
@@ -51,7 +52,7 @@ export default function JuegoEscritura({ palabras, cantidad, colorDe, onTerminar
   if (terminado) {
     return (
       <div className="tarjeta juego-final">
-        <Trophy size={40} />
+        <GatoSuerte mensaje="Well done!" />
         <h2>¡Ronda de escritura completada!</h2>
         <p className="texto-suave">
           Escribiste bien {aciertos} de {ronda.length} palabras. Tu personaje ganó XP.

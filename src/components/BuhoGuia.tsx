@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Lightbulb } from 'lucide-react';
+import { MASCOTAS } from '../data/mascotas';
 import './BuhoGuia.css';
 
 interface Props {
@@ -17,9 +18,9 @@ export default function BuhoGuia({ curiosidades, fallback }: Props) {
 
   return (
     <div className="buho-guia">
-      <img className="buho-avatar" src="/logo.svg" alt="Profe Búho" />
+      <img className="buho-avatar" src="/logo.svg" alt={`${MASCOTAS.buho}, el profe búho`} />
       <div className="buho-burbuja">
-        <p className="buho-nombre">Profe Búho dice…</p>
+        <p className="buho-nombre">{MASCOTAS.buho}, el profe búho, dice…</p>
         <p className="buho-texto">{texto}</p>
         {curiosidades.length > 1 && (
           <button

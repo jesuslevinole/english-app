@@ -6,6 +6,7 @@ import type {
   RecursoListening,
   TemaGramatica,
   TipoActividad,
+  Usuario,
   Vista,
 } from './types';
 import {
@@ -16,23 +17,29 @@ import {
   guardarPersonaje,
   sembrarNivel1,
 } from './services/datos';
+import { cargarUsuario, observarSesion, salir } from './services/sesion';
 import { SEMILLA_NIVEL1 } from './data/nivel1';
 import { fechaHoy, nivelDeXp } from './utils/nivelXp';
 import Encabezado from './components/Encabezado';
 import NavInferior from './components/NavInferior';
+import Login from './views/Login';
 import Inicio from './views/Inicio';
 import Vocabulario from './views/Vocabulario';
 import Gramatica from './views/Gramatica';
 import Listening from './views/Listening';
+import Usuarios from './views/Usuarios';
 import './App.css';
 
-// App.tsx es el único dueño de los datos: carga cada colección una vez
-// (con caché de sesión, ver services/datos.ts) y las vistas los reciben
-// por props. Las mutaciones actualizan este estado local — nunca se
-// re-fetchea una colección completa tras crear/editar/borrar.
+// App.tsx es el único dueño de los datos: observa la sesión, y con sesión
+// activa carga cada colección una vez (con caché de sesión, ver
+// services/datos.ts). Las vistas reciben todo por props y las mutaciones
+// actualizan este estado local — nunca se re-fetchea una colección completa.
 export default function App() {
   const [vista, setVista] = useState<Vista>('inicio');
-  const [cargando, setCargando] = useState(true);
+  // undefined = Firebase aún está resolviendo si hay sesión guardada
+  const [uid, setUid] = useState<string | null | undefined>(undefined);
+  const [usuario, setUsuario] = useState<Usuario | null>(null);
+  const [cargando, setCargando] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const [categorias, setCategorias] = useState<Categoria[]>([]);
@@ -41,38 +48,59 @@ export default function App() {
   const [recursos, setRecursos] = useState<RecursoListening[]>([]);
   const [personaje, setPersonaje] = useState<Personaje | null>(null);
 
+  useEffect(() => observarSesion(setUid), []);
+
   useEffect(() => {
+    if (!uid) {
+      // sin sesión: se limpia todo (el login toma la pantalla)
+      setUsuario(null);
+      setPersonaje(null);
+      setCategorias([]);
+      setPalabras([]);
+      setTemas([]);
+      setRecursos([]);
+      setError(null);
+      setVista('inicio');
+      return;
+    }
     let activo = true;
-    Promise.all([
-      cargarColeccion<Categoria>('categorias'),
-      cargarColeccion<Palabra>('palabras'),
-      cargarColeccion<TemaGramatica>('temas'),
-      cargarColeccion<RecursoListening>('listening'),
-      cargarPersonaje(),
-    ])
-      .then(([cats, pals, tms, recs, per]) => {
+    setCargando(true);
+    (async () => {
+      try {
+        const u = await cargarUsuario(uid);
+        const [cats, pals, tms, recs] = await Promise.all([
+          cargarColeccion<Categoria>('categorias'),
+          cargarColeccion<Palabra>('palabras'),
+          cargarColeccion<TemaGramatica>('temas'),
+          cargarColeccion<RecursoListening>('listening'),
+        ]);
+        const p = await cargarPersonaje(uid, u.nombre, u.rol === 'admin');
         if (!activo) return;
+        setUsuario(u);
         setCategorias(cats);
         setPalabras(pals);
         setTemas(tms);
         setRecursos(recs);
-        setPersonaje(per);
-        setCargando(false);
-      })
-      .catch((e: unknown) => {
-        if (!activo) return;
-        setError(e instanceof Error ? e.message : 'Error desconocido');
-        setCargando(false);
-      });
+        setPersonaje(p);
+        setError(null);
+      } catch (e: unknown) {
+        if (activo) setError(e instanceof Error ? e.message : 'Error desconocido');
+      } finally {
+        if (activo) setCargando(false);
+      }
+    })();
     return () => {
       activo = false;
     };
-  }, []);
+  }, [uid]);
+
+  const esAdmin = usuario?.rol === 'admin';
 
   // ── Personaje / XP ─────────────────────────────────
   function actualizarPersonaje(actualizado: Personaje) {
+    if (!uid) return;
     setPersonaje(actualizado);
-    void guardarPersonaje(actualizado);
+    void guardarPersonaje(uid, actualizado);
   }
 
   function completarActividad(tipo: TipoActividad, xpGanada: number) {
@@ -92,8 +120,6 @@ export default function App() {
   const nivel = personaje ? nivelDeXp(personaje.xp) : 1;
 
   // ── Semilla del Nivel 1 (material de la academia) ──
-  // El botón aparece si falta algún tema de la semilla o si alguno existe
-  // en versión vieja, sin lección (explicacion) — en ese caso lo actualiza.
   const necesitaSemilla = SEMILLA_NIVEL1.temas.some((s) => {
     const existente = temas.find((t) => t.nombre === s.nombre);
     return (
@@ -107,7 +133,6 @@ export default function App() {
     const r = await sembrarNivel1({ categorias, palabras, temas, recursos });
     setCategorias((previas) => [...previas, ...r.categorias]);
     setPalabras((previas) => [...previas, ...r.palabras]);
-    // temas y listening pueden venir actualizados (mismo id): reemplazar, no duplicar
     setTemas((previos) => [
       ...previos.filter((t) => !r.temas.some((rt) => rt.id === t.id)),
       ...r.temas,
@@ -156,7 +181,8 @@ export default function App() {
     setRecursos((previos) => previos.filter((r) => r.id !== recurso.id));
   }
 
-  if (cargando) {
+  // ── Pantallas según el estado de la sesión ─────────
+  if (uid === undefined || (uid && (cargando || (!usuario && !error)))) {
     return (
       <div className="app-cargando">
         <img src="/logo.svg" alt="" />
@@ -165,7 +191,11 @@ export default function App() {
     );
   }
 
-  if (error !== null || !personaje) {
+  if (uid === null) {
+    return <Login />;
+  }
+
+  if (error !== null || !usuario || !personaje) {
     return (
       <div className="app-cargando">
         <img src="/logo.svg" alt="" />
@@ -174,19 +204,22 @@ export default function App() {
         <button className="btn-primario" onClick={() => window.location.reload()}>
           Reintentar
         </button>
+        <button className="btn-contorno" onClick={() => void salir()}>
+          Cerrar sesión
+        </button>
       </div>
     );
   }
 
   return (
     <div className="app">
-      <Encabezado nombre={personaje.nombre} />
+      <Encabezado nombre={usuario.nombre} onSalir={() => void salir()} />
       <main className="app-contenido">
         {vista === 'inicio' && (
           <Inicio
             personaje={personaje}
             onGuardarPersonaje={actualizarPersonaje}
-            mostrarSemilla={necesitaSemilla}
+            mostrarSemilla={esAdmin && necesitaSemilla}
             onSembrar={sembrar}
           />
         )}
@@ -195,6 +228,7 @@ export default function App() {
             categorias={categorias}
             palabras={palabras}
             nivel={nivel}
+            esAdmin={esAdmin}
             onCrearCategoria={crearCategoria}
             onCrearPalabra={crearPalabra}
             onBorrarPalabra={borrarPalabra}
@@ -208,6 +242,7 @@ export default function App() {
           <Gramatica
             temas={temas}
             nivelPersonaje={nivel}
+            esAdmin={esAdmin}
             onCrearTema={crearTema}
             onBorrarTema={borrarTema}
             onCuestionarioTerminado={(aciertos) =>
@@ -222,6 +257,7 @@ export default function App() {
           <Listening
             recursos={recursos}
             nivelPersonaje={nivel}
+            esAdmin={esAdmin}
             onCrearRecurso={crearRecurso}
             onBorrarRecurso={borrarRecurso}
             onCuestionarioTerminado={(aciertos) =>
@@ -229,8 +265,9 @@ export default function App() {
             }
           />
         )}
+        {vista === 'usuarios' && esAdmin && <Usuarios miUid={usuario.id} />}
       </main>
-      <NavInferior vista={vista} onCambiar={setVista} />
+      <NavInferior vista={vista} onCambiar={setVista} esAdmin={esAdmin} />
     </div>
   );
 }

@@ -1,0 +1,39 @@
+.gato-suerte {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.gato-svg {
+  width: 96px;
+  height: 96px;
+}
+
+/* La patita saluda sola, como los maneki-neko de las tiendas */
+.gato-pata {
+  transform-origin: 84px 58px;
+  animation: gato-saludo 1.4s ease-in-out infinite;
+}
+
+@keyframes gato-saludo {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-22deg);
+  }
+}
+
+.gato-mensaje {
+  font-weight: 800;
+  color: var(--verde-900);
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gato-pata {
+    animation: none;
+  }
+}

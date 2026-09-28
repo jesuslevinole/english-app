@@ -1,0 +1,80 @@
+.login {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 24px 18px calc(24px + env(safe-area-inset-bottom));
+}
+
+.login-marca {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.login-logo {
+  width: 110px;
+  height: 110px;
+  border: var(--borde);
+  border-radius: 50%;
+  background: var(--verde-100);
+  box-shadow: var(--sombra-dura);
+}
+
+.login-titulo {
+  font-size: 1.7rem;
+  color: var(--verde-900);
+}
+
+/* burbuja de Hoot dando la bienvenida */
+.login-burbuja {
+  position: relative;
+  background: var(--amarillo);
+  border: var(--borde);
+  border-radius: 16px;
+  box-shadow: var(--sombra-dura);
+  padding: 10px 14px;
+  font-weight: 800;
+  max-width: 420px;
+  text-align: center;
+}
+
+.login-burbuja::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 10px solid var(--tinta);
+}
+
+.tarjeta.login-tarjeta {
+  width: 100%;
+  max-width: 420px;
+  display: grid;
+  gap: 12px;
+}
+
+.login-error {
+  color: var(--coral);
+  font-weight: 800;
+}
+
+.login-cambio {
+  text-align: center;
+}
+
+.login-gato {
+  margin-top: 6px;
+}
+
+.login-gato .gato-svg {
+  width: 72px;
+  height: 72px;
+}

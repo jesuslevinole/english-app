@@ -29,8 +29,13 @@
   box-sizing: border-box;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   margin: 0;
+  overscroll-behavior-y: none; /* sin rebote blanco al hacer scroll, como app nativa */
   background: var(--crema);
   color: var(--tinta);
   font-family: 'Nunito', system-ui, sans-serif;
@@ -39,8 +44,7 @@ body {
 }
 
 #root {
-  max-width: 520px;
-  margin: 0 auto;
+  /* fluido: la app ocupa todo el ancho del teléfono, como una app nativa */
   min-height: 100dvh;
 }
 
@@ -265,11 +269,6 @@ label {
 
 /* ─── Escritorio (≥ 900px) ─────────────────────────── */
 @media (min-width: 900px) {
-  #root {
-    max-width: none;
-    margin: 0;
-  }
-
   body {
     font-size: 17px;
   }

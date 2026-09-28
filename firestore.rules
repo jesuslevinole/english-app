@@ -1,12 +1,53 @@
 rules_version = '2';
-// ⚠️ Reglas abiertas: cualquiera con la config pública puede leer/escribir.
-// Suficiente para desarrollo personal, pero antes de compartir la URL pública
-// conviene activar Firebase Auth (aunque sea Anonymous o Google) y cambiar
-// la condición a: allow read, write: if request.auth != null;
+
+// Reglas con autenticación: solo cuentas de la app pueden leer, y solo el
+// admin modifica el contenido. Publicar en Firebase Console → Firestore →
+// Reglas (y habilitar Authentication → Correo/contraseña).
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if true;
+    function conSesion() {
+      return request.auth != null;
+    }
+
+    function esAdmin() {
+      return conSesion()
+        && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.rol == 'admin';
+    }
+
+    // Cuentas: cada quien crea la suya al registrarse; los roles los cambia el admin.
+    match /usuarios/{uid} {
+      allow read: if conSesion();
+      // Nota: la primera cuenta se crea como admin desde la app. Cuando ya
+      // exista tu cuenta admin, puedes endurecer esta línea agregando:
+      //   && request.resource.data.rol == 'estudiante'
+      allow create: if conSesion() && request.auth.uid == uid;
+      allow update: if esAdmin()
+        || (conSesion() && request.auth.uid == uid && request.resource.data.rol == resource.data.rol);
+      allow delete: if esAdmin();
+    }
+
+    // Progreso (personaje/XP): cada quien el suyo; el admin puede ver todos
+    // (y leer el personaje viejo 'personaje' para la migración).
+    match /progreso/{uid} {
+      allow read, write: if conSesion() && (request.auth.uid == uid || esAdmin());
+    }
+
+    // Contenido del aula: leer con sesión; escribir solo el admin.
+    match /categorias/{id} {
+      allow read: if conSesion();
+      allow write: if esAdmin();
+    }
+    match /palabras/{id} {
+      allow read: if conSesion();
+      allow write: if esAdmin();
+    }
+    match /temas/{id} {
+      allow read: if conSesion();
+      allow write: if esAdmin();
+    }
+    match /listening/{id} {
+      allow read: if conSesion();
+      allow write: if esAdmin();
     }
   }
 }

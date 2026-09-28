@@ -4,6 +4,7 @@ import { BookOpen, CheckCircle2, GraduationCap, Headphones, Pencil, Sprout } fro
 import type { Personaje, TipoActividad } from '../types';
 import { fechaHoy, nivelDeXp, progresoDeNivel } from '../utils/nivelXp';
 import { cartasPorRonda, descripcionReto } from '../utils/dificultad';
+import GatoSuerte from '../components/GatoSuerte';
 import Modal from '../components/Modal';
 import './Inicio.css';
 
@@ -119,15 +120,15 @@ export default function Inicio({ personaje, onGuardarPersonaje, mostrarSemilla, 
         <section className="tarjeta semilla">
           <Sprout size={28} />
           <div className="semilla-textos">
-            <p className="semilla-titulo">Lecciones del Nivel 1 listas para cargar</p>
+            <p className="semilla-titulo">Material del Nivel 1 listo para cargar</p>
             <p className="texto-suave">
-              6 lecciones completas de la academia (explicaciones, tablas, conversaciones y
-              ejercicios de elegir, ordenar y escribir), ~65 palabras de vocabulario y 3
+              7 lecciones completas de la academia (explicación con ejemplos, diálogo, curiosidades
+              del Búho, ejercicios y juego de armar oraciones), ~70 palabras de vocabulario y 3
               actividades de listening. Si ya cargaste contenido antes, se actualiza sin duplicar.
             </p>
           </div>
           <button className="btn-primario" onClick={sembrar} disabled={sembrando}>
-            {sembrando ? 'Cargando…' : 'Cargar lecciones Nivel 1'}
+            {sembrando ? 'Cargando…' : 'Cargar contenido Nivel 1'}
           </button>
         </section>
       )}
@@ -155,6 +156,12 @@ export default function Inicio({ personaje, onGuardarPersonaje, mostrarSemilla, 
           );
         })}
       </ul>
+
+      {hechasHoy.length === actividades.length && (
+        <div className="misiones-gato">
+          <GatoSuerte mensaje="All missions complete!" />
+        </div>
+      )}
 
       {reto && <p className="texto-suave nota-reto">{reto}</p>}
 

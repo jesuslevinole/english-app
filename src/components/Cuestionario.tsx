@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { ArrowRight, Trophy } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import GatoSuerte from './GatoSuerte';
 import type { Ejercicio } from '../types';
 import { barajar } from '../utils/barajar';
 import './Cuestionario.css';
@@ -42,7 +43,7 @@ export default function Cuestionario({ ejercicios, maxPreguntas, onTerminar }: P
   if (terminado) {
     return (
       <div className="cuestionario-final">
-        <Trophy size={40} />
+        <GatoSuerte mensaje={aciertos === orden.length ? 'Perfect!' : 'Good job!'} />
         <p className="cuestionario-puntaje">
           {aciertos} / {orden.length}
         </p>

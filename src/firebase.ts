@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
 import { initializeFirestore, persistentLocalCache } from 'firebase/firestore';
 
 // Config web de Firebase. Estos valores son públicos por diseño (van en el
@@ -19,3 +20,6 @@ export const app = initializeApp(firebaseConfig);
 export const db = initializeFirestore(app, {
   localCache: persistentLocalCache(),
 });
+
+// Autenticación (correo y contraseña; se habilita en la consola de Firebase).
+export const auth = getAuth(app);

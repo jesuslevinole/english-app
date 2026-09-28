@@ -1,10 +1,8 @@
 .nav-inferior {
   position: fixed;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
   width: 100%;
-  max-width: 520px;
   display: flex;
   justify-content: space-around;
   background: var(--papel);

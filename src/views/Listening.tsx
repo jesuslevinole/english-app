@@ -12,6 +12,7 @@ interface Props {
   recursos: RecursoListening[];
   onCrearRecurso: (datos: Omit<RecursoListening, 'id'>) => void;
   onBorrarRecurso: (recurso: RecursoListening) => void;
+  esAdmin: boolean;
   onCuestionarioTerminado: (aciertos: number, total: number) => void;
   // nivel del personaje (dificultad); distinto del `nivel` A1–C1 del formulario
   nivelPersonaje: number;
@@ -23,6 +24,7 @@ export default function Listening({
   recursos,
   onCrearRecurso,
   onBorrarRecurso,
+  esAdmin,
   onCuestionarioTerminado,
   nivelPersonaje,
 }: Props) {
@@ -105,10 +107,12 @@ export default function Listening({
           Listening
           <span className="contador-seccion">{recursos.length}</span>
         </h2>
-        <button className="btn-primario" onClick={() => setCreando(true)}>
-          <Plus size={18} />
-          Nuevo recurso
-        </button>
+        {esAdmin && (
+          <button className="btn-primario" onClick={() => setCreando(true)}>
+            <Plus size={18} />
+            Nuevo recurso
+          </button>
+        )}
       </div>
 
       {recursos.length === 0 ? (
@@ -125,16 +129,18 @@ export default function Listening({
                   {r.nivel} · {r.preguntas.length} preguntas
                 </p>
               </div>
-              <button
-                className="btn-icono"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onBorrarRecurso(r);
-                }}
-                aria-label={`Borrar recurso ${r.titulo}`}
-              >
-                <Trash2 size={18} />
-              </button>
+              {esAdmin && (
+                <button
+                  className="btn-icono"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onBorrarRecurso(r);
+                  }}
+                  aria-label={`Borrar recurso ${r.titulo}`}
+                >
+                  <Trash2 size={18} />
+                </button>
+              )}
             </li>
           ))}
         </ul>

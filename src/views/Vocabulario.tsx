@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
-import { Check, Keyboard, Play, Plus, RotateCcw, Shuffle, Trash2, Trophy } from 'lucide-react';
+import { Check, Keyboard, Play, Plus, RotateCcw, Shuffle, Trash2 } from 'lucide-react';
+import GatoSuerte from '../components/GatoSuerte';
 import type { Categoria, Palabra } from '../types';
 import { barajar } from '../utils/barajar';
 import { cartasPorRonda, proporcionInversa } from '../utils/dificultad';
@@ -19,6 +20,8 @@ interface Props {
   categorias: Categoria[];
   palabras: Palabra[];
   nivel: number;
+  // admin: puede crear/borrar contenido; estudiante: solo estudia y juega
+  esAdmin: boolean;
   onCrearCategoria: (datos: Omit<Categoria, 'id'>) => void;
   onCrearPalabra: (datos: Omit<Palabra, 'id'>) => void;
   onBorrarPalabra: (palabra: Palabra) => void;
@@ -33,6 +36,7 @@ export default function Vocabulario({
   categorias,
   palabras,
   nivel,
+  esAdmin,
   onCrearCategoria,
   onCrearPalabra,
   onBorrarPalabra,
@@ -139,7 +143,7 @@ export default function Vocabulario({
     if (mazo.length === 0) {
       return (
         <div className="tarjeta juego-final">
-          <Trophy size={40} />
+          <GatoSuerte mensaje="You did it!" />
           <h2>¡Ronda completada!</h2>
           <p className="texto-suave">Repasaste {jugadas} tarjetas. Tu personaje ganó XP.</p>
           <button className="btn-primario" onClick={() => setMazo(null)}>
@@ -207,10 +211,12 @@ export default function Vocabulario({
           Vocabulario
           <span className="contador-seccion">{filtradas.length}</span>
         </h2>
-        <button className="btn-contorno" onClick={() => setModal('categoria')}>
-          <Plus size={18} />
-          Categoría
-        </button>
+        {esAdmin && (
+          <button className="btn-contorno" onClick={() => setModal('categoria')}>
+            <Plus size={18} />
+            Categoría
+          </button>
+        )}
       </div>
 
       <div className="fila-chips">
@@ -233,10 +239,12 @@ export default function Vocabulario({
       </div>
 
       <div className="acciones-vocabulario">
-        <button className="btn-contorno" onClick={() => setModal('palabra')}>
-          <Plus size={18} />
-          Nueva palabra
-        </button>
+        {esAdmin && (
+          <button className="btn-contorno" onClick={() => setModal('palabra')}>
+            <Plus size={18} />
+            Nueva palabra
+          </button>
+        )}
         <button className="btn-primario" onClick={empezarJuego} disabled={filtradas.length < 2}>
           <Play size={18} />
           Tarjetas
@@ -267,13 +275,15 @@ export default function Vocabulario({
                 <p className="palabra-termino">{p.termino}</p>
                 <p className="texto-suave">{p.significado}</p>
               </div>
-              <button
-                className="btn-icono btn-peligro"
-                onClick={() => onBorrarPalabra(p)}
-                aria-label={`Borrar ${p.termino}`}
-              >
-                <Trash2 size={18} />
-              </button>
+              {esAdmin && (
+                <button
+                  className="btn-icono btn-peligro"
+                  onClick={() => onBorrarPalabra(p)}
+                  aria-label={`Borrar ${p.termino}`}
+                >
+                  <Trash2 size={18} />
+                </button>
+              )}
             </li>
           ))}
         </ul>

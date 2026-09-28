@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { ArrowRight, Check, Eye, Trophy } from 'lucide-react';
+import { ArrowRight, Check, Eye } from 'lucide-react';
+import GatoSuerte from './GatoSuerte';
 import { barajar } from '../utils/barajar';
 import './OrdenarOracion.css';
 
@@ -86,7 +87,7 @@ export default function OrdenarOracion({ oraciones, maxOraciones, onTerminar }: 
   if (terminado) {
     return (
       <div className="cuestionario-final">
-        <Trophy size={40} />
+        <GatoSuerte mensaje="Great job!" />
         <p className="cuestionario-puntaje">
           {aciertos} / {ronda.length}
         </p>
