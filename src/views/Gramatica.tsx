@@ -36,6 +36,7 @@ export default function Gramatica({
   const [temaAbiertoId, setTemaAbiertoId] = useState<string | null>(null);
   const [pestana, setPestana] = useState<'aprender' | 'practicar' | 'jugar'>('aprender');
   const [creando, setCreando] = useState(false);
+  const [filtro, setFiltro] = useState<'todos' | Nivel>('todos');
 
   // formulario de tema nuevo
   const [nombre, setNombre] = useState('');
@@ -48,6 +49,7 @@ export default function Gramatica({
   const [videoIdioma, setVideoIdioma] = useState<IdiomaVideo>('en');
 
   const temaAbierto = temas.find((t) => t.id === temaAbiertoId) ?? null;
+  const filtrados = filtro === 'todos' ? temas : temas.filter((t) => t.nivel === filtro);
 
   function agregarVideo() {
     if (!videoUrl.trim()) return;
@@ -245,7 +247,7 @@ export default function Gramatica({
       <div className="titulo-seccion">
         <h2>
           Gramática
-          <span className="contador-seccion">{temas.length}</span>
+          <span className="contador-seccion">{filtrados.length}</span>
         </h2>
         {esAdmin && (
           <button className="btn-primario" onClick={() => setCreando(true)}>
@@ -255,13 +257,31 @@ export default function Gramatica({
         )}
       </div>
 
-      {temas.length === 0 ? (
+      <div className="fila-chips">
+        <button
+          className={`chip${filtro === 'todos' ? ' activo' : ''}`}
+          onClick={() => setFiltro('todos')}
+        >
+          Todos
+        </button>
+        {NIVELES.map((n) => (
+          <button
+            key={n}
+            className={`chip${filtro === n ? ' activo' : ''}`}
+            onClick={() => setFiltro(n)}
+          >
+            {n}
+          </button>
+        ))}
+      </div>
+
+      {filtrados.length === 0 ? (
         <p className="vacio">
           Crea tu primer tema de gramática, o carga el material del Nivel 1 desde Inicio.
         </p>
       ) : (
         <ul className="temas-lista">
-          {temas.map((t) => (
+          {filtrados.map((t) => (
             <li
               key={t.id}
               className="tarjeta tema-item"

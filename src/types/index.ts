@@ -11,6 +11,8 @@ export interface Palabra {
   termino: string; // en inglés
   significado: string; // en español
   categoriaId: string;
+  // Nivel CEFR de la palabra; las creadas antes de este campo cuentan como A1
+  nivel?: Nivel;
   creadaEn: number;
 }
 
@@ -64,6 +66,16 @@ export interface TemaGramatica {
   ejercicios: Ejercicio[];
 }
 
+// Cuento corto original por nivel, con glosario y comprensión lectora
+export interface Cuento {
+  id: string;
+  titulo: string;
+  nivel: Nivel;
+  parrafos: string[]; // el cuento, en inglés
+  glosario: EjemploFrase[]; // en = palabra/frase, es = significado
+  preguntas: Ejercicio[];
+}
+
 export interface RecursoListening {
   id: string;
   titulo: string;
@@ -84,7 +96,7 @@ export interface Usuario {
 }
 
 // Tipos de actividad diaria que suman XP al personaje
-export type TipoActividad = 'vocabulario' | 'gramatica' | 'listening';
+export type TipoActividad = 'vocabulario' | 'gramatica' | 'listening' | 'lectura';
 
 export interface Personaje {
   nombre: string;
@@ -93,6 +105,8 @@ export interface Personaje {
   xp: number;
   // registro por día: fecha ISO (YYYY-MM-DD) → actividades completadas
   diario: Record<string, TipoActividad[]>;
+  // Super Exámenes aprobados por nivel CEFR (puntaje 0-100 y fecha ISO)
+  examenes?: Partial<Record<Nivel, { puntaje: number; fecha: string }>>;
 }
 
-export type Vista = 'inicio' | 'vocabulario' | 'gramatica' | 'listening' | 'usuarios';
+export type Vista = 'inicio' | 'vocabulario' | 'gramatica' | 'listening' | 'lectura' | 'usuarios';

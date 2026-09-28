@@ -1,0 +1,63 @@
+.cuentos-lista {
+  display: grid;
+  gap: 10px;
+}
+
+.tarjeta.cuento-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--verde-100);
+  cursor: pointer;
+}
+
+.tarjeta.cuento-item:hover {
+  background: var(--verde-500);
+  color: #fff;
+}
+
+.cuento-textos {
+  flex: 1;
+  min-width: 0;
+}
+
+.cuento-titulo {
+  font-weight: 900;
+}
+
+.cuento-detalle {
+  display: grid;
+  gap: 14px;
+}
+
+.cuento-parrafo {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  font-weight: 600;
+}
+
+.cuento-parrafo + .cuento-parrafo {
+  margin-top: 12px;
+}
+
+.glosario-lista {
+  display: grid;
+  gap: 8px;
+}
+
+@media (min-width: 900px) {
+  .cuentos-lista {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+  }
+
+  .cuento-detalle {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .cuento-parrafo {
+    font-size: 1.1rem;
+  }
+}

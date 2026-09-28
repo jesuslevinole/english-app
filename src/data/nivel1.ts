@@ -1,9 +1,11 @@
-// Nivel 1 de la academia — Unidad "Amigos y familia", adaptada como material
-// propio de la app: explicaciones simplificadas en español, diálogos modelo,
-// oraciones para el juego de ordenar, ejercicios y videos recomendados.
-// Se carga/actualiza en Firestore con el botón de Inicio.
+// Contenido del aula, adaptado como material propio de la app.
+// Incluye: la unidad del Nivel 1 de la academia (temas A1 con lecciones,
+// curiosidades, diálogos y muchos ejercicios con enfoques variados),
+// cuentos originales por nivel CEFR (A1→C1) con glosario y comprensión,
+// y recursos de listening por nivel (British Council gratuito + búsquedas
+// de YouTube por nivel). Se carga/actualiza con el botón de Inicio.
 
-import type { Ejercicio, LineaDialogo, Nivel, SeccionLeccion, VideoRef } from '../types';
+import type { Ejercicio, EjemploFrase, LineaDialogo, Nivel, SeccionLeccion, VideoRef } from '../types';
 
 interface SemillaPalabra {
   termino: string;
@@ -35,10 +37,19 @@ interface SemillaListening {
   preguntas: Ejercicio[];
 }
 
+interface SemillaCuento {
+  titulo: string;
+  nivel: Nivel;
+  parrafos: string[];
+  glosario: EjemploFrase[];
+  preguntas: Ejercicio[];
+}
+
 export interface SemillaNivel1 {
   categorias: SemillaCategoria[];
   temas: SemillaTema[];
   listening: SemillaListening[];
+  cuentos: SemillaCuento[];
 }
 
 export const SEMILLA_NIVEL1: SemillaNivel1 = {
@@ -182,7 +193,7 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
             'En inglés es muy común deletrear el nombre letra por letra cuando no se entiende. La pregunta es: How do you spell your name?\nPractica el abecedario en voz alta: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z.',
           ejemplos: [
             { en: '— How do you spell your name? — J-E-S-U-S.', es: '— ¿Cómo se deletrea tu nombre? — J-E-S-U-S.' },
-            { en: '— How do you spell Molero? — M-O-L-E-R-O.', es: '— ¿Cómo se deletrea Molero? — M-O-L-E-R-O.' },
+            { en: "— How do you spell Molero? — M-O-L-E-R-O.", es: "— ¿Cómo se deletrea Molero? — M-O-L-E-R-O." },
           ],
         },
       ],
@@ -201,6 +212,9 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
         'How do you spell your name?',
         'My name is Leo.',
         'How are you today?',
+        'Good morning, Mr. Lopez.',
+        'See you later, my friend.',
+        'Where are you from?',
       ],
       videos: [],
       ejercicios: [
@@ -212,6 +226,12 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
         { pregunta: 'Saludo informal:', opciones: ['Good evening', 'Hi!', 'Goodbye'], respuesta: 1 },
         { pregunta: 'How do you ___ your name? — A-N-A.', opciones: ['spell', 'say', 'write'], respuesta: 0 },
         { pregunta: 'Al despedirte de noche dices:', opciones: ['Good evening', 'Good night', 'Good morning'], respuesta: 1 },
+        { pregunta: '¿Cuál está MAL escrita?', opciones: ['I am Ana.', 'This is my friend.', 'Nice too meet you.'], respuesta: 2 },
+        { pregunta: '— See you later! — ___', opciones: ['See you!', 'Nice name!', 'I am fine you.'], respuesta: 0 },
+        { pregunta: 'Traducción de "¿Cómo te llamas?":', opciones: ['How are you?', "What's your name?", 'Who is this?'], respuesta: 1 },
+        { pregunta: "— ___? — I'm from Venezuela.", opciones: ['Where are you from', 'How old are you', 'How are you'], respuesta: 0 },
+        { pregunta: 'Completa: "Hello, ___ name is Carla."', opciones: ['my', 'me', 'I'], respuesta: 0 },
+        { pregunta: 'Llegas a una cena a las 8 pm. Saludas con:', opciones: ['Good night', 'Good evening', 'Good morning'], respuesta: 1 },
       ],
     },
     {
@@ -268,6 +288,9 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
         'They are from Venezuela.',
         'I am twenty-nine years old.',
         'We are not brothers.',
+        'It is hot in Texas.',
+        'My name is Ana.',
+        'Are you a student?',
       ],
       videos: [
         {
@@ -285,6 +308,12 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
         { pregunta: 'My name ___ Ana.', opciones: ['are', 'am', 'is'], respuesta: 2 },
         { pregunta: '— Is she your aunt? — Yes, she ___.', opciones: ['is', 'are', 'am'], respuesta: 0 },
         { pregunta: 'They ___ not my parents.', opciones: ['is', 'are', 'am'], respuesta: 1 },
+        { pregunta: '¿Cuál está MAL escrita?', opciones: ['She is tall.', 'They is my parents.', 'I am from Texas.'], respuesta: 1 },
+        { pregunta: '— How old are you? — I ___ twenty-nine.', opciones: ['am', 'is', 'have'], respuesta: 0 },
+        { pregunta: 'Traducción de "Ellos están felices.":', opciones: ['They are happy.', 'They is happy.', 'They happy.'], respuesta: 0 },
+        { pregunta: 'El clima: "___ hot in Texas."', opciones: ['Is', 'It is', 'Are'], respuesta: 1 },
+        { pregunta: '— Are you a student? — Yes, ___.', opciones: ['I am', 'I is', 'you are'], respuesta: 0 },
+        { pregunta: 'Negativo de "He is my uncle.":', opciones: ['He is not my uncle.', 'He not is my uncle.', 'He no is my uncle.'], respuesta: 0 },
       ],
     },
     {
@@ -343,6 +372,8 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
         "I'm a student.",
         "He isn't married.",
         "We're good friends.",
+        "It's hot today.",
+        "You're my best friend.",
       ],
       videos: [
         {
@@ -358,8 +389,14 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
         { pregunta: '"You are" en forma corta es…', opciones: ["You're", 'Your', 'Youre'], respuesta: 0 },
         { pregunta: '___ ten years old. (Él)', opciones: ['Hes', "He're", "He's"], respuesta: 2 },
         { pregunta: '"It is" en forma corta es…', opciones: ['Its', "It's", "Is'"], respuesta: 1 },
-        { pregunta: '"She is not" también se dice…', opciones: ["She isn't", "She aren't", "She no is"], respuesta: 0 },
+        { pregunta: '"She is not" también se dice…', opciones: ["She isn't", "She aren't", 'She no is'], respuesta: 0 },
         { pregunta: '"Ellos son mis padres" →', opciones: ["They're my parents", 'Their my parents', 'There my parents'], respuesta: 0 },
+        { pregunta: '¿Cuál está MAL escrita?', opciones: ["They're happy.", 'Im a student.', "She's my aunt."], respuesta: 1 },
+        { pregunta: '"We are not" en forma corta:', opciones: ['We arent', "We aren't", "Wearen't"], respuesta: 1 },
+        { pregunta: 'Traducción de "Él es mi primo.":', opciones: ["He's my cousin.", 'His my cousin.', 'He my cousin.'], respuesta: 0 },
+        { pregunta: '___ hot today. (contracción)', opciones: ['Its', "It's", "Is'"], respuesta: 1 },
+        { pregunta: '¿your o you\u2019re? "___ my best friend."', opciones: ['Your', "You're", 'Youre'], respuesta: 1 },
+        { pregunta: '¿their o they\u2019re? "___ from Maracay."', opciones: ['Their', 'There', "They're"], respuesta: 2 },
       ],
     },
     {
@@ -414,6 +451,8 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
         'Our house is in Valencia.',
         'Their parents are doctors.',
         'This is my mother.',
+        'Your English is very good.',
+        'The dog eats its food.',
       ],
       videos: [
         {
@@ -431,6 +470,12 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
         { pregunta: 'They live with ___ parents.', opciones: ['there', 'their', "they're"], respuesta: 1 },
         { pregunta: 'Mi hermana y yo amamos a ___ padres.', opciones: ['our', 'us', 'my'], respuesta: 0 },
         { pregunta: 'El posesivo para una mascota o cosa es…', opciones: ["it's", 'its', 'his'], respuesta: 1 },
+        { pregunta: '¿Cuál está MAL escrita?', opciones: ['Her name is Ana.', 'His name is Pedro.', 'Him name is Luis.'], respuesta: 2 },
+        { pregunta: 'La mochila de María: "___ backpack"', opciones: ['her', 'his', 'she'], respuesta: 0 },
+        { pregunta: 'Traducción de "nuestro perro":', opciones: ['our dog', 'us dog', 'we dog'], respuesta: 0 },
+        { pregunta: 'This is Ana and Luis. ___ house is big.', opciones: ['Their', "They're", 'There'], respuesta: 0 },
+        { pregunta: "— Is this your book? — Yes, it's ___ book.", opciones: ['my', 'I', 'me'], respuesta: 0 },
+        { pregunta: 'El gato lame ___ pata.', opciones: ["it's", 'its', 'his'], respuesta: 1 },
       ],
     },
     {
@@ -481,6 +526,8 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
         'This is my sister Lucía.',
         'My cousins are from Caracas.',
         'My aunt is very sweet.',
+        'They have one son and two daughters.',
+        'My parents are from Venezuela.',
       ],
       videos: [],
       ejercicios: [
@@ -492,6 +539,12 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
         { pregunta: 'Tu hija es tu…', opciones: ['daughter', 'sister', 'son'], respuesta: 0 },
         { pregunta: 'grandfather y grandmother juntos son tus…', opciones: ['grandparents', 'parents', 'uncles'], respuesta: 0 },
         { pregunta: 'En general, tus hijos e hijas son tus…', opciones: ['childs', 'children', 'sons'], respuesta: 1 },
+        { pregunta: '¿Cuál está MAL?', opciones: ["My mother's brother is my uncle.", "My cousins are my aunt's children.", 'My sister is my father.'], respuesta: 2 },
+        { pregunta: 'Tu abuelo es el ___ de tu madre.', opciones: ['father', 'brother', 'son'], respuesta: 0 },
+        { pregunta: 'Traducción de "hijos" (en general):', opciones: ['childs', 'children', 'sons'], respuesta: 1 },
+        { pregunta: "— Who is Rosa? — She is my father's ___.", opciones: ['mother', 'sister', 'daughter'], respuesta: 0 },
+        { pregunta: 'Tus padres y tus hermanos son tu ___ cercana.', opciones: ['family', 'house', 'group'], respuesta: 0 },
+        { pregunta: 'Marta y su husband tienen una niña. La niña es su…', opciones: ['daughter', 'sister', 'aunt'], respuesta: 0 },
       ],
     },
     {
@@ -557,6 +610,8 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
         'My uncle is strong and serious.',
         'He is young and handsome.',
         'My aunt is generous and sweet.',
+        'She wears glasses.',
+        'My grandfather is bald and funny.',
       ],
       videos: [],
       ejercicios: [
@@ -568,6 +623,12 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
         { pregunta: 'Lo contrario de "tall" es:', opciones: ['short', 'small', 'low'], respuesta: 0 },
         { pregunta: 'They are very ___ . (inteligentes)', opciones: ['intelligent', 'intelligents', 'intelligences'], respuesta: 0 },
         { pregunta: "He's tall ___ blue eyes.", opciones: ['with', 'and', 'of'], respuesta: 0 },
+        { pregunta: '¿Cuál está MAL?', opciones: ['They are talls.', 'She is short.', 'He is funny.'], respuesta: 0 },
+        { pregunta: 'Orden correcto del cabello:', opciones: ['long curly black hair', 'black long curly hair', 'curly black long hair'], respuesta: 0 },
+        { pregunta: 'Traducción de "Ella es tímida.":', opciones: ['She is shy.', 'She is sly.', 'She is show.'], respuesta: 0 },
+        { pregunta: "— What's he like? — He's ___ and generous.", opciones: ['sweet', 'with', 'hair'], respuesta: 0 },
+        { pregunta: 'Para hombres se usa más:', opciones: ['handsome', 'pretty', 'beautifull'], respuesta: 0 },
+        { pregunta: 'He wears ___ . (lentes)', opciones: ['glasses', 'glass', 'eyes'], respuesta: 0 },
       ],
     },
     {
@@ -605,6 +666,8 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
         'Meerkats are small animals.',
         'The gorilla is the leader.',
         'A male lion has long hair.',
+        'The dolphin is intelligent.',
+        'Wolves live in groups too.',
       ],
       videos: [],
       ejercicios: [
@@ -614,6 +677,239 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
         { pregunta: 'The ___ gorilla is the leader of the family.', opciones: ['small', 'male', 'short'], respuesta: 1 },
         { pregunta: 'A male lion has ___ hair on his neck.', opciones: ['long', 'blue', 'no'], respuesta: 0 },
         { pregunta: 'Gorillas are big and ___.', opciones: ['strong', 'single', 'married'], respuesta: 0 },
+        { pregunta: '¿Cuál está MAL?', opciones: ['Lions live in groups.', 'Polar bears lives alone.', 'Meerkats are small.'], respuesta: 1 },
+        { pregunta: 'Un grupo de leones es un…', opciones: ['pride', 'price', 'prize'], respuesta: 0 },
+        { pregunta: 'Traducción de "El delfín es inteligente.":', opciones: ['The dolphin is intelligent.', 'The dolphin are intelligent.', 'Dolphin is intelligents.'], respuesta: 0 },
+        { pregunta: 'The sloth is very ___ . (lento)', opciones: ['slow', 'fast', 'tall'], respuesta: 0 },
+        { pregunta: 'Gorillas ___ in family groups.', opciones: ['live', 'lives', 'living'], respuesta: 0 },
+        { pregunta: 'The meerkat ___ small, but the rhino ___ big.', opciones: ['is / is', 'are / are', 'is / are'], respuesta: 0 },
+      ],
+    },
+  ],
+
+  cuentos: [
+    {
+      titulo: 'My New Friend',
+      nivel: 'A1',
+      parrafos: [
+        'My name is Diego. I am from Venezuela, but now I live in Texas. I am a student at an English academy.',
+        'Today is my first day. A tall man says hello to me. His name is Sam. He is from Killeen. He is funny and very generous.',
+        'Sam says: "This is my sister. Her name is Kate." Kate is short with long curly hair and blue eyes. She is a teacher.',
+        'Now Sam and Kate are my friends. I am very happy in my new school.',
+      ],
+      glosario: [
+        { en: 'now', es: 'ahora' },
+        { en: 'today', es: 'hoy' },
+        { en: 'first day', es: 'primer día' },
+        { en: 'says', es: 'dice' },
+        { en: 'teacher', es: 'maestro / maestra' },
+        { en: 'happy', es: 'feliz' },
+      ],
+      preguntas: [
+        { pregunta: 'Where is Diego from?', opciones: ['Texas', 'Venezuela', 'Mexico'], respuesta: 1 },
+        { pregunta: 'Who is Kate?', opciones: ["Sam's sister", "Sam's mother", "Diego's aunt"], respuesta: 0 },
+        { pregunta: 'What is Kate like?', opciones: ['Tall with short hair', 'Short with long curly hair', 'Bald'], respuesta: 1 },
+        { pregunta: 'Is Diego happy?', opciones: ['Yes, he is.', "No, he isn't.", 'We don\u2019t know.'], respuesta: 0 },
+      ],
+    },
+    {
+      titulo: 'A Day at the Zoo',
+      nivel: 'A1',
+      parrafos: [
+        'It is Saturday. Lola and her brother Max are at the zoo with their grandmother.',
+        '"Look, Max! The lions!" says Lola. The lions live in a big family group. The male lion has long hair on his neck. He is the leader.',
+        'Max likes the meerkats. They are small and funny. One meerkat is the guard: it stands and looks for danger.',
+        'The polar bear is alone in the water. "Polar bears live alone," says Grandmother. "But we are a family, and we are together!"',
+      ],
+      glosario: [
+        { en: 'Saturday', es: 'sábado' },
+        { en: 'look!', es: '¡mira!' },
+        { en: 'guard', es: 'vigilante / guardia' },
+        { en: 'stands', es: 'se para (de pie)' },
+        { en: 'danger', es: 'peligro' },
+        { en: 'together', es: 'juntos' },
+      ],
+      preguntas: [
+        { pregunta: 'Who is with Lola and Max?', opciones: ['Their mother', 'Their grandmother', 'Their aunt'], respuesta: 1 },
+        { pregunta: 'The male lion is…', opciones: ['the guard', 'the leader', 'alone'], respuesta: 1 },
+        { pregunta: 'What does the meerkat guard do?', opciones: ['It sleeps', 'It looks for danger', 'It swims'], respuesta: 1 },
+        { pregunta: 'Which animal lives alone?', opciones: ['The lion', 'The meerkat', 'The polar bear'], respuesta: 2 },
+      ],
+    },
+    {
+      titulo: 'The Photo on the Wall',
+      nivel: 'A1',
+      parrafos: [
+        'Ana is at her friend Pablo\u2019s house. There is a big photo on the wall.',
+        '"Who\u2019s this?" asks Ana. "It\u2019s my grandfather," says Pablo. "His name is Tomás. He is eighty years old. He is bald and very funny."',
+        '"And the woman with straight hair?" "She\u2019s my grandmother, Rosa. She is sweet and generous. Tomás is her husband."',
+        '"Your family is beautiful," says Ana. "Thanks!" says Pablo. "Family is my favorite thing in the world."',
+      ],
+      glosario: [
+        { en: 'wall', es: 'pared' },
+        { en: 'asks', es: 'pregunta' },
+        { en: 'woman', es: 'mujer' },
+        { en: 'favorite', es: 'favorito' },
+        { en: 'thing', es: 'cosa' },
+        { en: 'world', es: 'mundo' },
+      ],
+      preguntas: [
+        { pregunta: 'Where is the photo?', opciones: ['On the table', 'On the wall', 'In a book'], respuesta: 1 },
+        { pregunta: 'How old is Tomás?', opciones: ['Eight', 'Eighteen', 'Eighty'], respuesta: 2 },
+        { pregunta: 'Who is Rosa?', opciones: ["Pablo's mother", "Tomás's wife", "Ana's aunt"], respuesta: 1 },
+        { pregunta: 'Tomás is…', opciones: ['bald and funny', 'tall and serious', 'young and shy'], respuesta: 0 },
+      ],
+    },
+    {
+      titulo: 'The Lost Phone',
+      nivel: 'A2',
+      parrafos: [
+        'Last Friday, Marcos lost his phone. He looked everywhere: in his car, in the kitchen, under the sofa. Nothing.',
+        'He called the phone from his wife\u2019s number. They listened carefully… and heard music in the garden!',
+        'The phone was inside his son\u2019s toy box, next to a plastic dinosaur. Little Leo put it there in the morning.',
+        '"Well," laughed Marcos, "at least the dinosaur didn\u2019t answer my calls." Now he always leaves his phone on the shelf, far from little hands.',
+      ],
+      glosario: [
+        { en: 'lost (lose)', es: 'perdió (perder)' },
+        { en: 'everywhere', es: 'por todas partes' },
+        { en: 'carefully', es: 'con cuidado / atentamente' },
+        { en: 'toy box', es: 'caja de juguetes' },
+        { en: 'at least', es: 'al menos' },
+        { en: 'shelf', es: 'repisa / estante' },
+      ],
+      preguntas: [
+        { pregunta: 'When did Marcos lose his phone?', opciones: ['Last Friday', 'Yesterday morning', 'Last month'], respuesta: 0 },
+        { pregunta: 'How did they find it?', opciones: ['They saw it under the sofa', 'They called it and heard music', 'Leo gave it back'], respuesta: 1 },
+        { pregunta: 'Where was the phone?', opciones: ['In the car', 'In the kitchen', "In the toy box"], respuesta: 2 },
+        { pregunta: 'Who put the phone there?', opciones: ['His wife', 'His son Leo', 'Marcos'], respuesta: 1 },
+        { pregunta: 'Where does Marcos leave his phone now?', opciones: ['On the shelf', 'In the garden', 'In the toy box'], respuesta: 0 },
+      ],
+    },
+    {
+      titulo: 'A Trip to San Antonio',
+      nivel: 'A2',
+      parrafos: [
+        'Last month, Carla and her cousins visited San Antonio. They drove for three hours and arrived at noon.',
+        'First, they walked along the River Walk and took a lot of photos. Then they ate Mexican food at a small restaurant near the water. Carla ordered tacos; her cousin Luis wanted enchiladas.',
+        'In the afternoon, they visited the Alamo and learned about the history of Texas. Luis bought a little souvenir for his mother.',
+        'They returned home very tired but happy. "Next year," said Carla, "we\u2019re going to the beach!"',
+      ],
+      glosario: [
+        { en: 'trip', es: 'viaje' },
+        { en: 'drove (drive)', es: 'manejaron (manejar)' },
+        { en: 'at noon', es: 'al mediodía' },
+        { en: 'along', es: 'a lo largo de' },
+        { en: 'ordered', es: 'pidió (en un restaurante)' },
+        { en: 'souvenir', es: 'recuerdo (objeto)' },
+        { en: 'returned', es: 'regresaron' },
+      ],
+      preguntas: [
+        { pregunta: 'How long was the drive?', opciones: ['One hour', 'Three hours', 'Five hours'], respuesta: 1 },
+        { pregunta: 'What did Carla order?', opciones: ['Enchiladas', 'Tacos', 'Pizza'], respuesta: 1 },
+        { pregunta: 'What did they visit in the afternoon?', opciones: ['The beach', 'The Alamo', 'A museum in Austin'], respuesta: 1 },
+        { pregunta: 'Who bought a souvenir?', opciones: ['Carla', 'Luis', 'Their mother'], respuesta: 1 },
+        { pregunta: 'How did they feel at the end?', opciones: ['Tired but happy', 'Angry', 'Bored'], respuesta: 0 },
+      ],
+    },
+    {
+      titulo: 'The Job Interview',
+      nivel: 'B1',
+      parrafos: [
+        'Daniela has wanted to work as a graphic designer since she finished school. This morning, she finally had an interview at a design studio downtown.',
+        'She arrived twenty minutes early, which gave her time to calm down. The manager, Mr. Ortiz, asked about her experience. "I have designed logos for three small businesses," she explained, "and I have been learning animation for a year."',
+        'Then came the difficult question: "Why should we choose you?" Daniela took a breath. "Because I never stop learning, and I always deliver on time."',
+        'Two days later, her phone rang. She got the job. Her first project starts on Monday, and she has already filled a notebook with ideas.',
+      ],
+      glosario: [
+        { en: 'interview', es: 'entrevista' },
+        { en: 'downtown', es: 'en el centro (de la ciudad)' },
+        { en: 'calm down', es: 'calmarse' },
+        { en: 'take a breath', es: 'respirar hondo' },
+        { en: 'deliver on time', es: 'entregar a tiempo' },
+        { en: 'rang (ring)', es: 'sonó (sonar)' },
+      ],
+      preguntas: [
+        { pregunta: 'What job does Daniela want?', opciones: ['Teacher', 'Graphic designer', 'Manager'], respuesta: 1 },
+        { pregunta: 'Why did arriving early help her?', opciones: ['She met the manager first', 'It gave her time to calm down', 'She practiced animation'], respuesta: 1 },
+        { pregunta: 'How much design experience does she mention?', opciones: ['None', 'Logos for three businesses', 'Ten years in a studio'], respuesta: 1 },
+        { pregunta: 'What was her answer to the difficult question?', opciones: ['She works for free', 'She never stops learning and delivers on time', 'She knows the manager'], respuesta: 1 },
+        { pregunta: 'When does her first project start?', opciones: ['On Monday', 'In a year', 'Two days later'], respuesta: 0 },
+      ],
+    },
+    {
+      titulo: 'The Night Market',
+      nivel: 'B1',
+      parrafos: [
+        'When my grandmother visited us from Venezuela, I took her to the night market on the edge of town. I had been telling her about it for months, and she didn\u2019t believe half of what I said.',
+        'The market was louder and brighter than she expected. There were food trucks from five different countries, a man selling hand-made guitars, and a stall where an old woman read fortunes in coffee cups.',
+        'My grandmother tried Korean corn dogs, Texas barbecue, and a mango dessert that made her close her eyes and smile. "This tastes like home," she said quietly, "but also like somewhere completely new."',
+        'On the way back, she held the little guitar she had bought and hummed an old song. I realized that night that sharing a place you love is one of the best gifts you can give.',
+      ],
+      glosario: [
+        { en: 'edge of town', es: 'las afueras del pueblo' },
+        { en: 'louder', es: 'más ruidoso' },
+        { en: 'stall', es: 'puesto (de mercado)' },
+        { en: 'read fortunes', es: 'leer la suerte' },
+        { en: 'hummed', es: 'tarareó' },
+        { en: 'realized', es: 'me di cuenta' },
+      ],
+      preguntas: [
+        { pregunta: 'Who visited from Venezuela?', opciones: ['The narrator\u2019s aunt', 'The narrator\u2019s grandmother', 'A friend'], respuesta: 1 },
+        { pregunta: 'How was the market compared to her expectations?', opciones: ['Smaller and quieter', 'Louder and brighter', 'Exactly as described'], respuesta: 1 },
+        { pregunta: 'What did the mango dessert make her feel?', opciones: ['Homesick and curious at the same time', 'Sick', 'Bored'], respuesta: 0 },
+        { pregunta: 'What did she buy?', opciones: ['A coffee cup', 'A little guitar', 'A corn dog'], respuesta: 1 },
+        { pregunta: 'What did the narrator learn?', opciones: ['Markets are expensive', 'Sharing a place you love is a great gift', 'Grandmothers prefer quiet places'], respuesta: 1 },
+      ],
+    },
+    {
+      titulo: 'The Deadline',
+      nivel: 'B2',
+      parrafos: [
+        'By the time Sofía noticed the mistake, the report had already been sent to the client. A whole column of figures — the wrong quarter. If she had double-checked the spreadsheet, none of this would have happened.',
+        'Her first instinct was to say nothing and hope nobody noticed. Her second, better instinct was to walk straight into her manager\u2019s office. "I\u2019ve sent the wrong numbers," she said. "I\u2019m correcting them now, and I\u2019ll call the client myself."',
+        'The call was uncomfortable, but shorter than she feared. The client, as it turned out, valued the honesty more than the error. "Mistakes get made," he said. "What matters is who owns them."',
+        'That evening, Sofía set up an extra review step for every future report. She had learned that a reputation isn\u2019t built by never failing, but by how quickly and honestly you repair what breaks.',
+      ],
+      glosario: [
+        { en: 'deadline', es: 'fecha límite' },
+        { en: 'figures', es: 'cifras' },
+        { en: 'double-check', es: 'revisar dos veces' },
+        { en: 'instinct', es: 'instinto / impulso' },
+        { en: 'as it turned out', es: 'al final resultó que' },
+        { en: 'own (a mistake)', es: 'asumir (un error)' },
+      ],
+      preguntas: [
+        { pregunta: 'What was wrong with the report?', opciones: ['It was late', 'It had figures from the wrong quarter', 'It was sent to the wrong client'], respuesta: 1 },
+        { pregunta: 'What was her first instinct?', opciones: ['To tell her manager', 'To say nothing', 'To call the client'], respuesta: 1 },
+        { pregunta: 'What did she actually do?', opciones: ['She hid the mistake', 'She admitted it and offered to fix it', 'She blamed the spreadsheet'], respuesta: 1 },
+        { pregunta: 'How did the client react?', opciones: ['He ended the contract', 'He valued her honesty', 'He never noticed'], respuesta: 1 },
+        { pregunta: 'What lesson does the story suggest?', opciones: ['Never admit mistakes', 'Reputation depends on honest repair, not perfection', 'Reports don\u2019t matter'], respuesta: 1 },
+      ],
+    },
+    {
+      titulo: "The Lighthouse Keeper's Notebook",
+      nivel: 'C1',
+      parrafos: [
+        'The lighthouse had been automated for decades, yet Elena\u2019s grandfather still climbed its spiral staircase every evening, notebook in hand, as though the lamp might somehow fail without a witness. Whatever he wrote up there, he never showed a soul.',
+        'When he passed away last spring, Elena inherited the notebook. She expected weather logs, perhaps shipping schedules; what she found instead was a meticulous record of arrivals that no harbor authority would ever have registered: the first swallow of March, a stranger\u2019s umbrella abandoned on the pier, the precise shade of green the sea turns before a storm.',
+        'Entry by entry, it dawned on her that her grandfather had not been guarding the coast at all. He had been guarding attention itself — the stubborn, unfashionable discipline of noticing things that nobody pays you to notice.',
+        'Elena keeps the notebook on her desk now, half-filled. On difficult days, she adds a line of her own and finds, to her quiet astonishment, that the world grows slightly larger each time she does.',
+      ],
+      glosario: [
+        { en: 'lighthouse keeper', es: 'farero (cuidador del faro)' },
+        { en: 'as though', es: 'como si' },
+        { en: 'witness', es: 'testigo' },
+        { en: 'meticulous', es: 'meticuloso' },
+        { en: 'it dawned on her', es: 'cayó en cuenta / comprendió' },
+        { en: 'stubborn', es: 'terco / obstinado' },
+        { en: 'astonishment', es: 'asombro' },
+      ],
+      preguntas: [
+        { pregunta: 'Why did the grandfather\u2019s nightly climb seem unnecessary?', opciones: ['The lighthouse was automated', 'He was too old', 'The staircase was closed'], respuesta: 0 },
+        { pregunta: 'What did Elena expect to find in the notebook?', opciones: ['Poems', 'Weather logs or schedules', 'Letters to her'], respuesta: 1 },
+        { pregunta: 'What had he actually recorded?', opciones: ['Ship registrations', 'Small, unnoticed details of daily life', 'Family history'], respuesta: 1 },
+        { pregunta: 'What was he "guarding", according to Elena?', opciones: ['The coast', 'Attention itself', 'The harbor authority'], respuesta: 1 },
+        { pregunta: 'What effect does writing in the notebook have on Elena?', opciones: ['The world feels slightly larger', 'She feels obligated', 'She misses the sea'], respuesta: 0 },
       ],
     },
   ],
@@ -649,5 +945,16 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
         { pregunta: 'El posesivo de "I" es…', opciones: ['me', 'mine', 'my'], respuesta: 2 },
       ],
     },
+    { titulo: 'Práctica libre A1 — British Council (audios con ejercicios)', url: 'https://learnenglish.britishcouncil.org/free-resources/listening/a1', nivel: 'A1', preguntas: [] },
+    { titulo: 'Práctica libre A1 — videos de YouTube para tu nivel', url: 'https://www.youtube.com/results?search_query=english+listening+practice+a1+beginner', nivel: 'A1', preguntas: [] },
+    { titulo: 'Canal oficial de British Council en YouTube', url: 'https://youtube.com/@BritishCouncilEnglish', nivel: 'A1', preguntas: [] },
+    { titulo: 'Práctica libre A2 — British Council (audios con ejercicios)', url: 'https://learnenglish.britishcouncil.org/free-resources/listening/a2', nivel: 'A2', preguntas: [] },
+    { titulo: 'Práctica libre A2 — videos de YouTube para tu nivel', url: 'https://www.youtube.com/results?search_query=english+listening+practice+a2+elementary', nivel: 'A2', preguntas: [] },
+    { titulo: 'Práctica libre B1 — British Council (audios con ejercicios)', url: 'https://learnenglish.britishcouncil.org/free-resources/listening/b1', nivel: 'B1', preguntas: [] },
+    { titulo: 'Práctica libre B1 — videos de YouTube para tu nivel', url: 'https://www.youtube.com/results?search_query=english+listening+practice+b1+intermediate', nivel: 'B1', preguntas: [] },
+    { titulo: 'Práctica libre B2 — British Council (audios con ejercicios)', url: 'https://learnenglish.britishcouncil.org/free-resources/listening/b2', nivel: 'B2', preguntas: [] },
+    { titulo: 'Práctica libre B2 — videos de YouTube para tu nivel', url: 'https://www.youtube.com/results?search_query=english+listening+practice+b2+upper+intermediate', nivel: 'B2', preguntas: [] },
+    { titulo: 'Práctica libre C1 — British Council (audios con ejercicios)', url: 'https://learnenglish.britishcouncil.org/free-resources/listening/c1', nivel: 'C1', preguntas: [] },
+    { titulo: 'Práctica libre C1 — videos de YouTube para tu nivel', url: 'https://www.youtube.com/results?search_query=english+listening+practice+c1+advanced', nivel: 'C1', preguntas: [] },
   ],
 };

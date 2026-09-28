@@ -20,6 +20,8 @@ interface Props {
 
 const NIVELES: Nivel[] = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
+// nota: los recursos sin preguntas son 'práctica libre' (enlaces por nivel)
+
 export default function Listening({
   recursos,
   onCrearRecurso,
@@ -31,6 +33,7 @@ export default function Listening({
   const [abiertoId, setAbiertoId] = useState<string | null>(null);
   const [respondiendo, setRespondiendo] = useState(false);
   const [creando, setCreando] = useState(false);
+  const [filtro, setFiltro] = useState<'todos' | Nivel>('todos');
 
   const [titulo, setTitulo] = useState('');
   const [url, setUrl] = useState('');
@@ -47,6 +50,8 @@ export default function Listening({
     setPreguntas([]);
     setCreando(false);
   }
+
+  const filtrados = filtro === 'todos' ? recursos : recursos.filter((r) => r.nivel === filtro);
 
   if (abierto) {
     const embed = urlEmbed(abierto.url);
@@ -94,7 +99,7 @@ export default function Listening({
             Responder preguntas ({abierto.preguntas.length})
           </button>
         ) : (
-          <p className="vacio">Este recurso aún no tiene preguntas de comprensión.</p>
+          <p className="vacio">Práctica libre: escucha, disfruta y anota lo nuevo. Este enlace no tiene cuestionario.</p>
         )}
       </div>
     );
@@ -105,7 +110,7 @@ export default function Listening({
       <div className="titulo-seccion">
         <h2>
           Listening
-          <span className="contador-seccion">{recursos.length}</span>
+          <span className="contador-seccion">{filtrados.length}</span>
         </h2>
         {esAdmin && (
           <button className="btn-primario" onClick={() => setCreando(true)}>
@@ -115,18 +120,36 @@ export default function Listening({
         )}
       </div>
 
-      {recursos.length === 0 ? (
+      <div className="fila-chips">
+        <button
+          className={`chip${filtro === 'todos' ? ' activo' : ''}`}
+          onClick={() => setFiltro('todos')}
+        >
+          Todos
+        </button>
+        {NIVELES.map((n) => (
+          <button
+            key={n}
+            className={`chip${filtro === n ? ' activo' : ''}`}
+            onClick={() => setFiltro(n)}
+          >
+            {n}
+          </button>
+        ))}
+      </div>
+
+      {filtrados.length === 0 ? (
         <p className="vacio">
           Agrega un video o audio de YouTube con sus preguntas de comprensión.
         </p>
       ) : (
         <ul className="recursos-lista">
-          {recursos.map((r) => (
+          {filtrados.map((r) => (
             <li key={r.id} className="tarjeta recurso-item" onClick={() => setAbiertoId(r.id)}>
               <div className="recurso-textos">
                 <p className="recurso-titulo">{r.titulo}</p>
                 <p className="texto-suave">
-                  {r.nivel} · {r.preguntas.length} preguntas
+                  {r.nivel} · {r.preguntas.length > 0 ? `${r.preguntas.length} preguntas` : 'práctica libre'}
                 </p>
               </div>
               {esAdmin && (

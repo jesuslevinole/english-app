@@ -107,13 +107,14 @@ export async function guardarPersonaje(uid: string, personaje: Personaje): Promi
 //   sin duplicarlo).
 import { writeBatch } from 'firebase/firestore';
 import { SEMILLA_NIVEL1 } from '../data/nivel1';
-import type { Categoria, Palabra, RecursoListening, TemaGramatica } from '../types';
+import type { Categoria, Cuento, Palabra, RecursoListening, TemaGramatica } from '../types';
 
 export interface EstadoActual {
   categorias: Categoria[];
   palabras: Palabra[];
   temas: TemaGramatica[];
   recursos: RecursoListening[];
+  cuentos: Cuento[];
 }
 
 // Solo lo creado o actualizado por la semilla (para mezclar con el estado).
@@ -122,6 +123,7 @@ export interface ResultadoSemilla {
   palabras: Palabra[];
   temas: TemaGramatica[];
   recursos: RecursoListening[];
+  cuentos: Cuento[];
 }
 
 export async function sembrarNivel1(actual: EstadoActual): Promise<ResultadoSemilla> {
@@ -130,6 +132,7 @@ export async function sembrarNivel1(actual: EstadoActual): Promise<ResultadoSemi
   const palabras: Palabra[] = [];
   const temas: TemaGramatica[] = [];
   const recursos: RecursoListening[] = [];
+  const cuentos: Cuento[] = [];
 
   for (const cat of SEMILLA_NIVEL1.categorias) {
     const existente = actual.categorias.find((c) => c.nombre === cat.nombre);
@@ -171,7 +174,14 @@ export async function sembrarNivel1(actual: EstadoActual): Promise<ResultadoSemi
     recursos.push({ id: ref.id, ...r });
   }
 
+  for (const cu of SEMILLA_NIVEL1.cuentos) {
+    const existente = actual.cuentos.find((x) => x.titulo === cu.titulo);
+    const ref = existente ? doc(db, 'cuentos', existente.id) : doc(collection(db, 'cuentos'));
+    lote.set(ref, cu);
+    cuentos.push({ id: ref.id, ...cu });
+  }
+
   await lote.commit();
-  for (const nombre of ['categorias', 'palabras', 'temas', 'listening']) invalidar(nombre);
-  return { categorias, palabras, temas, recursos };
+  for (const nombre of ['categorias', 'palabras', 'temas', 'listening', 'cuentos']) invalidar(nombre);
+  return { categorias, palabras, temas, recursos, cuentos };
 }

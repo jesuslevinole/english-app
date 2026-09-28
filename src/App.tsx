@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type {
   Categoria,
+  Cuento,
   Palabra,
   Personaje,
   RecursoListening,
@@ -27,6 +28,7 @@ import Inicio from './views/Inicio';
 import Vocabulario from './views/Vocabulario';
 import Gramatica from './views/Gramatica';
 import Listening from './views/Listening';
+import Lectura from './views/Lectura';
 import Usuarios from './views/Usuarios';
 import './App.css';
 
@@ -46,6 +48,7 @@ export default function App() {
   const [palabras, setPalabras] = useState<Palabra[]>([]);
   const [temas, setTemas] = useState<TemaGramatica[]>([]);
   const [recursos, setRecursos] = useState<RecursoListening[]>([]);
+  const [cuentos, setCuentos] = useState<Cuento[]>([]);
   const [personaje, setPersonaje] = useState<Personaje | null>(null);
 
   useEffect(() => observarSesion(setUid), []);
@@ -59,6 +62,7 @@ export default function App() {
       setPalabras([]);
       setTemas([]);
       setRecursos([]);
+      setCuentos([]);
       setError(null);
       setVista('inicio');
       return;
@@ -68,11 +72,12 @@ export default function App() {
     (async () => {
       try {
         const u = await cargarUsuario(uid);
-        const [cats, pals, tms, recs] = await Promise.all([
+        const [cats, pals, tms, recs, cts] = await Promise.all([
           cargarColeccion<Categoria>('categorias'),
           cargarColeccion<Palabra>('palabras'),
           cargarColeccion<TemaGramatica>('temas'),
           cargarColeccion<RecursoListening>('listening'),
+          cargarColeccion<Cuento>('cuentos'),
         ]);
         const p = await cargarPersonaje(uid, u.nombre, u.rol === 'admin');
         if (!activo) return;
@@ -81,6 +86,7 @@ export default function App() {
         setPalabras(pals);
         setTemas(tms);
         setRecursos(recs);
+        setCuentos(cts);
         setPersonaje(p);
         setError(null);
       } catch (e: unknown) {
@@ -120,17 +126,21 @@ export default function App() {
   const nivel = personaje ? nivelDeXp(personaje.xp) : 1;
 
   // ── Semilla del Nivel 1 (material de la academia) ──
-  const necesitaSemilla = SEMILLA_NIVEL1.temas.some((s) => {
-    const existente = temas.find((t) => t.nombre === s.nombre);
-    return (
-      !existente ||
-      (existente.explicacion ?? []).length === 0 ||
-      (existente.curiosidades ?? []).length === 0
-    );
-  });
+  const necesitaSemilla =
+    SEMILLA_NIVEL1.temas.some((s) => {
+      const existente = temas.find((t) => t.nombre === s.nombre);
+      return (
+        !existente ||
+        (existente.explicacion ?? []).length === 0 ||
+        (existente.curiosidades ?? []).length === 0 ||
+        existente.ejercicios.length < s.ejercicios.length
+      );
+    }) ||
+    SEMILLA_NIVEL1.cuentos.some((s) => !cuentos.some((x) => x.titulo === s.titulo)) ||
+    SEMILLA_NIVEL1.listening.some((s) => !recursos.some((x) => x.titulo === s.titulo));
 
   async function sembrar() {
-    const r = await sembrarNivel1({ categorias, palabras, temas, recursos });
+    const r = await sembrarNivel1({ categorias, palabras, temas, recursos, cuentos });
     setCategorias((previas) => [...previas, ...r.categorias]);
     setPalabras((previas) => [...previas, ...r.palabras]);
     setTemas((previos) => [
@@ -140,6 +150,10 @@ export default function App() {
     setRecursos((previos) => [
       ...previos.filter((x) => !r.recursos.some((rr) => rr.id === x.id)),
       ...r.recursos,
+    ]);
+    setCuentos((previos) => [
+      ...previos.filter((x) => !r.cuentos.some((rc) => rc.id === x.id)),
+      ...r.cuentos,
     ]);
   }
 
@@ -174,6 +188,16 @@ export default function App() {
   async function crearRecurso(datos: Omit<RecursoListening, 'id'>) {
     const id = await crearDocumento('listening', datos);
     setRecursos((previos) => [...previos, { id, ...datos }]);
+  }
+
+  async function crearCuento(datos: Omit<Cuento, 'id'>) {
+    const id = await crearDocumento('cuentos', datos);
+    setCuentos((previos) => [...previos, { id, ...datos }]);
+  }
+
+  async function borrarCuento(cuento: Cuento) {
+    await borrarDocumento('cuentos', cuento.id);
+    setCuentos((previos) => previos.filter((x) => x.id !== cuento.id));
   }
 
   async function borrarRecurso(recurso: RecursoListening) {
@@ -213,7 +237,11 @@ export default function App() {
 
   return (
     <div className="app">
-      <Encabezado nombre={usuario.nombre} onSalir={() => void salir()} />
+      <Encabezado
+        nombre={usuario.nombre}
+        onSalir={() => void salir()}
+        onUsuarios={esAdmin ? () => setVista('usuarios') : undefined}
+      />
       <main className="app-contenido">
         {vista === 'inicio' && (
           <Inicio
@@ -221,6 +249,21 @@ export default function App() {
             onGuardarPersonaje={actualizarPersonaje}
             mostrarSemilla={esAdmin && necesitaSemilla}
             onSembrar={sembrar}
+            temas={temas}
+            palabras={palabras}
+            cuentos={cuentos}
+            categorias={categorias}
+            onExamenAprobado={(nivelExamen, puntaje) => {
+              if (!personaje) return;
+              actualizarPersonaje({
+                ...personaje,
+                xp: personaje.xp + 80 + nivel * 5,
+                examenes: {
+                  ...(personaje.examenes ?? {}),
+                  [nivelExamen]: { puntaje, fecha: fechaHoy() },
+                },
+              });
+            }}
           />
         )}
         {vista === 'vocabulario' && (
@@ -265,9 +308,21 @@ export default function App() {
             }
           />
         )}
+        {vista === 'lectura' && (
+          <Lectura
+            cuentos={cuentos}
+            nivelPersonaje={nivel}
+            esAdmin={esAdmin}
+            onCrearCuento={crearCuento}
+            onBorrarCuento={borrarCuento}
+            onLecturaTerminada={(aciertos) =>
+              completarActividad('lectura', aciertos * 4 + nivel * 2)
+            }
+          />
+        )}
         {vista === 'usuarios' && esAdmin && <Usuarios miUid={usuario.id} />}
       </main>
-      <NavInferior vista={vista} onCambiar={setVista} esAdmin={esAdmin} />
+      <NavInferior vista={vista} onCambiar={setVista} />
     </div>
   );
 }

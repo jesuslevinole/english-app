@@ -1,20 +1,29 @@
 import { useState } from 'react';
 import type { CSSProperties } from 'react';
-import { BookOpen, CheckCircle2, GraduationCap, Headphones, Pencil, Sprout } from 'lucide-react';
-import type { Personaje, TipoActividad } from '../types';
+import { BookMarked, BookOpen, CheckCircle2, GraduationCap, Headphones, Pencil, Sprout } from 'lucide-react';
+import type { Categoria, Cuento, Nivel, Palabra, Personaje, TemaGramatica, TipoActividad } from '../types';
 import { fechaHoy, nivelDeXp, progresoDeNivel } from '../utils/nivelXp';
 import { cartasPorRonda, descripcionReto } from '../utils/dificultad';
 import GatoSuerte from '../components/GatoSuerte';
+import SuperExamen from '../components/SuperExamen';
 import Modal from '../components/Modal';
 import './Inicio.css';
 
 interface Props {
   personaje: Personaje;
   onGuardarPersonaje: (personaje: Personaje) => void;
-  // Semilla del contenido Nivel 1 de la academia (solo si la app está vacía)
+  // Semilla del contenido del aula (aparece si falta material por cargar)
   mostrarSemilla: boolean;
   onSembrar: () => Promise<void>;
+  // Material para armar el Super Examen de cada nivel
+  temas: TemaGramatica[];
+  palabras: Palabra[];
+  cuentos: Cuento[];
+  categorias: Categoria[];
+  onExamenAprobado: (nivel: Nivel, puntaje: number) => void;
 }
+
+const NIVELES_EXAMEN: Nivel[] = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
 const EMOJIS = ['🦉', '🦊', '🐸', '🐻', '🐨', '🦁', '🐯', '🐼'];
 const COLORES = ['#1f7a4d', '#2e9e63', '#e0b13e', '#ec6a55', '#2f6690', '#8a5a35'];
@@ -47,11 +56,28 @@ function actividadesDelDia(nivel: number): ActividadDia[] {
       xp: 15 + nivel * 2,
       Icono: Headphones,
     },
+    {
+      id: 'lectura',
+      texto: 'Lee un cuento y responde sus preguntas',
+      xp: 15 + nivel * 2,
+      Icono: BookMarked,
+    },
   ];
 }
 
-export default function Inicio({ personaje, onGuardarPersonaje, mostrarSemilla, onSembrar }: Props) {
+export default function Inicio({
+  personaje,
+  onGuardarPersonaje,
+  mostrarSemilla,
+  onSembrar,
+  temas,
+  palabras,
+  cuentos,
+  categorias,
+  onExamenAprobado,
+}: Props) {
   const [editando, setEditando] = useState(false);
+  const [examenNivel, setExamenNivel] = useState<Nivel | null>(null);
   const [sembrando, setSembrando] = useState(false);
   const [nombre, setNombre] = useState(personaje.nombre);
   const [emoji, setEmoji] = useState(personaje.emoji);
@@ -81,6 +107,23 @@ export default function Inicio({ personaje, onGuardarPersonaje, mostrarSemilla, 
   function guardar() {
     onGuardarPersonaje({ ...personaje, nombre: nombre.trim() || 'Estudiante', emoji, color });
     setEditando(false);
+  }
+
+  const colorDe = (categoriaId: string) =>
+    categorias.find((c) => c.id === categoriaId)?.color ?? '#2e9e63';
+
+  if (examenNivel) {
+    return (
+      <SuperExamen
+        nivel={examenNivel}
+        temas={temas}
+        palabras={palabras}
+        cuentos={cuentos}
+        colorDe={colorDe}
+        onAprobado={onExamenAprobado}
+        onSalir={() => setExamenNivel(null)}
+      />
+    );
   }
 
   return (
@@ -120,15 +163,16 @@ export default function Inicio({ personaje, onGuardarPersonaje, mostrarSemilla, 
         <section className="tarjeta semilla">
           <Sprout size={28} />
           <div className="semilla-textos">
-            <p className="semilla-titulo">Material del Nivel 1 listo para cargar</p>
+            <p className="semilla-titulo">Material del aula listo para cargar</p>
             <p className="texto-suave">
-              7 lecciones completas de la academia (explicación con ejemplos, diálogo, curiosidades
-              del Búho, ejercicios y juego de armar oraciones), ~70 palabras de vocabulario y 3
-              actividades de listening. Si ya cargaste contenido antes, se actualiza sin duplicar.
+              7 lecciones de la academia con muchos más ejercicios, ~70 palabras, 9 cuentos
+              originales por nivel (A1 a C1) con glosario y comprensión, y listening por nivel con
+              enlaces gratuitos de British Council. Si ya cargaste contenido antes, se actualiza
+              sin duplicar.
             </p>
           </div>
           <button className="btn-primario" onClick={sembrar} disabled={sembrando}>
-            {sembrando ? 'Cargando…' : 'Cargar contenido Nivel 1'}
+            {sembrando ? 'Cargando…' : 'Cargar contenido del aula'}
           </button>
         </section>
       )}
@@ -162,6 +206,31 @@ export default function Inicio({ personaje, onGuardarPersonaje, mostrarSemilla, 
           <GatoSuerte mensaje="All missions complete!" />
         </div>
       )}
+
+      <div className="titulo-seccion">
+        <h2>Super Examen</h2>
+      </div>
+
+      <section className="tarjeta examen-tarjeta">
+        <p className="texto-suave">
+          Un examen por nivel que mezcla gramática, vocabulario, armar oraciones, escritura y
+          lectura. Se aprueba con 80% y queda registrado en tu personaje.
+        </p>
+        <div className="fila-chips">
+          {NIVELES_EXAMEN.map((n) => {
+            const insignia = personaje.examenes?.[n];
+            return (
+              <button
+                key={n}
+                className={`chip${insignia ? ' aprobado' : ''}`}
+                onClick={() => setExamenNivel(n)}
+              >
+                {insignia ? `${n} ✓ ${insignia.puntaje}%` : n}
+              </button>
+            );
+          })}
+        </div>
+      </section>
 
       {reto && <p className="texto-suave nota-reto">{reto}</p>}
 

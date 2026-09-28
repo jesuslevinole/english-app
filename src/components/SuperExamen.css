@@ -1,0 +1,50 @@
+.examen {
+  display: grid;
+  gap: 14px;
+}
+
+.examen-progreso {
+  display: flex;
+  gap: 6px;
+}
+
+.examen-paso {
+  flex: 1;
+  height: 8px;
+  border: 2px solid var(--tinta);
+  border-radius: 999px;
+  background: var(--papel);
+}
+
+.examen-paso.hecho {
+  background: var(--verde-500);
+}
+
+.examen-paso.actual {
+  background: var(--amarillo);
+}
+
+.examen-intermedio {
+  text-align: center;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  padding: 18px 0;
+}
+
+.examen-puntaje {
+  font-size: 2.6rem;
+  font-weight: 900;
+  color: var(--verde-900);
+}
+
+.examen-puntaje.reprobado {
+  color: var(--coral);
+}
+
+.examen-acciones {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}

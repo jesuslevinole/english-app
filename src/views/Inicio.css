@@ -141,3 +141,14 @@
   display: flex;
   justify-content: center;
 }
+
+.examen-tarjeta {
+  display: grid;
+  gap: 12px;
+}
+
+.chip.aprobado {
+  background: var(--verde-500);
+  border-color: var(--tinta);
+  color: #fff;
+}

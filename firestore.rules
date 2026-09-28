@@ -49,5 +49,9 @@ service cloud.firestore {
       allow read: if conSesion();
       allow write: if esAdmin();
     }
+    match /cuentos/{id} {
+      allow read: if conSesion();
+      allow write: if esAdmin();
+    }
   }
 }

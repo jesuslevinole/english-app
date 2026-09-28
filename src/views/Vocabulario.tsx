@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { Check, Keyboard, Play, Plus, RotateCcw, Shuffle, Trash2 } from 'lucide-react';
 import GatoSuerte from '../components/GatoSuerte';
-import type { Categoria, Palabra } from '../types';
+import type { Categoria, Nivel, Palabra } from '../types';
 import { barajar } from '../utils/barajar';
 import { cartasPorRonda, proporcionInversa } from '../utils/dificultad';
 import Modal from '../components/Modal';
@@ -50,6 +50,7 @@ export default function Vocabulario({
   const [termino, setTermino] = useState('');
   const [significado, setSignificado] = useState('');
   const [categoriaId, setCategoriaId] = useState('');
+  const [nivelPalabra, setNivelPalabra] = useState<Nivel>('A1');
 
   // formulario de categoría
   const [nombreCategoria, setNombreCategoria] = useState('');
@@ -77,6 +78,7 @@ export default function Vocabulario({
       termino: termino.trim(),
       significado: significado.trim(),
       categoriaId,
+      nivel: nivelPalabra,
       creadaEn: Date.now(),
     });
     setTermino('');
@@ -312,6 +314,20 @@ export default function Vocabulario({
                   onChange={(e) => setSignificado(e.target.value)}
                   placeholder="cuchara"
                 />
+              </div>
+              <div className="campo">
+                <label htmlFor="palabra-nivel">Nivel</label>
+                <select
+                  id="palabra-nivel"
+                  value={nivelPalabra}
+                  onChange={(e) => setNivelPalabra(e.target.value as Nivel)}
+                >
+                  {(['A1', 'A2', 'B1', 'B2', 'C1'] as Nivel[]).map((n) => (
+                    <option key={n} value={n}>
+                      {n}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="campo">
                 <label htmlFor="palabra-categoria">Categoría</label>
