@@ -20,6 +20,7 @@ interface SemillaTema {
   nombre: string;
   nivel: Nivel;
   notas: string;
+  curiosidades: string[];
   explicacion: SeccionLeccion[];
   dialogo?: LineaDialogo[];
   oraciones: string[];
@@ -149,6 +150,11 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
       nombre: 'Saludar y presentar personas',
       nivel: 'A1',
       notas: '',
+      curiosidades: [
+        'How are you? en EE. UU. es un saludo, no una pregunta de verdad: se responde Fine, thanks aunque tengas un mal día.',
+        'Good night NO es para saludar: solo para despedirse. Si llegas de noche a un lugar, se dice Good evening.',
+        'En EE. UU. te van a pedir deletrear tu nombre todo el tiempo: en el banco, por teléfono, en el doctor. Por eso el abecedario vale oro.',
+      ],
       explicacion: [
         {
           titulo: 'Saludos formales e informales',
@@ -176,6 +182,7 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
             'En inglés es muy común deletrear el nombre letra por letra cuando no se entiende. La pregunta es: How do you spell your name?\nPractica el abecedario en voz alta: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z.',
           ejemplos: [
             { en: '— How do you spell your name? — J-E-S-U-S.', es: '— ¿Cómo se deletrea tu nombre? — J-E-S-U-S.' },
+            { en: '— How do you spell Molero? — M-O-L-E-R-O.', es: '— ¿Cómo se deletrea Molero? — M-O-L-E-R-O.' },
           ],
         },
       ],
@@ -211,6 +218,11 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
       nombre: 'Verbo to be (am / is / are)',
       nivel: 'A1',
       notas: '',
+      curiosidades: [
+        'to be hace el trabajo de DOS verbos del español a la vez: ser y estar. Por eso es el verbo más usado del inglés.',
+        "La edad se dice con to be, no con tener: I am 29 years old, literalmente 'yo SOY 29 años'. A todo hispanohablante le suena raro al principio.",
+        "Para el clima el sujeto it es obligatorio: It is hot in Texas. Decir solo 'Is hot' es uno de los errores más comunes de los hispanohablantes.",
+      ],
       explicacion: [
         {
           titulo: 'Qué es y para qué sirve',
@@ -279,12 +291,20 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
       nombre: 'Contracciones del verbo to be',
       nivel: 'A1',
       notas: '',
+      curiosidades: [
+        "En canciones y películas casi todo va contraído: busca la letra de tu canción favorita en inglés y cuenta cuántos I'm encuentras.",
+        "El apóstrofo marca exactamente la letra que se borró: I'm es I am sin la a.",
+        'En textos formales (contratos, ensayos académicos) se evitan las contracciones; al hablar, no usarlas suena robótico.',
+      ],
       explicacion: [
         {
           titulo: 'Por qué existen',
           contenido:
             "Al hablar, casi nadie dice 'I am' completo: se dice I'm. La contracción une el pronombre y el verbo con un apóstrofo ('). Usarlas hace que suenes natural.",
-          ejemplos: [{ en: "I'm your teacher.", es: 'Soy tu profesor.' }],
+          ejemplos: [
+            { en: "I'm your teacher.", es: 'Soy tu profesor.' },
+            { en: "She's my sister and he's my brother.", es: 'Ella es mi hermana y él es mi hermano.' },
+          ],
         },
         {
           titulo: 'Todas las contracciones del to be',
@@ -299,7 +319,10 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
           titulo: 'Negativas',
           contenido:
             "isn't = is not · aren't = are not.\nTambién puedes decir She's not = She isn't; las dos son correctas.",
-          ejemplos: [{ en: "He isn't married.", es: 'Él no está casado.' }],
+          ejemplos: [
+            { en: "He isn't married.", es: 'Él no está casado.' },
+            { en: "They aren't from Texas. They're from Venezuela.", es: 'Ellos no son de Texas. Son de Venezuela.' },
+          ],
         },
         {
           titulo: 'Ojo con los sonidos parecidos',
@@ -343,12 +366,20 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
       nombre: 'Adjetivos posesivos (my, your, his, her…)',
       nivel: 'A1',
       notas: '',
+      curiosidades: [
+        "En español 'su nombre' sirve para él y para ella; el inglés te obliga a decidir: his name o her name. Es el error #1 de los hispanohablantes en este tema.",
+        "its (sin apóstrofo) es posesivo; it's (con apóstrofo) es it is. Hasta los nativos lo escriben mal.",
+        "Los posesivos nunca cambian con el plural: my book, my books. Nada de 'mys'.",
+      ],
       explicacion: [
         {
           titulo: 'Para qué sirven',
           contenido:
             'Dicen de quién es algo. Van SIEMPRE antes del sustantivo y nunca cambian, aunque la cosa sea plural: my book, my books.',
-          ejemplos: [{ en: 'My parents are generous.', es: 'Mis padres son generosos.' }],
+          ejemplos: [
+            { en: 'My parents are generous.', es: 'Mis padres son generosos.' },
+            { en: 'Your English is very good.', es: 'Tu inglés es muy bueno.' },
+          ],
         },
         {
           titulo: 'La lista completa',
@@ -406,6 +437,11 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
       nombre: 'La familia (árbol familiar)',
       nivel: 'A1',
       notas: '',
+      curiosidades: [
+        'En inglés no hay palabras distintas para primo y prima: cousin sirve para los dos.',
+        'parents son SOLO papá y mamá. Todos los demás parientes son relatives.',
+        "La familia política se dice con -in-law (literal: 'en la ley'): mother-in-law es suegra, brother-in-law es cuñado.",
+      ],
       explicacion: [
         {
           titulo: 'El árbol familiar, de arriba hacia abajo',
@@ -462,6 +498,11 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
       nombre: 'Describir personas',
       nivel: 'A1',
       notas: '',
+      curiosidades: [
+        'El orden de los adjetivos importa: long curly black hair suena natural; black curly long hair le suena rarísimo a un nativo.',
+        'handsome se usa casi solo para hombres y pretty casi solo para mujeres; beautiful y good-looking sirven para todos.',
+        'Decir que alguien es old puede sonar duro en inglés; se suaviza con older o elderly.',
+      ],
       explicacion: [
         {
           titulo: 'be + adjetivo',
@@ -485,7 +526,10 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
           titulo: 'Preguntar por alguien en una foto',
           contenido:
             "Who's this? → ¿Quién es? — It's my brother.\nWhat's his name? — His name is Mario.\nIs he married? — Yes, he is. / No, he's single.",
-          ejemplos: [{ en: "— Is she married? — No, she's single.", es: '— ¿Está casada? — No, es soltera.' }],
+          ejemplos: [
+            { en: "— Is she married? — No, she's single.", es: '— ¿Está casada? — No, es soltera.' },
+            { en: "— Who's this? — It's my father. He's bald and very funny.", es: '— ¿Quién es? — Es mi papá. Es calvo y muy divertido.' },
+          ],
         },
         {
           titulo: 'La fórmula para describir a tu familia',
@@ -530,6 +574,11 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
       nombre: 'Familias de animales (video)',
       nivel: 'A1',
       notas: '',
+      curiosidades: [
+        "Un grupo de leones se llama pride, la misma palabra que 'orgullo'.",
+        'Las suricatas ponen un vigilante que se para en dos patas y avisa del peligro mientras las demás comen.',
+        'El oso polar es un cazador solitario: puede caminar miles de kilómetros solo sobre el hielo. Por eso polar bears live alone.',
+      ],
       explicacion: [
         {
           titulo: 'Animales en grupos y animales solitarios',

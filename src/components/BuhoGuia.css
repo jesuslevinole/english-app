@@ -1,0 +1,54 @@
+.buho-guia {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.buho-avatar {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  border: var(--borde);
+  border-radius: 50%;
+  background: var(--verde-100);
+  box-shadow: var(--sombra-dura);
+}
+
+.buho-burbuja {
+  position: relative;
+  flex: 1;
+  background: var(--amarillo);
+  border: var(--borde);
+  border-radius: 4px 16px 16px 16px;
+  box-shadow: var(--sombra-dura);
+  padding: 12px 14px;
+}
+
+/* colita de la burbuja apuntando al búho */
+.buho-burbuja::before {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 16px;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 10px solid var(--tinta);
+}
+
+.buho-nombre {
+  font-weight: 900;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+
+.buho-texto {
+  font-weight: 700;
+}
+
+.buho-boton {
+  margin-top: 10px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+}

@@ -3,7 +3,7 @@
   gap: 10px;
 }
 
-.recurso-item {
+.tarjeta.recurso-item {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -12,11 +12,11 @@
   cursor: pointer;
 }
 
-.recurso-item:hover {
+.tarjeta.recurso-item:hover {
   background: var(--verde-700);
 }
 
-.recurso-item .texto-suave {
+.tarjeta.recurso-item .texto-suave {
   color: rgba(255, 255, 255, 0.85);
 }
 
@@ -29,11 +29,11 @@
   font-weight: 900;
 }
 
-.recurso-item .btn-icono {
+.tarjeta.recurso-item .btn-icono {
   color: #fff;
 }
 
-.recurso-item .btn-icono:hover {
+.tarjeta.recurso-item .btn-icono:hover {
   background: rgba(255, 255, 255, 0.2);
   color: #fff;
 }

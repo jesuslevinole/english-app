@@ -96,7 +96,11 @@ export default function App() {
   // en versión vieja, sin lección (explicacion) — en ese caso lo actualiza.
   const necesitaSemilla = SEMILLA_NIVEL1.temas.some((s) => {
     const existente = temas.find((t) => t.nombre === s.nombre);
-    return !existente || (existente.explicacion ?? []).length === 0;
+    return (
+      !existente ||
+      (existente.explicacion ?? []).length === 0 ||
+      (existente.curiosidades ?? []).length === 0
+    );
   });
 
   async function sembrar() {

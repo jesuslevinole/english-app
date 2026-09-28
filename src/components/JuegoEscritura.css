@@ -3,7 +3,7 @@
   gap: 14px;
 }
 
-.escritura-significado {
+.tarjeta.escritura-significado {
   min-height: 140px;
   display: flex;
   flex-direction: column;

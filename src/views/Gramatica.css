@@ -3,7 +3,9 @@
   gap: 10px;
 }
 
-.tema-item {
+/* .tarjeta.X (dos clases) para ganarle siempre al fondo crema de .tarjeta,
+   sin depender del orden de los archivos en el bundle */
+.tarjeta.tema-item {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -11,7 +13,7 @@
   cursor: pointer;
 }
 
-.tema-item:hover {
+.tarjeta.tema-item:hover {
   background: var(--verde-500);
   color: #fff;
 }
@@ -44,165 +46,6 @@
   white-space: pre-wrap;
 }
 
-.videos-grupo h3 {
-  font-size: 1rem;
-  margin-bottom: 6px;
-}
-
-.videos-grupo ul {
-  display: grid;
-  gap: 6px;
-}
-
-.video-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 800;
-  color: var(--verde-900);
-}
-
-.video-link:hover {
-  color: var(--verde-500);
-}
-
-.editor-video {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  gap: 8px;
-  align-items: center;
-}
-
-.video-guardado {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  background: var(--verde-100);
-  border: var(--borde);
-  border-radius: 12px;
-  padding: 6px 12px;
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-
-@media (min-width: 900px) {
-  .temas-lista {
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 14px;
-  }
-
-  /* detalle: videos EN y ES lado a lado; lo demás a lo ancho */
-  .tema-detalle {
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    align-items: start;
-  }
-
-  .tema-detalle > .titulo-seccion,
-  .tema-detalle > .tema-notas,
-  .tema-detalle > .tarjeta:not(.videos-grupo),
-  .tema-detalle > .btn-primario,
-  .tema-detalle > .vacio {
-    grid-column: 1 / -1;
-  }
-
-  .tema-detalle > .btn-primario {
-    justify-self: start;
-  }
-
-  .tema-detalle > .tarjeta:not(.videos-grupo) {
-    max-width: 680px;
-    width: 100%;
-    justify-self: center;
-  }
-}
-
-/* ── Lección (modo Aprender) ───────────────────────── */
-.modo-chips {
-  padding-bottom: 0;
-}
-
-.seccion-leccion h3 {
-  font-size: 1.05rem;
-  margin-bottom: 6px;
-  color: var(--verde-900);
-}
-
-.seccion-explicacion {
-  white-space: pre-wrap;
-  margin-bottom: 10px;
-}
-
-.tabla-leccion {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 10px;
-  background: #fff;
-}
-
-.tabla-leccion th,
-.tabla-leccion td {
-  border: 2px solid var(--tinta);
-  padding: 6px 10px;
-  text-align: left;
-}
-
-.tabla-leccion th {
-  background: var(--verde-100);
-}
-
-.ejemplos-lista {
-  display: grid;
-  gap: 8px;
-}
-
-.ejemplos-lista li {
-  display: flex;
-  flex-direction: column;
-  border-left: 6px solid var(--verde-500);
-  padding-left: 10px;
-}
-
-.ejemplo-en {
-  font-weight: 900;
-}
-
-.ejemplo-es {
-  color: var(--gris-texto);
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-/* Conversación tipo chat */
-.dialogo h3 {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 4px;
-}
-
-.dialogo-lista {
-  display: grid;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.linea-dialogo {
-  max-width: 85%;
-  background: var(--verde-100);
-  border: var(--borde);
-  border-radius: 14px 14px 14px 4px;
-  padding: 8px 12px;
-  justify-self: start;
-}
-
-.linea-dialogo.derecha {
-  background: #fff;
-  border-radius: 14px 14px 4px 14px;
-  justify-self: end;
-}
-
 /* ── Lección (pestaña Aprender) ─────────────────────── */
 .leccion {
   display: grid;
@@ -212,6 +55,7 @@
 .seccion-leccion h3 {
   font-size: 1.05rem;
   margin-bottom: 6px;
+  color: var(--verde-900);
 }
 
 .seccion-contenido {
@@ -244,13 +88,15 @@
   gap: 8px;
   background: var(--papel);
   border: var(--borde);
-  border-radius: 12px;
+  border-radius: 14px 14px 14px 4px;
   padding: 8px 12px;
   max-width: 90%;
+  justify-self: start;
 }
 
 .linea-dialogo:nth-child(even) {
   background: var(--verde-100);
+  border-radius: 14px 14px 4px 14px;
   justify-self: end;
 }
 
@@ -258,4 +104,81 @@
   font-weight: 900;
   color: var(--verde-900);
   flex-shrink: 0;
+}
+
+/* ── Videos ─────────────────────────────────────────── */
+.videos-grupo h3 {
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+.videos-grupo ul {
+  display: grid;
+  gap: 6px;
+}
+
+.video-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 800;
+  color: var(--verde-900);
+}
+
+.video-link:hover {
+  color: var(--verde-500);
+}
+
+/* ── Formulario de tema nuevo ───────────────────────── */
+.editor-video {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.video-guardado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: var(--verde-100);
+  border: var(--borde);
+  border-radius: 12px;
+  padding: 6px 12px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+/* ── Escritorio ─────────────────────────────────────── */
+@media (min-width: 900px) {
+  .temas-lista {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+  }
+
+  /* La lección va CENTRADA en una sola columna de lectura;
+     solo los dos grupos de videos (EN/ES) se ponen lado a lado. */
+  .leccion {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+
+  .leccion > * {
+    grid-column: 1 / -1;
+  }
+
+  .leccion > .videos-grupo {
+    grid-column: auto;
+  }
+
+  /* Practicar y Jugar: la tarjeta centrada como escenario */
+  .tema-detalle > .tarjeta {
+    width: 100%;
+    max-width: 680px;
+    justify-self: center;
+  }
 }

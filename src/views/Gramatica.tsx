@@ -7,6 +7,7 @@ import Modal from '../components/Modal';
 import Cuestionario from '../components/Cuestionario';
 import EditorEjercicios from '../components/EditorEjercicios';
 import OrdenarOracion from '../components/OrdenarOracion';
+import BuhoGuia from '../components/BuhoGuia';
 import './Gramatica.css';
 
 interface Props {
@@ -111,6 +112,11 @@ export default function Gramatica({
 
         {pestana === 'aprender' && (
           <div className="leccion">
+            <BuhoGuia
+              curiosidades={temaAbierto.curiosidades ?? []}
+              fallback={`¡Vamos con "${temaAbierto.nombre}"! Lee la lección con calma y después pasa a Practicar y a Jugar.`}
+            />
+
             {temaAbierto.notas && <p className="tarjeta tema-notas">{temaAbierto.notas}</p>}
 
             {explicacion.map((seccion) => (

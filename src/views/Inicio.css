@@ -113,8 +113,8 @@
   }
 }
 
-/* Tarjeta de carga del contenido Nivel 1 (solo con la app vacía) */
-.semilla {
+/* Tarjeta de carga/actualización del contenido Nivel 1 */
+.tarjeta.semilla {
   background: var(--amarillo);
   display: flex;
   align-items: center;

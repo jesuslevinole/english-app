@@ -383,3 +383,31 @@ label {
   justify-items: center;
   padding: 24px 0;
 }
+
+/* ── Ajustes móviles (táctil) ───────────────────────── */
+@media (max-width: 899px) {
+  /* objetivos táctiles cómodos (~44px) */
+  .btn-primario,
+  .btn-contorno {
+    min-height: 44px;
+  }
+
+  .chip {
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0; /* en la fila con scroll horizontal no se aplastan */
+  }
+
+  .opcion {
+    min-height: 48px;
+  }
+
+  .ficha {
+    min-height: 44px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+}

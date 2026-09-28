@@ -25,12 +25,17 @@
 
 .acciones-vocabulario {
   display: flex;
+  flex-wrap: wrap; /* en pantallas angostas los 3 botones bajan de línea */
   gap: 10px;
   margin-bottom: 12px;
 }
 
+.acciones-vocabulario .btn-contorno {
+  flex: 1 1 100%;
+}
+
 .acciones-vocabulario .btn-primario {
-  flex: 1;
+  flex: 1 1 40%;
 }
 
 /* ── Juego de tarjetas ─────────────────────────────── */
@@ -40,9 +45,9 @@
   justify-items: center;
 }
 
-.carta {
+.tarjeta.carta {
   width: 100%;
-  min-height: 220px;
+  min-height: 260px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -57,7 +62,7 @@
   user-select: none;
 }
 
-.carta.volteada {
+.tarjeta.carta.volteada {
   background: var(--papel);
   color: var(--tinta);
 }
@@ -81,7 +86,12 @@
   }
 
   .acciones-vocabulario {
-    max-width: 460px;
+    max-width: 560px;
+    flex-wrap: nowrap;
+  }
+
+  .acciones-vocabulario .btn-contorno {
+    flex: 1;
   }
 
   /* el juego se centra como escenario, con la carta más grande */
@@ -90,38 +100,8 @@
     margin: 0 auto;
   }
 
-  .carta {
+  .tarjeta.carta {
     min-height: 320px;
     font-size: 2rem;
   }
-}
-
-/* ── Juego de deletreo ─────────────────────────────── */
-.deletreo {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  border-left: 10px solid var(--cat-color);
-  padding: 24px 18px;
-}
-
-.deletreo-significado {
-  font-size: 1.5rem;
-  font-weight: 900;
-  text-align: center;
-}
-
-.deletreo-entrada {
-  max-width: 320px;
-  text-align: center;
-  font-size: 1.2rem;
-  font-weight: 800;
-}
-
-.deletreo .feedback {
-  width: 100%;
-  max-width: 320px;
-  text-align: center;
 }

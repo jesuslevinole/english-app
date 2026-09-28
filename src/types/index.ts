@@ -58,6 +58,8 @@ export interface TemaGramatica {
   dialogo?: LineaDialogo[];
   // Oraciones para el juego de "ordenar palabras"
   oraciones?: string[];
+  // Datos curiosos que el Profe Búho cuenta en la pestaña Aprender
+  curiosidades?: string[];
   videos: VideoRef[];
   ejercicios: Ejercicio[];
 }
