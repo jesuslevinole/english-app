@@ -268,6 +268,47 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
         { termino: 'on the corner', significado: 'en la esquina' },
       ],
     },
+    {
+      nombre: 'Phrasal verbs',
+      color: '#2e9e63',
+      nivel: 'B1',
+      palabras: [
+        { termino: 'set out', significado: 'emprender un viaje' },
+        { termino: 'give up', significado: 'rendirse / dejar de intentar' },
+        { termino: 'watch out', significado: 'tener cuidado (¡cuidado!)' },
+        { termino: 'grow up', significado: 'crecer (de niño a adulto)' },
+        { termino: 'keep on', significado: 'seguir / persistir' },
+        { termino: 'run out of', significado: 'quedarse sin algo' },
+        { termino: 'put up with', significado: 'aguantar / tolerar' },
+        { termino: 'go over', significado: 'revisar con cuidado' },
+        { termino: 'run into', significado: 'encontrarse con alguien por casualidad' },
+        { termino: 'come across', significado: 'toparse con / hallar por azar' },
+        { termino: 'find out', significado: 'descubrir / enterarse' },
+        { termino: 'pass away', significado: 'fallecer (forma suave de decir morir)' },
+        { termino: 'put off', significado: 'posponer / aplazar' },
+      ],
+    },
+    {
+      nombre: 'Retos y aventuras',
+      color: '#8a5a35',
+      nivel: 'B1',
+      palabras: [
+        { termino: 'challenge', significado: 'reto / desafío' },
+        { termino: 'face a challenge', significado: 'enfrentar un reto' },
+        { termino: 'goal', significado: 'meta' },
+        { termino: 'achieve', significado: 'lograr' },
+        { termino: 'make progress', significado: 'avanzar / progresar' },
+        { termino: 'get used to', significado: 'acostumbrarse a' },
+        { termino: 'equipment', significado: 'equipo (material)' },
+        { termino: 'climb', significado: 'escalar / subir' },
+        { termino: 'go hiking', significado: 'ir de excursión (senderismo)' },
+        { termino: 'expedition', significado: 'expedición' },
+        { termino: 'rainforest', significado: 'selva tropical' },
+        { termino: 'waterfall', significado: 'cascada' },
+        { termino: 'fit', significado: 'en forma' },
+        { termino: 'brave', significado: 'valiente' },
+      ],
+    },
   ],
 
   temas: [
@@ -1176,6 +1217,297 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
         { pregunta: '"You don\u2019t have to cook" significa…', opciones: ['Está prohibido cocinar', 'No es necesario cocinar', 'Debes cocinar'], respuesta: 1 },
       ],
     },
+    {
+      nombre: 'Pasado continuo (was / were + -ing)',
+      nivel: 'B1',
+      notas: '',
+      curiosidades: [
+        'El pasado continuo es el tiempo de las películas: pinta la escena de fondo mientras algo más pasa. Por eso abunda en cuentos y novelas.',
+        'Solo hay dos formas: was (I, he, she, it) y were (you, we, they). ¡Las mismas parejas del verbo to be en pasado!',
+        'Los verbos de estado casi nunca van en continuo: se dice I knew the answer, no I was knowing.',
+      ],
+      explicacion: [
+        {
+          titulo: 'Qué cuenta el pasado continuo',
+          contenido:
+            'Describe una acción que estaba EN PROGRESO en un momento del pasado: ayer a las 8, yo estaba estudiando.\nForma: was / were + verbo con -ing.\nI/he/she/it was working · you/we/they were working.',
+          ejemplos: [
+            { en: 'I was studying at the library last night.', es: 'Anoche estaba estudiando en la biblioteca.' },
+            { en: 'They were climbing the mountain at noon.', es: 'Al mediodía estaban escalando la montaña.' },
+          ],
+        },
+        {
+          titulo: 'Negación y pregunta',
+          contenido:
+            'Negativo: wasn\u2019t / weren\u2019t + -ing → She wasn\u2019t sleeping.\nPregunta: Was she sleeping? / What were you doing at eight?\nRespuestas cortas: Yes, she was. / No, they weren\u2019t.',
+          ejemplos: [
+            { en: '— What were you doing at eight? — I was having dinner.', es: '— ¿Qué estabas haciendo a las ocho? — Estaba cenando.' },
+            { en: 'He wasn\u2019t listening to the teacher.', es: 'Él no estaba escuchando a la profesora.' },
+          ],
+        },
+        {
+          titulo: 'Dos acciones largas a la vez: while',
+          contenido:
+            'Cuando dos acciones ocurrían en paralelo, las une while y ambas van en continuo:\nWhile Henry was having a drink, his wife was swimming in the sea.',
+          ejemplos: [
+            { en: 'While I was cooking, my kids were watching TV.', es: 'Mientras yo cocinaba, mis hijos veían televisión.' },
+          ],
+        },
+      ],
+      dialogo: [
+        { hablante: 'Paula', texto: 'I called you last night, but you didn\u2019t answer.' },
+        { hablante: 'Nico', texto: 'Sorry! I was studying at the library, so my phone was off.' },
+        { hablante: 'Paula', texto: 'At ten o\u2019clock? Wow.' },
+        { hablante: 'Nico', texto: 'Yes. While I was reading, my classmates were finishing the project.' },
+      ],
+      oraciones: [
+        'I was studying at the library last night.',
+        'They were climbing the mountain.',
+        'What were you doing at eight?',
+        'She was not sleeping at ten.',
+        'While I was cooking, they were watching TV.',
+        'He was walking in the rainforest.',
+        'We were making progress.',
+      ],
+      videos: [
+        { titulo: 'Tutorial del Cevaz Nivel 8 (1)', url: 'https://www.youtube.com/watch?v=_cSLlBMmOlw', idioma: 'en' },
+      ],
+      ejercicios: [
+        { pregunta: 'I ___ studying at eight last night.', opciones: ['was', 'were', 'am'], respuesta: 0 },
+        { pregunta: 'They ___ climbing the mountain at noon.', opciones: ['was', 'were', 'are'], respuesta: 1 },
+        { pregunta: 'She ___ sleeping when I arrived.', opciones: ['was', 'were', 'is'], respuesta: 0 },
+        { pregunta: 'What ___ you doing at ten?', opciones: ['was', 'were', 'did'], respuesta: 1 },
+        { pregunta: 'El -ing de "swim" es…', opciones: ['swiming', 'swimming', 'swimying'], respuesta: 1 },
+        { pregunta: 'He ___ listening to the teacher. (negativo)', opciones: ["wasn't", "weren't", "didn't"], respuesta: 0 },
+        { pregunta: '— Was she working? — Yes, she ___.', opciones: ['was', 'were', 'did'], respuesta: 0 },
+        { pregunta: 'While I was cooking, my kids ___ TV.', opciones: ['were watching', 'was watching', 'watched always'], respuesta: 0 },
+        { pregunta: '¿Cuál está MAL?', opciones: ['They were running.', 'He were sleeping.', 'I was reading.'], respuesta: 1 },
+        { pregunta: 'Traducción de "Estábamos cenando a las nueve.":', opciones: ['We were having dinner at nine.', 'We was having dinner at nine.', 'We are having dinner at nine.'], respuesta: 0 },
+        { pregunta: '— What were you doing? — I ___ my homework.', opciones: ['was doing', 'were doing', 'did doing'], respuesta: 0 },
+        { pregunta: 'El pasado continuo se forma con…', opciones: ['was/were + -ing', 'do/does + verbo', 'have + -ed'], respuesta: 0 },
+        { pregunta: 'My parents ___ traveling in December.', opciones: ['were', 'was', 'is'], respuesta: 0 },
+      ],
+    },
+    {
+      nombre: 'Pasado continuo vs pasado simple (when / while)',
+      nivel: 'B1',
+      notas: '',
+      curiosidades: [
+        'Truco de la foto y el flash: el pasado continuo es la foto (la escena larga) y el pasado simple es el flash (la acción corta que interrumpe).',
+        'while suele ir con el continuo (while I was studying) y when con el simple (when you called). No es ley, pero es el patrón del 90% de los casos.',
+        'En los exámenes del Cevaz este es EL tema estrella: casi siempre hay una oración con dos espacios, uno para cada tiempo.',
+      ],
+      explicacion: [
+        {
+          titulo: 'La escena y la interrupción',
+          contenido:
+            'La acción larga (escena) va en pasado continuo; la acción corta que la interrumpe va en pasado simple:\nI was studying when you called. (Estaba estudiando → escena; llamaste → interrupción.)',
+          ejemplos: [
+            { en: 'I was taking a shower when the phone rang.', es: 'Me estaba duchando cuando sonó el teléfono.' },
+            { en: 'It started to rain while she was watering the flowers.', es: 'Empezó a llover mientras ella regaba las flores.' },
+          ],
+        },
+        {
+          titulo: 'when + simple · while + continuo',
+          contenido:
+            'When I opened the door, it was raining. (when + acción corta)\nWhile Henry was having a drink, his wife was swimming. (while + acciones largas)\nLa coma va cuando when/while abren la oración.',
+          ejemplos: [
+            { en: 'When I opened the door, it was raining.', es: 'Cuando abrí la puerta, estaba lloviendo.' },
+            { en: 'He heard a loud bang while he was talking to his friend.', es: 'Oyó un estallido mientras hablaba con su amigo.' },
+          ],
+        },
+        {
+          titulo: 'Contar una anécdota completa',
+          contenido:
+            'Las historias mezclan los dos: el continuo pinta el fondo y el simple mueve la acción.\nI was hiking on Black Mountain. The sun was shining. Suddenly, I saw a wolf. I didn\u2019t move…',
+          ejemplos: [
+            { en: 'We were walking home when we ran into our teacher.', es: 'Íbamos caminando a casa cuando nos topamos con nuestra profesora.' },
+          ],
+        },
+      ],
+      dialogo: [
+        { hablante: 'Sara', texto: 'What was the most difficult thing you did last year?' },
+        { hablante: 'Beto', texto: 'Getting used to a new school. And you?' },
+        { hablante: 'Sara', texto: 'Learning to swim. One day, while I was practicing, I swallowed a lot of water!' },
+        { hablante: 'Beto', texto: 'What did you do?' },
+        { hablante: 'Sara', texto: 'I kept on practicing. I didn\u2019t give up!' },
+      ],
+      oraciones: [
+        'I was studying when you called.',
+        'It started to rain while she was watering the flowers.',
+        'When I opened the door, it was raining.',
+        'He heard a loud bang while he was talking.',
+        'We were walking home when we ran into our teacher.',
+        'While he was taking a shower, his dogs ate his steaks.',
+        'She was swimming while Henry was having a drink.',
+        'Suddenly, I saw a wolf.',
+      ],
+      videos: [
+        { titulo: 'Tutorial del Cevaz Nivel 8 (2)', url: 'https://www.youtube.com/watch?v=q4xfTdojGEM', idioma: 'en' },
+      ],
+      ejercicios: [
+        { pregunta: 'I ___ when you called.', opciones: ['was studying', 'studied', 'study'], respuesta: 0 },
+        { pregunta: 'I was studying when you ___.', opciones: ['called', 'were calling', 'call'], respuesta: 0 },
+        { pregunta: 'It ___ to rain while she ___ the flowers.', opciones: ['started / was watering', 'was starting / watered', 'start / water'], respuesta: 0 },
+        { pregunta: 'When I ___ the door, it was raining.', opciones: ['opened', 'was opening', 'open'], respuesta: 0 },
+        { pregunta: 'While Henry ___ a drink, his wife ___ in the sea.', opciones: ['was having / was swimming', 'had / swam always', 'has / swims'], respuesta: 0 },
+        { pregunta: 'He ___ a loud bang while he was talking.', opciones: ['heard', 'was hearing', 'hears'], respuesta: 0 },
+        { pregunta: 'While he was taking a shower, his dogs ___ his steaks.', opciones: ['ate', 'were eat', 'eats'], respuesta: 0 },
+        { pregunta: 'La acción corta que interrumpe va en…', opciones: ['pasado simple', 'pasado continuo', 'presente'], respuesta: 0 },
+        { pregunta: '¿Cuál está MAL?', opciones: ['I was reading when he arrived.', 'When he was arriving, I read.', 'While I was reading, he was cooking.'], respuesta: 1 },
+        { pregunta: 'Traducción de "Me estaba duchando cuando sonó el teléfono.":', opciones: ['I was taking a shower when the phone rang.', 'I took a shower when the phone was ringing.', 'I was taking a shower when the phone was rang.'], respuesta: 0 },
+        { pregunta: 'We ___ home when we ran into our teacher.', opciones: ['were walking', 'walked', 'walk'], respuesta: 0 },
+        { pregunta: '___ I was practicing, I swallowed a lot of water.', opciones: ['While', 'When', 'What'], respuesta: 0 },
+        { pregunta: 'Suddenly, I ___ a wolf.', opciones: ['saw', 'was seeing', 'see'], respuesta: 0 },
+        { pregunta: 'El pasado continuo pinta…', opciones: ['la escena de fondo', 'la acción corta', 'el futuro'], respuesta: 0 },
+      ],
+    },
+    {
+      nombre: 'Too y enough (hablar de habilidades)',
+      nivel: 'B1',
+      notas: '',
+      curiosidades: [
+        'too siempre suena negativo: too hard = tan difícil que NO se puede. Si quieres decir "muy", usa very.',
+        'El orden es la trampa del examen: too va ANTES del adjetivo (too hard), pero enough va DESPUÉS del adjetivo (strong enough) y ANTES del sustantivo (enough money).',
+        'too y to suenan igual pero too lleva doble o, como si fuera "demasiada" o.',
+      ],
+      explicacion: [
+        {
+          titulo: 'too + adjetivo: demasiado',
+          contenido:
+            'too indica exceso, con idea negativa: no se puede o no conviene.\nBlack Mountain is too hard to climb. · This backpack is too heavy.',
+          ejemplos: [
+            { en: 'The mountain is too hard to climb.', es: 'La montaña es demasiado difícil de escalar.' },
+            { en: 'It\u2019s too cold to swim today.', es: 'Hace demasiado frío para nadar hoy.' },
+          ],
+        },
+        {
+          titulo: 'adjetivo + enough: lo suficiente',
+          contenido:
+            'enough después del adjetivo = suficientemente:\nI\u2019m fit enough to climb. · En negativo: You\u2019re not strong enough to lift that.',
+          ejemplos: [
+            { en: 'Next summer, I\u2019ll be fit enough to climb the mountain.', es: 'El próximo verano estaré lo bastante en forma para escalar la montaña.' },
+            { en: 'He isn\u2019t old enough to drive.', es: 'Él no tiene edad suficiente para manejar.' },
+          ],
+        },
+        {
+          titulo: 'enough + sustantivo',
+          contenido:
+            'Antes de un sustantivo, enough va primero: enough money, enough time, enough equipment.\nY con to + verbo se arma el patrón completo: too tired to run · strong enough to win.',
+          ejemplos: [
+            { en: 'We don\u2019t have enough equipment for the expedition.', es: 'No tenemos suficiente equipo para la expedición.' },
+            { en: 'I just need good boots and enough water.', es: 'Solo necesito buenas botas y suficiente agua.' },
+          ],
+        },
+      ],
+      dialogo: [
+        { hablante: 'Lisa', texto: 'I want to climb Black Mountain next summer.' },
+        { hablante: 'Mari', texto: 'Are you serious? It\u2019s too hard to climb!' },
+        { hablante: 'Lisa', texto: 'You\u2019re right, I can\u2019t do it now. But I\u2019ll go hiking every weekend.' },
+        { hablante: 'Mari', texto: 'And you\u2019re not strong enough yet…' },
+        { hablante: 'Lisa', texto: 'Next summer, I\u2019ll be fit enough. I won\u2019t give up!' },
+      ],
+      oraciones: [
+        'The mountain is too hard to climb.',
+        'I am not strong enough yet.',
+        'Next summer, I will be fit enough.',
+        'It is too cold to swim today.',
+        'We do not have enough equipment.',
+        'He is not old enough to drive.',
+        'I just need good boots.',
+      ],
+      videos: [
+        { titulo: 'Tutorial del Cevaz Nivel 8 (3)', url: 'https://www.youtube.com/watch?v=7gQljxeaNuM', idioma: 'en' },
+      ],
+      ejercicios: [
+        { pregunta: 'Black Mountain is ___ hard to climb.', opciones: ['too', 'enough', 'very enough'], respuesta: 0 },
+        { pregunta: 'I\u2019m not strong ___ to climb it.', opciones: ['too', 'enough', 'much'], respuesta: 1 },
+        { pregunta: 'We don\u2019t have ___ equipment.', opciones: ['enough', 'too', 'to'], respuesta: 0 },
+        { pregunta: 'It\u2019s ___ cold to swim today.', opciones: ['too', 'enough', 'so much'], respuesta: 0 },
+        { pregunta: 'El orden correcto es…', opciones: ['strong enough', 'enough strong', 'too strong enough'], respuesta: 0 },
+        { pregunta: 'Con sustantivos: ___ money.', opciones: ['enough', 'money enough', 'too'], respuesta: 0 },
+        { pregunta: 'He isn\u2019t old ___ to drive.', opciones: ['enough', 'too', 'very'], respuesta: 0 },
+        { pregunta: '¿Cuál está MAL?', opciones: ['She is fit enough.', 'She is enough fit.', 'She is too tired.'], respuesta: 1 },
+        { pregunta: 'Traducción de "Estoy demasiado cansado para correr.":', opciones: ['I\u2019m too tired to run.', 'I\u2019m tired enough to run.', 'I\u2019m very tired for run.'], respuesta: 0 },
+        { pregunta: '"too" da una idea…', opciones: ['negativa (exceso)', 'positiva', 'neutra'], respuesta: 0 },
+        { pregunta: 'Next summer, I\u2019ll be fit ___ to climb the mountain.', opciones: ['enough', 'too', 'much'], respuesta: 0 },
+        { pregunta: 'I just need good boots and ___ water.', opciones: ['enough', 'too', 'water enough'], respuesta: 0 },
+      ],
+    },
+    {
+      nombre: 'Phrasal verbs (desafíos y vida diaria)',
+      nivel: 'B1',
+      notas: '',
+      curiosidades: [
+        'Un phrasal verb es un verbo + partícula cuyo significado cambia por completo: give = dar, pero give up = rendirse. Hay que aprenderlos como palabras nuevas.',
+        'pass away es el eufemismo educado para "morir", igual que en español decimos "falleció" en vez de "murió".',
+        'get on / get off ya los conoces del transporte (A2): ¡los phrasal verbs se repiten por todos los niveles!',
+      ],
+      explicacion: [
+        {
+          titulo: 'Para no rendirse (los del esfuerzo)',
+          contenido:
+            'give up = rendirse · keep on = seguir intentando · put up with = aguantar con paciencia · watch out = ¡cuidado! · set out = emprender un viaje.',
+          ejemplos: [
+            { en: 'Don\u2019t give up! Keep on practicing.', es: '¡No te rindas! Sigue practicando.' },
+            { en: 'They set out at six in the morning.', es: 'Emprendieron el viaje a las seis de la mañana.' },
+          ],
+        },
+        {
+          titulo: 'Para descubrir y encontrar',
+          contenido:
+            'find out = enterarse/descubrir · come across = toparse por casualidad (cosas) · run into = encontrarse por casualidad (personas) · go over = revisar con cuidado.',
+          ejemplos: [
+            { en: 'I ran into my old teacher at the mall.', es: 'Me topé con mi antigua profesora en el centro comercial.' },
+            { en: 'Go over your answers before the exam ends.', es: 'Revisa tus respuestas antes de que termine el examen.' },
+          ],
+        },
+        {
+          titulo: 'Los de la vida diaria',
+          contenido:
+            'grow up = crecer · run out of = quedarse sin algo · put off = posponer · pass away = fallecer · get on / get off = subirse / bajarse (bus, tren, avión).',
+          ejemplos: [
+            { en: 'We ran out of water on the hill.', es: 'Nos quedamos sin agua en la colina.' },
+            { en: 'Don\u2019t put off your homework until Sunday.', es: 'No pospongas tu tarea hasta el domingo.' },
+          ],
+        },
+      ],
+      dialogo: [
+        { hablante: 'Omar', texto: 'I found out the exam is on Friday!' },
+        { hablante: 'Rita', texto: 'Oh no. I have to go over the phrasal verbs.' },
+        { hablante: 'Omar', texto: 'Don\u2019t put it off. Let\u2019s study today.' },
+        { hablante: 'Rita', texto: 'OK. If we keep on practicing, we won\u2019t give up on Friday!' },
+      ],
+      oraciones: [
+        'Don\u2019t give up! Keep on practicing.',
+        'They set out at six in the morning.',
+        'I ran into my old teacher.',
+        'We ran out of water.',
+        'Go over your answers.',
+        'Don\u2019t put off your homework.',
+        'Watch out! The floor is wet.',
+        'I grew up in Venezuela.',
+      ],
+      videos: [
+        { titulo: 'Tutorial del Cevaz Nivel 8 (4)', url: 'https://www.youtube.com/watch?v=WIxrIM3dGuQ', idioma: 'en' },
+      ],
+      ejercicios: [
+        { pregunta: '"Rendirse" es…', opciones: ['give up', 'grow up', 'get up'], respuesta: 0 },
+        { pregunta: '"Emprender un viaje" es…', opciones: ['set out', 'put off', 'find out'], respuesta: 0 },
+        { pregunta: 'We ___ water. ¡No queda nada! (quedarse sin)', opciones: ['ran out of', 'ran into', 'put up with'], respuesta: 0 },
+        { pregunta: 'I ___ my old teacher at the mall. (por casualidad)', opciones: ['ran into', 'ran out of', 'grew up'], respuesta: 0 },
+        { pregunta: '"Revisar con cuidado" es…', opciones: ['go over', 'get over', 'go out'], respuesta: 0 },
+        { pregunta: '"Posponer" es…', opciones: ['put off', 'put up with', 'put on'], respuesta: 0 },
+        { pregunta: '"Enterarse / descubrir" es…', opciones: ['find out', 'watch out', 'get off'], respuesta: 0 },
+        { pregunta: 'I can\u2019t ___ this noise! (aguantar)', opciones: ['put up with', 'put off', 'keep on'], respuesta: 0 },
+        { pregunta: '___! The floor is wet. (¡cuidado!)', opciones: ['Watch out', 'Find out', 'Set out'], respuesta: 0 },
+        { pregunta: 'Para el bus: ___ the bus en tu parada. (bajarse)', opciones: ['get off', 'get on', 'get in'], respuesta: 0 },
+        { pregunta: '¿Cuál está MAL?', opciones: ['Don\u2019t give up.', 'Keep on practicing.', 'He passed off last year.'], respuesta: 2 },
+        { pregunta: 'Traducción de "Crecí en Venezuela.":', opciones: ['I grew up in Venezuela.', 'I grow up in Venezuela.', 'I got up in Venezuela.'], respuesta: 0 },
+        { pregunta: 'My grandfather ___ last year. (falleció, forma suave)', opciones: ['passed away', 'passed out', 'put off'], respuesta: 0 },
+        { pregunta: 'I ___ an old photo while I was cleaning. (me topé con)', opciones: ['came across', 'came back', 'kept on'], respuesta: 0 },
+      ],
+    },
   ],
 
   cuentos: [
@@ -1450,6 +1782,31 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
         { pregunta: 'Where does the driver tell him to get off?', opciones: ['At the park', 'At the supermarket', 'At the hotel'], respuesta: 0 },
         { pregunta: 'Where is the museum?', opciones: ['Between the park and the library', 'Next to the bus station', 'Opposite the supermarket'], respuesta: 0 },
         { pregunta: 'What time does Tom get to the museum?', opciones: ['At eleven', 'At seven', 'At noon'], respuesta: 0 },
+      ],
+    },
+    {
+      titulo: 'The Storm on Black Mountain',
+      nivel: 'B1',
+      parrafos: [
+        'Last October, my cousin Vera and I set out to climb Black Mountain. Everyone said it was too hard for beginners, but we had trained for months and we felt fit enough to try.',
+        'While we were walking up the first hill, the sun was shining and the birds were singing. Then, around noon, everything changed. Dark clouds were covering the sky when we reached the waterfall, and suddenly it started to rain very hard.',
+        '"Watch out!" Vera shouted. While I was crossing the rocks, I slipped and dropped my backpack into the river. We ran out of food, and my boots were full of water. I wanted to give up and go back.',
+        'But Vera kept on walking and I followed her. We put up with the cold for two more hours, and at four o\u2019clock we finally reached the top. While we were taking the photo, the rain stopped and a rainbow appeared. We didn\u2019t give up — and that challenge is now our favorite story.',
+      ],
+      glosario: [
+        { en: 'storm', es: 'tormenta' },
+        { en: 'beginners', es: 'principiantes' },
+        { en: 'dark clouds', es: 'nubes oscuras' },
+        { en: 'shouted', es: 'gritó' },
+        { en: 'slipped', es: 'me resbalé' },
+        { en: 'rainbow', es: 'arcoíris' },
+      ],
+      preguntas: [
+        { pregunta: 'Why did people say the climb was a bad idea?', opciones: ['It was too hard for beginners', 'It was too expensive', 'The mountain was closed'], respuesta: 0 },
+        { pregunta: 'What was the weather like while they were walking up the first hill?', opciones: ['The sun was shining', 'It was raining', 'It was snowing'], respuesta: 0 },
+        { pregunta: 'What happened while the narrator was crossing the rocks?', opciones: ['She slipped and dropped her backpack', 'She found a map', 'She ran into a friend'], respuesta: 0 },
+        { pregunta: 'What did they run out of?', opciones: ['Food', 'Water', 'Time'], respuesta: 0 },
+        { pregunta: 'What does the story show about challenges?', opciones: ['Keeping on matters more than perfect conditions', 'Beginners should never climb', 'Storms always ruin everything'], respuesta: 0 },
       ],
     },
   ],
