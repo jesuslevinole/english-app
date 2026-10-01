@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
 import { ArrowRight, RotateCcw, X } from 'lucide-react';
-import type { Cuento, Ejercicio, Nivel, Palabra, TemaGramatica } from '../types';
+import type { Cuento, Nivel, Palabra, TemaGramatica } from '../types';
 import { barajar } from '../utils/barajar';
+import { generarQuizVocabulario, nivelesHasta, tomarConRepaso } from '../utils/vocabulario';
 import Cuestionario from './Cuestionario';
 import OrdenarOracion from './OrdenarOracion';
 import JuegoEscritura from './JuegoEscritura';
@@ -27,25 +28,6 @@ interface Fase {
   titulo: string;
 }
 
-// Genera preguntas de vocabulario (término↔significado) con distractores
-// tomados de otras palabras del mismo nivel.
-function generarVocabulario(palabras: Palabra[], cantidad: number): Ejercicio[] {
-  const pool = barajar(palabras);
-  return pool.slice(0, cantidad).map((palabra, i) => {
-    const alReves = i % 2 === 1; // mitad inglés→español, mitad español→inglés
-    const otras = barajar(pool.filter((p) => p.id !== palabra.id)).slice(0, 2);
-    const correcta = alReves ? palabra.termino : palabra.significado;
-    const opciones = barajar([correcta, ...otras.map((o) => (alReves ? o.termino : o.significado))]);
-    return {
-      pregunta: alReves
-        ? `¿Cómo se dice "${palabra.significado}" en inglés?`
-        : `¿Qué significa "${palabra.termino}"?`,
-      opciones,
-      respuesta: opciones.indexOf(correcta),
-    };
-  });
-}
-
 // Super Examen del nivel: mezcla gramática, vocabulario, ordenar oraciones,
 // escritura y lectura. Se aprueba con NOTA_MINIMA% para asegurar retención.
 export default function SuperExamen({
@@ -58,9 +40,19 @@ export default function SuperExamen({
   onSalir,
 }: Props) {
   const temasNivel = useMemo(() => temas.filter((t) => t.nivel === nivel), [temas, nivel]);
+  // Niveles anteriores: entran como repaso (~30%) para no olvidar lo aprendido
+  const anteriores = useMemo(() => nivelesHasta(nivel).slice(0, -1), [nivel]);
+  const temasRepaso = useMemo(
+    () => temas.filter((t) => anteriores.includes(t.nivel)),
+    [temas, anteriores],
+  );
   const palabrasNivel = useMemo(
     () => palabras.filter((p) => (p.nivel ?? 'A1') === nivel),
     [palabras, nivel],
+  );
+  const palabrasRepaso = useMemo(
+    () => palabras.filter((p) => anteriores.includes(p.nivel ?? 'A1')),
+    [palabras, anteriores],
   );
   const cuentosNivel = useMemo(
     () => cuentos.filter((c) => c.nivel === nivel && c.preguntas.length > 0),
@@ -69,13 +61,24 @@ export default function SuperExamen({
 
   const [intento, setIntento] = useState(0); // sube al reintentar → regenera todo
   const material = useMemo(() => {
-    const gramatica = barajar(temasNivel.flatMap((t) => t.ejercicios)).slice(0, 12);
-    const vocabulario = generarVocabulario(palabrasNivel, 10);
-    const oraciones = barajar(temasNivel.flatMap((t) => t.oraciones ?? [])).slice(0, 5);
+    const gramatica = tomarConRepaso(
+      temasNivel.flatMap((t) => t.ejercicios),
+      temasRepaso.flatMap((t) => t.ejercicios),
+      12,
+    );
+    const vocabulario = generarQuizVocabulario(
+      tomarConRepaso(palabrasNivel, palabrasRepaso, 14),
+      10,
+    );
+    const oraciones = tomarConRepaso(
+      temasNivel.flatMap((t) => t.oraciones ?? []),
+      temasRepaso.flatMap((t) => t.oraciones ?? []),
+      5,
+    );
     const cuento = cuentosNivel.length > 0 ? barajar(cuentosNivel)[0] : null;
     return { gramatica, vocabulario, oraciones, cuento };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [temasNivel, palabrasNivel, cuentosNivel, intento]);
+  }, [temasNivel, temasRepaso, palabrasNivel, palabrasRepaso, cuentosNivel, intento]);
 
   const fases: Fase[] = useMemo(() => {
     const lista: Fase[] = [];
@@ -179,7 +182,7 @@ export default function SuperExamen({
       <div className="examen">
         <BuhoGuia
           curiosidades={[]}
-          fallback={`Super Examen ${nivel}: ${fases.length} fases (${fases
+          fallback={`Super Examen ${nivel} con repaso de niveles anteriores: ${fases.length} fases (${fases
             .map((f) => f.titulo.toLowerCase())
             .join(', ')}). Necesitas ${NOTA_MINIMA}% para aprobar. ¡Tú puedes!`}
         />
@@ -249,7 +252,7 @@ export default function SuperExamen({
           {fase.id === 'escritura' && (
             <JuegoEscritura
               key={`e${intento}`}
-              palabras={palabrasNivel}
+              palabras={tomarConRepaso(palabrasNivel, palabrasRepaso, Math.max(8, palabrasNivel.length))}
               cantidad={Math.min(6, palabrasNivel.length)}
               colorDe={colorDe}
               onTerminar={terminarFase}

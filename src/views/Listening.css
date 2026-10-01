@@ -63,3 +63,14 @@
     margin: 0 auto;
   }
 }
+
+.shadowing-invitacion {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.shadowing-invitacion-textos {
+  display: grid;
+  gap: 2px;
+}

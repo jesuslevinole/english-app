@@ -1,12 +1,14 @@
 import { useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
-import { Check, Keyboard, Play, Plus, RotateCcw, Shuffle, Trash2 } from 'lucide-react';
+import { Check, Keyboard, ListChecks, Play, Plus, RotateCcw, Shuffle, Trash2 } from 'lucide-react';
 import GatoSuerte from '../components/GatoSuerte';
 import type { Categoria, Nivel, Palabra } from '../types';
 import { barajar } from '../utils/barajar';
 import { cartasPorRonda, proporcionInversa } from '../utils/dificultad';
 import Modal from '../components/Modal';
 import JuegoEscritura from '../components/JuegoEscritura';
+import Cuestionario from '../components/Cuestionario';
+import { generarQuizVocabulario } from '../utils/vocabulario';
 import './Vocabulario.css';
 
 // Carta del juego: en modo inverso se muestra el español y hay que
@@ -28,6 +30,7 @@ interface Props {
   onRondaTerminada: (cartasJugadas: number) => void;
   // XP del modo escritura (spelling)
   onEscrituraTerminada: (aciertos: number, total: number) => void;
+  onQuizTerminado: (aciertos: number, total: number) => void;
 }
 
 const COLORES_CATEGORIA = ['#2e9e63', '#e0b13e', '#ec6a55', '#2f6690', '#8a5a35', '#1f7a4d'];
@@ -42,6 +45,7 @@ export default function Vocabulario({
   onBorrarPalabra,
   onRondaTerminada,
   onEscrituraTerminada,
+  onQuizTerminado,
 }: Props) {
   const [filtro, setFiltro] = useState<string>('todas');
   const [modal, setModal] = useState<'ninguno' | 'palabra' | 'categoria'>('ninguno');
@@ -63,6 +67,7 @@ export default function Vocabulario({
 
   // modo escritura (spelling)
   const [escribiendo, setEscribiendo] = useState(false);
+  const [quiz, setQuiz] = useState<ReturnType<typeof generarQuizVocabulario> | null>(null);
 
   const filtradas = useMemo(
     () => (filtro === 'todas' ? palabras : palabras.filter((p) => p.categoriaId === filtro)),
@@ -125,6 +130,26 @@ export default function Vocabulario({
     } else {
       setMazo(siguiente);
     }
+  }
+
+  // ── Quiz de vocabulario (opción múltiple generada) ─
+  if (quiz) {
+    return (
+      <div className="tarjeta">
+        <div className="titulo-seccion">
+          <h2>Quiz de vocabulario</h2>
+          <button className="btn-contorno" onClick={() => setQuiz(null)}>
+            Salir
+          </button>
+        </div>
+        <Cuestionario
+          ejercicios={quiz}
+          onTerminar={(aciertos, total) => {
+            onQuizTerminado(aciertos, total);
+          }}
+        />
+      </div>
+    );
   }
 
   // ── Modo escritura ─────────────────────────────────
@@ -258,6 +283,14 @@ export default function Vocabulario({
         >
           <Keyboard size={18} />
           Escribir
+        </button>
+        <button
+          className="btn-primario"
+          onClick={() => setQuiz(generarQuizVocabulario(filtradas, Math.min(10, filtradas.length)))}
+          disabled={filtradas.length < 4}
+        >
+          <ListChecks size={18} />
+          Quiz
         </button>
       </div>
 

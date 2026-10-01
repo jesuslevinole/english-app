@@ -1,21 +1,25 @@
 import { useState } from 'react';
-import { ArrowLeft, Play, Plus, Trash2 } from 'lucide-react';
-import type { Ejercicio, Nivel, RecursoListening } from '../types';
+import { ArrowLeft, Mic, Play, Plus, Trash2 } from 'lucide-react';
+import type { Ejercicio, Nivel, RecursoListening, TemaGramatica } from '../types';
 import { urlEmbed } from '../utils/youtube';
 import Modal from '../components/Modal';
 import Cuestionario from '../components/Cuestionario';
 import { preguntasPorCuestionario } from '../utils/dificultad';
 import EditorEjercicios from '../components/EditorEjercicios';
+import Shadowing from '../components/Shadowing';
 import './Listening.css';
 
 interface Props {
   recursos: RecursoListening[];
+  // Para las frases del shadowing (oraciones y diálogos por nivel)
+  temas: TemaGramatica[];
   onCrearRecurso: (datos: Omit<RecursoListening, 'id'>) => void;
   onBorrarRecurso: (recurso: RecursoListening) => void;
   esAdmin: boolean;
   onCuestionarioTerminado: (aciertos: number, total: number) => void;
   // nivel del personaje (dificultad); distinto del `nivel` A1–C1 del formulario
   nivelPersonaje: number;
+  onShadowingTerminado: (repetidas: number, total: number) => void;
 }
 
 const NIVELES: Nivel[] = ['A1', 'A2', 'B1', 'B2', 'C1'];
@@ -29,11 +33,14 @@ export default function Listening({
   esAdmin,
   onCuestionarioTerminado,
   nivelPersonaje,
+  temas,
+  onShadowingTerminado,
 }: Props) {
   const [abiertoId, setAbiertoId] = useState<string | null>(null);
   const [respondiendo, setRespondiendo] = useState(false);
   const [creando, setCreando] = useState(false);
   const [filtro, setFiltro] = useState<'todos' | Nivel>('todos');
+  const [sombraNivel, setSombraNivel] = useState<Nivel | null>(null);
 
   const [titulo, setTitulo] = useState('');
   const [url, setUrl] = useState('');
@@ -52,6 +59,18 @@ export default function Listening({
   }
 
   const filtrados = filtro === 'todos' ? recursos : recursos.filter((r) => r.nivel === filtro);
+
+  if (sombraNivel) {
+    return (
+      <Shadowing
+        temas={temas}
+        nivel={sombraNivel}
+        onTerminar={onShadowingTerminado}
+        onSalir={() => setSombraNivel(null)}
+      />
+    );
+  }
+
 
   if (abierto) {
     const embed = urlEmbed(abierto.url);
@@ -137,6 +156,24 @@ export default function Listening({
           </button>
         ))}
       </div>
+
+      <section className="tarjeta shadowing-invitacion">
+        <Mic size={22} />
+        <div className="shadowing-invitacion-textos">
+          <p className="cuento-titulo">Práctica de shadowing</p>
+          <p className="texto-suave">
+            Escucha cada frase y repítela en voz alta de inmediato. Incluye repaso de niveles
+            anteriores.
+          </p>
+        </div>
+        <div className="fila-chips">
+          {NIVELES.map((n) => (
+            <button key={n} className="chip" onClick={() => setSombraNivel(n)}>
+              {n}
+            </button>
+          ))}
+        </div>
+      </section>
 
       {filtrados.length === 0 ? (
         <p className="vacio">

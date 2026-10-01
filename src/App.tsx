@@ -279,6 +279,9 @@ export default function App() {
             onEscrituraTerminada={(aciertos) =>
               completarActividad('vocabulario', aciertos * 3 + nivel * 2)
             }
+            onQuizTerminado={(aciertos) =>
+              completarActividad('vocabulario', aciertos * 4 + nivel * 2)
+            }
           />
         )}
         {vista === 'gramatica' && (
@@ -299,12 +302,16 @@ export default function App() {
         {vista === 'listening' && (
           <Listening
             recursos={recursos}
+            temas={temas}
             nivelPersonaje={nivel}
             esAdmin={esAdmin}
             onCrearRecurso={crearRecurso}
             onBorrarRecurso={borrarRecurso}
             onCuestionarioTerminado={(aciertos) =>
               completarActividad('listening', aciertos * 5 + nivel * 2)
+            }
+            onShadowingTerminado={(repetidas) =>
+              completarActividad('listening', repetidas * 3 + nivel * 2)
             }
           />
         )}

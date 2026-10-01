@@ -153,6 +153,7 @@ export async function sembrarNivel1(actual: EstadoActual): Promise<ResultadoSemi
         termino: p.termino,
         significado: p.significado,
         categoriaId: idCategoria,
+        nivel: cat.nivel ?? 'A1',
         creadaEn: Date.now(),
       };
       lote.set(ref, datos);

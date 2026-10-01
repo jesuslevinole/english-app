@@ -1,0 +1,49 @@
+.shadowing {
+  display: grid;
+  gap: 14px;
+}
+
+.shadowing-frase {
+  font-size: 1.5rem;
+  font-weight: 900;
+  text-align: center;
+  line-height: 1.4;
+  min-height: 84px;
+  display: grid;
+  place-items: center;
+}
+
+.shadowing-controles {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.shadowing-pasos {
+  text-align: center;
+}
+
+.shadowing-final {
+  text-align: center;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  padding: 16px 0;
+}
+
+.shadowing-sin-voz {
+  text-align: center;
+}
+
+@media (min-width: 900px) {
+  .shadowing {
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .shadowing-frase {
+    font-size: 1.8rem;
+  }
+}
