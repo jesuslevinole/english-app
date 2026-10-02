@@ -1,0 +1,113 @@
+.verbos {
+  display: grid;
+  gap: 14px;
+}
+
+.verbos-buscador {
+  width: 100%;
+}
+
+.verbos-lista {
+  display: grid;
+  gap: 10px;
+}
+
+.verbo-item {
+  display: grid;
+  gap: 8px;
+}
+
+.verbo-cabecera {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.verbo-base {
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+
+.verbo-formas {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px 14px;
+}
+
+.verbo-forma {
+  display: grid;
+}
+
+.verbo-forma-etiqueta {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.6;
+}
+
+.verbo-forma-valor {
+  font-weight: 800;
+}
+
+.practica-verbo {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.practica-consigna {
+  font-size: 1.05rem;
+  font-weight: 800;
+  opacity: 0.75;
+}
+
+.practica-base {
+  font-size: 2.2rem;
+  font-weight: 900;
+}
+
+.practica-input {
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.practica-feedback {
+  font-weight: 900;
+}
+
+.practica-feedback.mal {
+  color: var(--coral);
+}
+
+.practica-feedback.bien {
+  color: var(--verde-700);
+}
+
+.verbos-config {
+  display: grid;
+  gap: 12px;
+}
+
+@media (min-width: 900px) {
+  .verbos-lista {
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  }
+
+  .verbo-formas {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .practica-verbo,
+  .verbos-config {
+    max-width: 640px;
+    margin: 0 auto;
+    width: 100%;
+  }
+}

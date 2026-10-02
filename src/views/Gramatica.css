@@ -182,3 +182,21 @@
     justify-self: center;
   }
 }
+
+.verbos-invitacion {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.verbos-invitacion-textos {
+  display: grid;
+  gap: 2px;
+}
+
+.campo-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}

@@ -319,6 +319,9 @@ export default function App() {
             onJuegoTerminado={(aciertos) =>
               completarActividad('gramatica', aciertos * 4 + nivel * 2)
             }
+            onVerbosTerminado={(aciertos) =>
+              completarActividad('gramatica', aciertos * 3 + nivel * 2)
+            }
           />
         )}
         {vista === 'listening' && (

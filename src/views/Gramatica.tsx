@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, ExternalLink, Plus, Trash2, Youtube } from 'lucide-react';
+import { Dumbbell, ArrowLeft, ExternalLink, Plus, Trash2, Youtube } from 'lucide-react';
 import type { Ejercicio, IdiomaVideo, Nivel, TemaGramatica, VideoRef } from '../types';
 import { urlBusqueda } from '../utils/youtube';
 import { oracionesPorJuego, preguntasPorCuestionario } from '../utils/dificultad';
@@ -8,6 +8,7 @@ import Cuestionario from '../components/Cuestionario';
 import EditorEjercicios from '../components/EditorEjercicios';
 import OrdenarOracion from '../components/OrdenarOracion';
 import BuhoGuia from '../components/BuhoGuia';
+import EntrenadorVerbos from '../components/EntrenadorVerbos';
 import './Gramatica.css';
 
 interface Props {
@@ -15,6 +16,8 @@ interface Props {
   onCrearTema: (datos: Omit<TemaGramatica, 'id'>) => void;
   onBorrarTema: (tema: TemaGramatica) => void;
   onCuestionarioTerminado: (aciertos: number, total: number) => void;
+  // XP del entrenador de verbos
+  onVerbosTerminado: (aciertos: number, total: number) => void;
   // XP por el juego de ordenar oraciones
   onJuegoTerminado: (aciertos: number, total: number) => void;
   // nivel del personaje (dificultad); distinto del `nivel` A1–C1 del formulario
@@ -32,11 +35,13 @@ export default function Gramatica({
   onJuegoTerminado,
   nivelPersonaje,
   esAdmin,
+  onVerbosTerminado,
 }: Props) {
   const [temaAbiertoId, setTemaAbiertoId] = useState<string | null>(null);
   const [pestana, setPestana] = useState<'aprender' | 'practicar' | 'jugar'>('aprender');
   const [creando, setCreando] = useState(false);
   const [filtro, setFiltro] = useState<'todos' | Nivel>('todos');
+  const [entrenandoVerbos, setEntrenandoVerbos] = useState(false);
 
   // formulario de tema nuevo
   const [nombre, setNombre] = useState('');
@@ -49,6 +54,13 @@ export default function Gramatica({
   const [videoIdioma, setVideoIdioma] = useState<IdiomaVideo>('en');
 
   const temaAbierto = temas.find((t) => t.id === temaAbiertoId) ?? null;
+
+  if (entrenandoVerbos) {
+    return (
+      <EntrenadorVerbos onTerminar={onVerbosTerminado} onSalir={() => setEntrenandoVerbos(false)} />
+    );
+  }
+
   const filtrados = filtro === 'todos' ? temas : temas.filter((t) => t.nivel === filtro);
 
   function agregarVideo() {
@@ -274,6 +286,20 @@ export default function Gramatica({
           </button>
         ))}
       </div>
+
+      <section className="tarjeta verbos-invitacion">
+        <Dumbbell size={22} />
+        <div className="verbos-invitacion-textos">
+          <p className="cuento-titulo">Entrenador de verbos</p>
+          <p className="texto-suave">
+            253 verbos con todas sus formas: -ing, pasado, participio, tercera persona y futuro.
+            Consulta la tabla o practica escribiendo las conjugaciones.
+          </p>
+        </div>
+        <button className="btn-primario" onClick={() => setEntrenandoVerbos(true)}>
+          Entrenar
+        </button>
+      </section>
 
       {filtrados.length === 0 ? (
         <p className="vacio">
