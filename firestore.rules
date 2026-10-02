@@ -53,5 +53,10 @@ service cloud.firestore {
       allow read: if conSesion();
       allow write: if esAdmin();
     }
+    // Duelos entre estudiantes: cualquiera con sesión reta y responde su turno.
+    match /duelos/{id} {
+      allow read, create, update: if conSesion();
+      allow delete: if esAdmin();
+    }
   }
 }

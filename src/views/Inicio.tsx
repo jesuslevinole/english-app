@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import type { CSSProperties } from 'react';
-import { BookMarked, BookOpen, CheckCircle2, GraduationCap, Headphones, Pencil, Sprout } from 'lucide-react';
-import type { Categoria, Cuento, Nivel, Palabra, Personaje, TemaGramatica, TipoActividad } from '../types';
+import { BookMarked, BookOpen, CheckCircle2, GraduationCap, Headphones, Pencil, Sprout, Swords } from 'lucide-react';
+import type { Categoria, Cuento, ModoDuelo, Nivel, Palabra, Personaje, TemaGramatica, TipoActividad } from '../types';
 import { fechaHoy, nivelDeXp, progresoDeNivel } from '../utils/nivelXp';
 import { cartasPorRonda, descripcionReto } from '../utils/dificultad';
 import GatoSuerte from '../components/GatoSuerte';
 import SuperExamen from '../components/SuperExamen';
+import Duelos from '../components/Duelos';
 import Modal from '../components/Modal';
 import './Inicio.css';
 
@@ -21,6 +22,9 @@ interface Props {
   cuentos: Cuento[];
   categorias: Categoria[];
   onExamenAprobado: (nivel: Nivel, puntaje: number) => void;
+  // Arena de duelos
+  usuario: { id: string; nombre: string };
+  onDueloJugado: (modo: ModoDuelo, aciertos: number, total: number) => void;
 }
 
 const NIVELES_EXAMEN: Nivel[] = ['A1', 'A2', 'B1', 'B2', 'C1'];
@@ -75,9 +79,12 @@ export default function Inicio({
   cuentos,
   categorias,
   onExamenAprobado,
+  usuario,
+  onDueloJugado,
 }: Props) {
   const [editando, setEditando] = useState(false);
   const [examenNivel, setExamenNivel] = useState<Nivel | null>(null);
+  const [enArena, setEnArena] = useState(false);
   const [sembrando, setSembrando] = useState(false);
   const [nombre, setNombre] = useState(personaje.nombre);
   const [emoji, setEmoji] = useState(personaje.emoji);
@@ -111,6 +118,21 @@ export default function Inicio({
 
   const colorDe = (categoriaId: string) =>
     categorias.find((c) => c.id === categoriaId)?.color ?? '#2e9e63';
+
+  if (enArena) {
+    return (
+      <Duelos
+        miId={usuario.id}
+        miNombre={usuario.nombre}
+        miEmoji={personaje.emoji}
+        temas={temas}
+        palabras={palabras}
+        categorias={categorias}
+        onJugado={onDueloJugado}
+        onSalir={() => setEnArena(false)}
+      />
+    );
+  }
 
   if (examenNivel) {
     return (
@@ -206,6 +228,21 @@ export default function Inicio({
           <GatoSuerte mensaje="All missions complete!" />
         </div>
       )}
+
+      <div className="titulo-seccion">
+        <h2>Duelos</h2>
+      </div>
+
+      <section className="tarjeta examen-tarjeta">
+        <p className="texto-suave">
+          ⚔️ Reta a otro estudiante: mismas preguntas para ambos, gana quien conecte más aciertos.
+          Elige nivel, arena y hasta una categoría específica.
+        </p>
+        <button className="btn-primario" onClick={() => setEnArena(true)}>
+          <Swords size={18} />
+          Entrar a la arena
+        </button>
+      </section>
 
       <div className="titulo-seccion">
         <h2>Super Examen</h2>

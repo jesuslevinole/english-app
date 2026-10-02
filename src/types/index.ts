@@ -91,6 +91,28 @@ export interface RecursoListening {
 export type RolUsuario = 'admin' | 'estudiante';
 
 // Cuenta de la app (colección usuarios/{uid} de Firebase Auth)
+// Duelo por turnos entre dos estudiantes: mismas preguntas para ambos,
+// gana quien conecte más aciertos. El rival juega cuando entre a la arena.
+export type ModoDuelo = 'vocabulario' | 'gramatica' | 'mixto';
+
+export interface Duelo {
+  id: string;
+  nivel: Nivel;
+  modo: ModoDuelo;
+  categoriaNombre?: string; // si el reto fue de una categoría específica
+  preguntas: Ejercicio[];
+  total: number;
+  retadorId: string;
+  retadorNombre: string;
+  retadorEmoji: string;
+  rivalId: string;
+  rivalNombre: string;
+  rivalEmoji: string;
+  puntajeRetador: number | null;
+  puntajeRival: number | null;
+  creadoEn: number;
+}
+
 export interface Usuario {
   id: string; // uid de Firebase Auth
   nombre: string;

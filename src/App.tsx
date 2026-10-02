@@ -263,6 +263,13 @@ export default function App() {
             palabras={palabras}
             cuentos={cuentos}
             categorias={categorias}
+            usuario={{ id: usuario.id, nombre: usuario.nombre }}
+            onDueloJugado={(modo, aciertos) =>
+              completarActividad(
+                modo === 'vocabulario' ? 'vocabulario' : 'gramatica',
+                aciertos * 3 + nivel * 2,
+              )
+            }
             onExamenAprobado={(nivelExamen, puntaje) => {
               if (!personaje) return;
               actualizarPersonaje({

@@ -1,0 +1,98 @@
+.duelos {
+  display: grid;
+  gap: 14px;
+}
+
+.duelo-item {
+  display: grid;
+  gap: 8px;
+}
+
+.duelo-versus {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+  flex-wrap: wrap;
+}
+
+.duelo-emoji {
+  font-size: 1.5rem;
+}
+
+.duelo-espadas {
+  font-size: 1.1rem;
+}
+
+.duelo-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.duelo-marcador {
+  display: grid;
+  gap: 6px;
+}
+
+.duelo-barra-fila {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.duelo-barra-nombre {
+  width: 110px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.duelo-barra {
+  flex: 1;
+  height: 14px;
+  border: 2px solid var(--tinta);
+  border-radius: 999px;
+  background: var(--papel);
+  overflow: hidden;
+}
+
+.duelo-dano {
+  display: block;
+  height: 100%;
+  width: calc(var(--dano) * 100%);
+  background: var(--verde-500);
+}
+
+.duelo-dano.rival {
+  background: var(--coral);
+}
+
+.duelo-resultado {
+  text-align: center;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  padding: 14px 0;
+}
+
+.duelos-config {
+  display: grid;
+  gap: 12px;
+}
+
+@media (min-width: 900px) {
+  .duelos {
+    max-width: 720px;
+    margin: 0 auto;
+    width: 100%;
+  }
+}
+
+.texto-error {
+  color: var(--coral);
+  font-weight: 800;
+}

@@ -44,7 +44,7 @@ export async function cargarColeccion<T>(nombre: string): Promise<T[]> {
   return datos;
 }
 
-function invalidar(nombre: string) {
+export function invalidar(nombre: string) {
   sessionStorage.removeItem(`aula-crear:${nombre}`);
 }
 
