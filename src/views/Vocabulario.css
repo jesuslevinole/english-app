@@ -148,3 +148,68 @@
   text-align: center;
   padding: 0 10px;
 }
+
+/* Tarjetas a pantalla completa: la carta protagoniza todo el viewport */
+.juego-full {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: var(--crema);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: calc(14px + env(safe-area-inset-top, 0px)) 16px
+    calc(14px + env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+}
+
+.juego-full .juego-estado {
+  flex: 0 0 auto;
+}
+
+.juego-estado-acciones {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.juego-full .carta {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.juego-full .carta-palabra {
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.juego-full .carta-emoji {
+  font-size: clamp(3rem, 9vw, 5rem);
+}
+
+.juego-full .carta-ejemplo {
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+}
+
+.juego-full .juego-botones {
+  flex: 0 0 auto;
+}
+
+.juego-full .juego-botones .btn-primario,
+.juego-full .juego-botones .btn-contorno {
+  padding-top: 14px;
+  padding-bottom: 14px;
+  font-size: 1.05rem;
+}
+
+.juego-full .juego-final {
+  margin: auto;
+  width: 100%;
+  max-width: 480px;
+}

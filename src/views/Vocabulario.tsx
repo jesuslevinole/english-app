@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
-import { Check, Keyboard, ListChecks, Play, Plus, RotateCcw, Shuffle, Trash2 } from 'lucide-react';
+import { Check, Keyboard, ListChecks, Play, Plus, RotateCcw, Shuffle, Trash2, X } from 'lucide-react';
 import GatoSuerte from '../components/GatoSuerte';
 import type { Categoria, Nivel, Palabra } from '../types';
 import { barajar } from '../utils/barajar';
@@ -244,14 +244,16 @@ export default function Vocabulario({
   if (mazo !== null) {
     if (mazo.length === 0) {
       return (
-        <div className="tarjeta juego-final">
-          <GatoSuerte mensaje="You did it!" />
-          <h2>¡Ronda completada!</h2>
-          <p className="texto-suave">Repasaste {jugadas} tarjetas. Tu personaje ganó XP.</p>
-          <button className="btn-primario" onClick={() => setMazo(null)}>
-            <RotateCcw size={18} />
-            Volver al vocabulario
-          </button>
+        <div className="juego-full">
+          <div className="tarjeta juego-final">
+            <GatoSuerte mensaje="You did it!" />
+            <h2>¡Ronda completada!</h2>
+            <p className="texto-suave">Repasaste {jugadas} tarjetas. Tu personaje ganó XP.</p>
+            <button className="btn-primario" onClick={() => setMazo(null)}>
+              <RotateCcw size={18} />
+              Volver al vocabulario
+            </button>
+          </div>
         </div>
       );
     }
@@ -270,13 +272,18 @@ export default function Vocabulario({
           : ejemplo.en
       : null;
     return (
-      <div className="juego">
+      <div className="juego juego-full">
         <div className="juego-estado">
           <span className="texto-suave">Quedan {mazo.length} tarjetas</span>
-          <button className="btn-contorno" onClick={rebarajar}>
-            <Shuffle size={18} />
-            Barajar
-          </button>
+          <div className="juego-estado-acciones">
+            <button className="btn-contorno" onClick={rebarajar}>
+              <Shuffle size={18} />
+              Barajar
+            </button>
+            <button className="btn-icono" onClick={() => setMazo(null)} aria-label="Salir del juego">
+              <X size={20} />
+            </button>
+          </div>
         </div>
         <div
           className={`tarjeta carta${volteada ? ' volteada' : ''}`}
@@ -293,7 +300,7 @@ export default function Vocabulario({
               {carta.palabra.emoji}
             </span>
           )}
-          <span>{volteada ? reverso : frente}</span>
+          <span className="carta-palabra">{volteada ? reverso : frente}</span>
           {ejemploVisible && <span className="carta-ejemplo">{ejemploVisible}</span>}
           <span className="carta-pista">
             {carta.invertida && !volteada
@@ -315,9 +322,6 @@ export default function Vocabulario({
             La sé
           </button>
         </div>
-        <button className="btn-icono" onClick={() => setMazo(null)}>
-          Salir del juego
-        </button>
       </div>
     );
   }
