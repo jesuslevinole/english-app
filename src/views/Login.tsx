@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { LogIn, UserPlus } from 'lucide-react';
-import { entrar, mensajeErrorSesion, registrar } from '../services/sesion';
+import { entrar, mensajeErrorSesion, registrar, recuperarContrasena } from '../services/sesion';
 import { MASCOTAS } from '../data/mascotas';
 import GatoSuerte from '../components/GatoSuerte';
 import './Login.css';
@@ -16,6 +16,24 @@ export default function Login() {
   const [clave, setClave] = useState('');
   const [ocupado, setOcupado] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [aviso, setAviso] = useState<string | null>(null);
+
+  async function olvidoContrasena() {
+    setError(null);
+    setAviso(null);
+    if (!correo.trim()) {
+      setError('Escribe tu correo arriba y vuelve a tocar el enlace.');
+      return;
+    }
+    try {
+      await recuperarContrasena(correo);
+      setAviso(
+        'Si ese correo está registrado, te llegará un enlace para cambiar la contraseña. Revisa también la carpeta de spam.',
+      );
+    } catch (e) {
+      setError(mensajeErrorSesion(e));
+    }
+  }
 
   const puedeEnviar =
     correo.trim() !== '' && clave !== '' && (modo === 'entrar' || nombre.trim() !== '');
@@ -24,6 +42,7 @@ export default function Login() {
     if (!puedeEnviar || ocupado) return;
     setOcupado(true);
     setError(null);
+    setAviso(null);
     try {
       if (modo === 'entrar') {
         await entrar(correo, clave);
@@ -92,7 +111,14 @@ export default function Login() {
           />
         </div>
 
+        {modo === 'entrar' && (
+          <button className="login-olvido" onClick={() => void olvidoContrasena()}>
+            ¿Olvidaste tu contraseña?
+          </button>
+        )}
+
         {error && <p className="login-error">{error}</p>}
+        {aviso && <p className="login-aviso">{aviso}</p>}
 
         <button className="btn-primario" onClick={() => void enviar()} disabled={!puedeEnviar || ocupado}>
           {modo === 'entrar' ? <LogIn size={18} /> : <UserPlus size={18} />}

@@ -4,6 +4,7 @@
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut,
 } from 'firebase/auth';
@@ -63,6 +64,11 @@ export async function cambiarRol(uid: string, rol: RolUsuario): Promise<void> {
 }
 
 // Mensajes de error de Auth en español
+// Envía el correo de Firebase para restablecer la contraseña.
+export async function recuperarContrasena(correo: string): Promise<void> {
+  await sendPasswordResetEmail(auth, correo.trim());
+}
+
 export function mensajeErrorSesion(error: unknown): string {
   const codigo = (error as { code?: string }).code ?? '';
   if (
