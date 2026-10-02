@@ -13,6 +13,10 @@ export interface Palabra {
   categoriaId: string;
   // Nivel CEFR de la palabra; las creadas antes de este campo cuentan como A1
   nivel?: Nivel;
+  // Emoji representativo para las tarjetas (dibujo de la palabra)
+  emoji?: string;
+  // Frase de ejemplo corta con su traducción
+  ejemplo?: EjemploFrase;
   creadaEn: number;
 }
 

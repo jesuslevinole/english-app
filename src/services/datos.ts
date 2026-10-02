@@ -147,15 +147,17 @@ export async function sembrarNivel1(actual: EstadoActual): Promise<ResultadoSemi
       idCategoria = ref.id;
     }
     for (const p of cat.palabras) {
-      if (actual.palabras.some((x) => x.termino === p.termino)) continue;
-      const ref = doc(collection(db, 'palabras'));
-      const datos = {
+      const existente = actual.palabras.find((x) => x.termino === p.termino);
+      const ref = existente ? doc(db, 'palabras', existente.id) : doc(collection(db, 'palabras'));
+      const datos: Omit<Palabra, 'id'> = {
         termino: p.termino,
         significado: p.significado,
         categoriaId: idCategoria,
         nivel: cat.nivel ?? 'A1',
-        creadaEn: Date.now(),
+        creadaEn: existente?.creadaEn ?? Date.now(),
       };
+      if (p.emoji) datos.emoji = p.emoji;
+      if (p.ejemplo) datos.ejemplo = p.ejemplo;
       lote.set(ref, datos);
       palabras.push({ id: ref.id, ...datos });
     }

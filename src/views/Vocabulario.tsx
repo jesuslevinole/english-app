@@ -8,7 +8,7 @@ import { cartasPorRonda, proporcionInversa } from '../utils/dificultad';
 import Modal from '../components/Modal';
 import JuegoEscritura from '../components/JuegoEscritura';
 import Cuestionario from '../components/Cuestionario';
-import { generarQuizVocabulario } from '../utils/vocabulario';
+import { generarQuizVocabulario, NIVELES_CEFR } from '../utils/vocabulario';
 import './Vocabulario.css';
 
 // Carta del juego: en modo inverso se muestra el español y hay que
@@ -55,6 +55,9 @@ export default function Vocabulario({
   const [significado, setSignificado] = useState('');
   const [categoriaId, setCategoriaId] = useState('');
   const [nivelPalabra, setNivelPalabra] = useState<Nivel>('A1');
+  const [emojiPalabra, setEmojiPalabra] = useState('');
+  const [ejemploEn, setEjemploEn] = useState('');
+  const [ejemploEs, setEjemploEs] = useState('');
 
   // formulario de categoría
   const [nombreCategoria, setNombreCategoria] = useState('');
@@ -67,7 +70,41 @@ export default function Vocabulario({
 
   // modo escritura (spelling)
   const [escribiendo, setEscribiendo] = useState(false);
+  const [configurando, setConfigurando] = useState(false);
   const [quiz, setQuiz] = useState<ReturnType<typeof generarQuizVocabulario> | null>(null);
+
+  // Nivel de una categoría: el de sus palabras (la mayoría manda)
+  const nivelDeCategoria = useMemo(() => {
+    const mapa = new Map<string, string>();
+    for (const cat of categorias) {
+      const suyas = palabras.filter((p) => p.categoriaId === cat.id);
+      const conteo = new Map<string, number>();
+      for (const p of suyas) {
+        const n = p.nivel ?? 'A1';
+        conteo.set(n, (conteo.get(n) ?? 0) + 1);
+      }
+      let mejor = 'A1';
+      let max = -1;
+      for (const [n, cuantos] of conteo) {
+        if (cuantos > max) {
+          mejor = n;
+          max = cuantos;
+        }
+      }
+      mapa.set(cat.id, mejor);
+    }
+    return mapa;
+  }, [categorias, palabras]);
+
+  const categoriasOrdenadas = useMemo(
+    () =>
+      [...categorias].sort((a, b) => {
+        const na = NIVELES_CEFR.indexOf((nivelDeCategoria.get(a.id) ?? 'A1') as (typeof NIVELES_CEFR)[number]);
+        const nb = NIVELES_CEFR.indexOf((nivelDeCategoria.get(b.id) ?? 'A1') as (typeof NIVELES_CEFR)[number]);
+        return na !== nb ? na - nb : a.nombre.localeCompare(b.nombre);
+      }),
+    [categorias, nivelDeCategoria],
+  );
 
   const filtradas = useMemo(
     () => (filtro === 'todas' ? palabras : palabras.filter((p) => p.categoriaId === filtro)),
@@ -79,15 +116,23 @@ export default function Vocabulario({
 
   function guardarPalabra() {
     if (!termino.trim() || !significado.trim() || !categoriaId) return;
-    onCrearPalabra({
+    const nueva: Omit<Palabra, 'id'> = {
       termino: termino.trim(),
       significado: significado.trim(),
       categoriaId,
       nivel: nivelPalabra,
       creadaEn: Date.now(),
-    });
+    };
+    if (emojiPalabra.trim()) nueva.emoji = emojiPalabra.trim();
+    if (ejemploEn.trim() && ejemploEs.trim()) {
+      nueva.ejemplo = { en: ejemploEn.trim(), es: ejemploEs.trim() };
+    }
+    onCrearPalabra(nueva);
     setTermino('');
     setSignificado('');
+    setEmojiPalabra('');
+    setEjemploEn('');
+    setEjemploEs('');
     setModal('ninguno');
   }
 
@@ -99,13 +144,15 @@ export default function Vocabulario({
   }
 
   // ── Juego de tarjetas ──────────────────────────────
-  function empezarJuego() {
-    // La ronda escala con el nivel: más tarjetas y, a partir del nivel 3,
-    // una proporción viene en modo inverso (español → inglés).
-    const cantidad = Math.min(cartasPorRonda(nivel), filtradas.length);
+  // El estudiante decide cuántas tarjetas practicar; con una categoría
+  // seleccionada, lo natural es estudiarla completa.
+  function empezarJuego(cuantas: number) {
+    const cantidad = Math.min(cuantas, filtradas.length);
+    // A partir del nivel 3, una proporción viene en modo inverso (español → inglés).
     const cartas = barajar(filtradas)
       .slice(0, cantidad)
       .map((palabra) => ({ palabra, invertida: Math.random() < proporcionInversa(nivel) }));
+    setConfigurando(false);
     setMazo(cartas);
     setVolteada(false);
     setJugadas(0);
@@ -165,6 +212,34 @@ export default function Vocabulario({
     );
   }
 
+  // ── Elegir cuántas tarjetas practicar ──────────────
+  if (configurando) {
+    const opciones = [10, 20].filter((n) => n < filtradas.length);
+    return (
+      <div className="tarjeta config-tarjetas">
+        <h2>¿Cuántas tarjetas quieres practicar?</h2>
+        <p className="texto-suave">
+          {filtro === 'todas'
+            ? `Hay ${filtradas.length} palabras en total.`
+            : `Esta categoría tiene ${filtradas.length} palabras: estúdiala completa para dominarla.`}
+        </p>
+        <div className="config-opciones">
+          {opciones.map((n) => (
+            <button key={n} className="btn-contorno" onClick={() => empezarJuego(n)}>
+              {n} tarjetas
+            </button>
+          ))}
+          <button className="btn-primario" onClick={() => empezarJuego(filtradas.length)}>
+            Todas ({filtradas.length})
+          </button>
+        </div>
+        <button className="btn-icono" onClick={() => setConfigurando(false)}>
+          Cancelar
+        </button>
+      </div>
+    );
+  }
+
   // ── Juego de tarjetas (pantallas) ──────────────────
   if (mazo !== null) {
     if (mazo.length === 0) {
@@ -183,6 +258,17 @@ export default function Vocabulario({
     const carta = mazo[0];
     const frente = carta.invertida ? carta.palabra.significado : carta.palabra.termino;
     const reverso = carta.invertida ? carta.palabra.termino : carta.palabra.significado;
+    // El ejemplo acompaña sin delatar: en inglés solo cuando la palabra ya se ve
+    const ejemplo = carta.palabra.ejemplo;
+    const ejemploVisible = ejemplo
+      ? carta.invertida
+        ? volteada
+          ? ejemplo.en
+          : ejemplo.es
+        : volteada
+          ? ejemplo.es
+          : ejemplo.en
+      : null;
     return (
       <div className="juego">
         <div className="juego-estado">
@@ -202,7 +288,13 @@ export default function Vocabulario({
             if (e.key === 'Enter' || e.key === ' ') setVolteada(!volteada);
           }}
         >
+          {carta.palabra.emoji && (
+            <span className="carta-emoji" aria-hidden="true">
+              {carta.palabra.emoji}
+            </span>
+          )}
           <span>{volteada ? reverso : frente}</span>
+          {ejemploVisible && <span className="carta-ejemplo">{ejemploVisible}</span>}
           <span className="carta-pista">
             {carta.invertida && !volteada
               ? 'Modo inverso: di la palabra en inglés y voltea'
@@ -253,7 +345,7 @@ export default function Vocabulario({
         >
           Todas
         </button>
-        {categorias.map((c) => (
+        {categoriasOrdenadas.map((c) => (
           <button
             key={c.id}
             className={`chip chip-categoria${filtro === c.id ? ' activo' : ''}`}
@@ -261,6 +353,7 @@ export default function Vocabulario({
             onClick={() => setFiltro(c.id)}
           >
             {c.nombre}
+            <span className="chip-nivel">{nivelDeCategoria.get(c.id) ?? 'A1'}</span>
           </button>
         ))}
       </div>
@@ -272,7 +365,11 @@ export default function Vocabulario({
             Nueva palabra
           </button>
         )}
-        <button className="btn-primario" onClick={empezarJuego} disabled={filtradas.length < 2}>
+        <button
+          className="btn-primario"
+          onClick={() => setConfigurando(true)}
+          disabled={filtradas.length < 2}
+        >
           <Play size={18} />
           Tarjetas
         </button>
@@ -300,14 +397,21 @@ export default function Vocabulario({
         </p>
       ) : (
         <ul className="palabras-lista">
-          {filtradas.map((p) => (
+          {[...filtradas].sort((a, b) => a.termino.localeCompare(b.termino)).map((p) => (
             <li
               key={p.id}
               className="tarjeta palabra-item"
               style={{ '--cat-color': colorDe(p.categoriaId) } as CSSProperties}
             >
               <div className="palabra-textos">
-                <p className="palabra-termino">{p.termino}</p>
+                <p className="palabra-termino">
+                  {p.emoji && (
+                    <span className="palabra-emoji" aria-hidden="true">
+                      {p.emoji}{' '}
+                    </span>
+                  )}
+                  {p.termino}
+                </p>
                 <p className="texto-suave">{p.significado}</p>
               </div>
               {esAdmin && (
@@ -376,6 +480,33 @@ export default function Vocabulario({
                     </option>
                   ))}
                 </select>
+              </div>
+              <div className="campo">
+                <label htmlFor="palabra-emoji">Emoji (opcional, el dibujo de la tarjeta)</label>
+                <input
+                  id="palabra-emoji"
+                  value={emojiPalabra}
+                  onChange={(e) => setEmojiPalabra(e.target.value)}
+                  placeholder="🚆"
+                />
+              </div>
+              <div className="campo">
+                <label htmlFor="palabra-ejemplo-en">Ejemplo en inglés (opcional)</label>
+                <input
+                  id="palabra-ejemplo-en"
+                  value={ejemploEn}
+                  onChange={(e) => setEjemploEn(e.target.value)}
+                  placeholder="I take the train to work."
+                />
+              </div>
+              <div className="campo">
+                <label htmlFor="palabra-ejemplo-es">Traducción del ejemplo</label>
+                <input
+                  id="palabra-ejemplo-es"
+                  value={ejemploEs}
+                  onChange={(e) => setEjemploEs(e.target.value)}
+                  placeholder="Tomo el tren al trabajo."
+                />
               </div>
               <div className="acciones-modal">
                 <button

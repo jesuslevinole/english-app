@@ -137,12 +137,21 @@ export default function App() {
       );
     }) ||
     SEMILLA_NIVEL1.cuentos.some((s) => !cuentos.some((x) => x.titulo === s.titulo)) ||
+    SEMILLA_NIVEL1.categorias.some((cat) =>
+      cat.palabras.some((p) => {
+        const existente = palabras.find((x) => x.termino === p.termino);
+        return !existente || (p.emoji !== undefined && !existente.emoji);
+      }),
+    ) ||
     SEMILLA_NIVEL1.listening.some((s) => !recursos.some((x) => x.titulo === s.titulo));
 
   async function sembrar() {
     const r = await sembrarNivel1({ categorias, palabras, temas, recursos, cuentos });
     setCategorias((previas) => [...previas, ...r.categorias]);
-    setPalabras((previas) => [...previas, ...r.palabras]);
+    setPalabras((previas) => [
+      ...previas.filter((x) => !r.palabras.some((rp) => rp.id === x.id)),
+      ...r.palabras,
+    ]);
     setTemas((previos) => [
       ...previos.filter((t) => !r.temas.some((rt) => rt.id === t.id)),
       ...r.temas,

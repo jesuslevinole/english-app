@@ -105,3 +105,46 @@
     font-size: 2rem;
   }
 }
+
+.chip-nivel {
+  font-size: 0.7rem;
+  font-weight: 900;
+  border: 2px solid var(--tinta);
+  border-radius: 999px;
+  padding: 1px 6px;
+  margin-left: 6px;
+  background: var(--papel);
+  color: var(--tinta);
+}
+
+.palabra-emoji {
+  margin-right: 4px;
+}
+
+.config-tarjetas {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  text-align: center;
+  padding: 22px 16px;
+}
+
+.config-opciones {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.carta-emoji {
+  font-size: 2.6rem;
+  line-height: 1;
+}
+
+.carta-ejemplo {
+  font-size: 1rem;
+  font-weight: 600;
+  opacity: 0.85;
+  text-align: center;
+  padding: 0 10px;
+}
