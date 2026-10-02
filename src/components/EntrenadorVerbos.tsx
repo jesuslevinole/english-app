@@ -78,8 +78,8 @@ export default function EntrenadorVerbos({ onTerminar, onSalir }: Props) {
   const [aciertos, setAciertos] = useState(0);
   const [avisado, setAvisado] = useState(false);
 
-  function empezar(cantidad: number) {
-    const pool = soloIrregulares ? VERBOS.filter((vb) => vb.irregular) : VERBOS;
+  function empezar(cantidad: number, poolElegido?: Verbo[]) {
+    const pool = poolElegido ?? (soloIrregulares ? VERBOS.filter((vb) => vb.irregular) : VERBOS);
     const formasPosibles = FORMAS.map((f) => f.id).filter(
       (id): id is Exclude<Forma, 'mezcla'> => id !== 'mezcla',
     );
@@ -280,6 +280,14 @@ export default function EntrenadorVerbos({ onTerminar, onSalir }: Props) {
               </button>
             ))}
           </div>
+          <button
+            className="btn-primario"
+            onClick={() => empezar(Math.min(visibles.length, 20), visibles)}
+            disabled={visibles.length < 4}
+          >
+            <Dumbbell size={18} />
+            Practicar estos ({Math.min(visibles.length, 20)})
+          </button>
           <ul className="verbos-lista">
             {visibles.map((vb) => (
               <li key={vb.base} className="tarjeta verbo-item">

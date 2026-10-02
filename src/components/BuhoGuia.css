@@ -17,6 +17,8 @@
 .buho-burbuja {
   position: relative;
   flex: 1;
+  /* permite que la burbuja se encoja dentro de contenedores angostos */
+  min-width: 0;
   background: var(--amarillo);
   border: var(--borde);
   border-radius: 4px 16px 16px 16px;

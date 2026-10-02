@@ -194,9 +194,3 @@
   gap: 2px;
 }
 
-.campo-check {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 700;
-}

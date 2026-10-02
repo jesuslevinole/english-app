@@ -23,19 +23,42 @@
   font-weight: 900;
 }
 
+/* Botonera uniforme: mismas alturas y anchos, sin textos partidos */
 .acciones-vocabulario {
-  display: flex;
-  flex-wrap: wrap; /* en pantallas angostas los 3 botones bajan de línea */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 10px;
   margin-bottom: 12px;
 }
 
+.acciones-vocabulario .btn-primario,
 .acciones-vocabulario .btn-contorno {
-  flex: 1 1 100%;
+  justify-content: center;
+  white-space: nowrap;
+  min-height: 50px;
+  padding: 10px 12px;
 }
 
-.acciones-vocabulario .btn-primario {
-  flex: 1 1 40%;
+/* Fila de categorías: se arrastra con el mouse y se desliza con el dedo */
+.chips-arrastrables {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  cursor: grab;
+  user-select: none;
+  padding-bottom: 4px;
+}
+
+.chips-arrastrables::-webkit-scrollbar {
+  display: none;
+}
+
+.chips-arrastrables:active {
+  cursor: grabbing;
+}
+
+.chips-arrastrables .chip {
+  flex-shrink: 0;
 }
 
 /* ── Juego de tarjetas ─────────────────────────────── */
@@ -86,12 +109,8 @@
   }
 
   .acciones-vocabulario {
-    max-width: 560px;
-    flex-wrap: nowrap;
-  }
-
-  .acciones-vocabulario .btn-contorno {
-    flex: 1;
+    max-width: 860px;
+    grid-template-columns: repeat(6, 1fr);
   }
 
   /* el juego se centra como escenario, con la carta más grande */

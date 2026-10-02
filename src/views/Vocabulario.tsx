@@ -81,6 +81,24 @@ export default function Vocabulario({
   const [configurando, setConfigurando] = useState(false);
   const [jugandoParejas, setJugandoParejas] = useState(false);
   const falladasRonda = useRef<Set<string>>(new Set());
+  // arrastre horizontal (con mouse) de la fila de categorías
+  const chipsRef = useRef<HTMLDivElement>(null);
+  const arrastre = useRef({ x: 0, scroll: 0, activo: false });
+
+  function iniciarArrastre(e: React.PointerEvent) {
+    if (e.pointerType !== 'mouse' || !chipsRef.current) return;
+    arrastre.current = { x: e.clientX, scroll: chipsRef.current.scrollLeft, activo: true };
+  }
+
+  function moverArrastre(e: React.PointerEvent) {
+    if (!arrastre.current.activo || !chipsRef.current) return;
+    chipsRef.current.scrollLeft = arrastre.current.scroll - (e.clientX - arrastre.current.x);
+  }
+
+  function soltarArrastre() {
+    arrastre.current.activo = false;
+  }
+
   const idsRonda = useRef<string[]>([]);
   const [quiz, setQuiz] = useState<ReturnType<typeof generarQuizVocabulario> | null>(null);
 
@@ -385,7 +403,14 @@ export default function Vocabulario({
         )}
       </div>
 
-      <div className="fila-chips">
+      <div
+        ref={chipsRef}
+        className="fila-chips chips-arrastrables"
+        onPointerDown={iniciarArrastre}
+        onPointerMove={moverArrastre}
+        onPointerUp={soltarArrastre}
+        onPointerLeave={soltarArrastre}
+      >
         <button
           className={`chip${filtro === 'todas' ? ' activo' : ''}`}
           onClick={() => setFiltro('todas')}

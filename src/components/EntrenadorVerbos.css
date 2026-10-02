@@ -95,6 +95,22 @@
   gap: 12px;
 }
 
+.campo-check {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.campo-check input {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  accent-color: var(--verde-500);
+}
+
 @media (min-width: 900px) {
   .verbos-lista {
     grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
