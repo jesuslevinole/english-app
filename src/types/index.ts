@@ -111,6 +111,8 @@ export interface Personaje {
   diario: Record<string, TipoActividad[]>;
   // Super Exámenes aprobados por nivel CEFR (puntaje 0-100 y fecha ISO)
   examenes?: Partial<Record<Nivel, { puntaje: number; fecha: string }>>;
+  // Repaso inteligente: ids de palabras marcadas "Repasar" en las tarjetas
+  porRepasar?: string[];
 }
 
 export type Vista = 'inicio' | 'vocabulario' | 'gramatica' | 'listening' | 'lectura' | 'usuarios';

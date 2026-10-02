@@ -1,13 +1,14 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import type { CSSProperties } from 'react';
-import { Check, Keyboard, ListChecks, Play, Plus, RotateCcw, Shuffle, Trash2, X } from 'lucide-react';
+import { Brain, Check, Keyboard, LayoutGrid, ListChecks, Play, Plus, RotateCcw, Shuffle, Trash2, X } from 'lucide-react';
 import GatoSuerte from '../components/GatoSuerte';
 import type { Categoria, Nivel, Palabra } from '../types';
 import { barajar } from '../utils/barajar';
 import { cartasPorRonda, proporcionInversa } from '../utils/dificultad';
 import Modal from '../components/Modal';
 import JuegoEscritura from '../components/JuegoEscritura';
+import JuegoParejas from '../components/JuegoParejas';
 import Cuestionario from '../components/Cuestionario';
 import { generarQuizVocabulario, NIVELES_CEFR } from '../utils/vocabulario';
 import './Vocabulario.css';
@@ -28,7 +29,11 @@ interface Props {
   onCrearCategoria: (datos: Omit<Categoria, 'id'>) => void;
   onCrearPalabra: (datos: Omit<Palabra, 'id'>) => void;
   onBorrarPalabra: (palabra: Palabra) => void;
-  onRondaTerminada: (cartasJugadas: number) => void;
+  // (cartas jugadas, ids falladas en la ronda, ids acertadas a la primera)
+  onRondaTerminada: (cartasJugadas: number, falladas: string[], acertadas: string[]) => void;
+  // Repaso inteligente: ids de palabras pendientes del personaje
+  porRepasar: string[];
+  onParejasTerminado: (pares: number, intentos: number) => void;
   // XP del modo escritura (spelling)
   onEscrituraTerminada: (aciertos: number, total: number) => void;
   onQuizTerminado: (aciertos: number, total: number) => void;
@@ -47,6 +52,8 @@ export default function Vocabulario({
   onRondaTerminada,
   onEscrituraTerminada,
   onQuizTerminado,
+  porRepasar,
+  onParejasTerminado,
 }: Props) {
   const [filtro, setFiltro] = useState<string>('todas');
   const [modal, setModal] = useState<'ninguno' | 'palabra' | 'categoria'>('ninguno');
@@ -72,6 +79,9 @@ export default function Vocabulario({
   // modo escritura (spelling)
   const [escribiendo, setEscribiendo] = useState(false);
   const [configurando, setConfigurando] = useState(false);
+  const [jugandoParejas, setJugandoParejas] = useState(false);
+  const falladasRonda = useRef<Set<string>>(new Set());
+  const idsRonda = useRef<string[]>([]);
   const [quiz, setQuiz] = useState<ReturnType<typeof generarQuizVocabulario> | null>(null);
 
   // Nivel de una categoría: el de sus palabras (la mayoría manda)
@@ -154,6 +164,22 @@ export default function Vocabulario({
       .slice(0, cantidad)
       .map((palabra) => ({ palabra, invertida: Math.random() < proporcionInversa(nivel) }));
     setConfigurando(false);
+    falladasRonda.current = new Set();
+    idsRonda.current = cartas.map((ct) => ct.palabra.id);
+    setMazo(cartas);
+    setVolteada(false);
+    setJugadas(0);
+  }
+
+  // Ronda solo con las palabras que marcaste "Repasar" antes
+  function empezarRepaso() {
+    const pendientes = palabras.filter((p) => porRepasar.includes(p.id));
+    const cartas = barajar(pendientes).map((palabra) => ({
+      palabra,
+      invertida: Math.random() < proporcionInversa(nivel),
+    }));
+    falladasRonda.current = new Set();
+    idsRonda.current = cartas.map((ct) => ct.palabra.id);
     setMazo(cartas);
     setVolteada(false);
     setJugadas(0);
@@ -169,15 +195,29 @@ export default function Vocabulario({
     if (!mazo) return;
     const [actual, ...resto] = mazo;
     // “Repasar” manda la carta al final del mazo; “La sé” la retira.
+    if (!laSabe) falladasRonda.current.add(actual.palabra.id);
     const siguiente = laSabe ? resto : [...resto, actual];
     setJugadas(jugadas + 1);
     setVolteada(false);
     if (siguiente.length === 0) {
       setMazo([]);
-      onRondaTerminada(jugadas + 1);
+      const falladas = [...falladasRonda.current];
+      const acertadas = idsRonda.current.filter((id) => !falladasRonda.current.has(id));
+      onRondaTerminada(jugadas + 1, falladas, acertadas);
     } else {
       setMazo(siguiente);
     }
+  }
+
+  // ── Juego de parejas (memoria) ─────────────────────
+  if (jugandoParejas) {
+    return (
+      <JuegoParejas
+        palabras={filtradas}
+        onTerminar={onParejasTerminado}
+        onSalir={() => setJugandoParejas(false)}
+      />
+    );
   }
 
   // ── Quiz de vocabulario (opción múltiple generada) ─
@@ -395,6 +435,22 @@ export default function Vocabulario({
         >
           <ListChecks size={18} />
           Quiz
+        </button>
+        <button
+          className="btn-primario"
+          onClick={() => setJugandoParejas(true)}
+          disabled={filtradas.length < 4}
+        >
+          <LayoutGrid size={18} />
+          Parejas
+        </button>
+        <button
+          className="btn-contorno"
+          onClick={empezarRepaso}
+          disabled={porRepasar.length === 0}
+        >
+          <Brain size={18} />
+          Repaso ({porRepasar.length})
         </button>
       </div>
 

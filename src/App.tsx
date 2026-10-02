@@ -109,12 +109,13 @@ export default function App() {
     void guardarPersonaje(uid, actualizado);
   }
 
-  function completarActividad(tipo: TipoActividad, xpGanada: number) {
+  function completarActividad(tipo: TipoActividad, xpGanada: number, extras?: Partial<Personaje>) {
     if (!personaje) return;
     const hoy = fechaHoy();
     const deHoy = personaje.diario[hoy] ?? [];
     actualizarPersonaje({
       ...personaje,
+      ...extras,
       xp: personaje.xp + xpGanada,
       diario: {
         ...personaje.diario,
@@ -284,7 +285,19 @@ export default function App() {
             onCrearCategoria={crearCategoria}
             onCrearPalabra={crearPalabra}
             onBorrarPalabra={borrarPalabra}
-            onRondaTerminada={(cartas) => completarActividad('vocabulario', 10 + cartas + nivel * 2)}
+            porRepasar={personaje.porRepasar ?? []}
+            onRondaTerminada={(cartas, falladas, acertadas) => {
+              const previo = personaje.porRepasar ?? [];
+              const pendientes = [
+                ...new Set([...previo.filter((id) => !acertadas.includes(id)), ...falladas]),
+              ];
+              completarActividad('vocabulario', 10 + cartas + nivel * 2, {
+                porRepasar: pendientes,
+              });
+            }}
+            onParejasTerminado={(pares) =>
+              completarActividad('vocabulario', pares * 4 + nivel * 2)
+            }
             onEscrituraTerminada={(aciertos) =>
               completarActividad('vocabulario', aciertos * 3 + nivel * 2)
             }

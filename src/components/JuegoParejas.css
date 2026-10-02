@@ -1,0 +1,62 @@
+.parejas {
+  display: grid;
+  gap: 14px;
+}
+
+.parejas-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.pareja-carta {
+  border: 3px solid var(--tinta);
+  border-radius: 14px;
+  background: var(--verde-500);
+  color: #fff;
+  min-height: 86px;
+  padding: 8px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 var(--tinta);
+}
+
+.pareja-carta.abierta {
+  background: var(--papel);
+  color: var(--tinta);
+}
+
+.pareja-carta.resuelta {
+  background: var(--amarillo);
+  color: var(--tinta);
+  cursor: default;
+  box-shadow: none;
+}
+
+.pareja-dorso {
+  font-size: 1.6rem;
+}
+
+.parejas-final {
+  text-align: center;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  padding: 16px 0;
+}
+
+@media (min-width: 900px) {
+  .parejas {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .pareja-carta {
+    min-height: 104px;
+    font-size: 1.05rem;
+  }
+}

@@ -353,6 +353,17 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
             { en: "— How do you spell Molero? — M-O-L-E-R-O.", es: "— ¿Cómo se deletrea Molero? — M-O-L-E-R-O." },
           ],
         },
+        {
+          titulo: 'Conversación completa de la vida real',
+          contenido:
+            'Así suena un primer encuentro de principio a fin. Memoriza el flujo: saludo → nombre → origen → despedida. Con estas cuatro jugadas sobrevives cualquier presentación.',
+          ejemplos: [
+            { en: '— Hi! My name is Omar. — Hello, Omar. I\u2019m Kate.', es: '— ¡Hola! Me llamo Omar. — Hola, Omar. Soy Kate.' },
+            { en: '— Where are you from? — I\u2019m from Venezuela. And you?', es: '— ¿De dónde eres? — Soy de Venezuela. ¿Y tú?' },
+            { en: '— Nice to meet you! — Nice to meet you, too.', es: '— ¡Mucho gusto! — Mucho gusto también.' },
+            { en: '— See you later! — Bye! Have a good day.', es: '— ¡Hasta luego! — ¡Chao! Que tengas buen día.' },
+          ],
+        },
       ],
       dialogo: [
         { hablante: 'Ana', texto: 'Hi, Leo. How are you?' },
@@ -428,6 +439,17 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
           ejemplos: [
             { en: 'He is not my brother.', es: 'Él no es mi hermano.' },
             { en: '— Is she your aunt? — Yes, she is.', es: '— ¿Es ella tu tía? — Sí.' },
+          ],
+        },
+        {
+          titulo: 'Un truco por pronombre (tabla mental)',
+          contenido:
+            'Repite esta escalera hasta que salga sola: I am · you are · he is · she is · it is · we are · they are.\nFíjate: solo I usa am; todo lo que sea UNA persona o cosa (que no seas tú) usa is; todo lo plural y "you" usa are.',
+          ejemplos: [
+            { en: 'I am a student. You are my teacher.', es: 'Yo soy estudiante. Tú eres mi profesor.' },
+            { en: 'He is tall. She is funny. It is big.', es: 'Él es alto. Ella es divertida. Eso es grande.' },
+            { en: 'We are friends. They are cousins.', es: 'Nosotros somos amigos. Ellos son primos.' },
+            { en: 'My dog is small, but my cats are fast.', es: 'Mi perro es pequeño, pero mis gatos son rápidos.' },
           ],
         },
       ],
@@ -516,6 +538,17 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
             "you're (tú eres) ≠ your (tu, posesivo)\nthey're (ellos son) ≠ their (su, de ellos) ≠ there (allí)\nit's (eso es) ≠ its (su, de una cosa o animal)",
           ejemplos: [{ en: "They're happy with their family.", es: 'Ellos están felices con su familia.' }],
         },
+        {
+          titulo: 'Entrena el oído: así suenan de verdad',
+          contenido:
+            'En conversación real casi nunca escucharás "she is": escucharás "she\u2019s". Lee estos pares en voz alta, primero la forma larga y luego la corta, y nota cómo la corta suena más natural.',
+          ejemplos: [
+            { en: 'I am tired → I\u2019m tired.', es: 'Estoy cansado. (la corta suena natural)' },
+            { en: 'He is my cousin → He\u2019s my cousin.', es: 'Él es mi primo.' },
+            { en: 'We are not ready → We aren\u2019t ready.', es: 'No estamos listos.' },
+            { en: 'It is hot → It\u2019s hot.', es: 'Hace calor.' },
+          ],
+        },
       ],
       dialogo: [
         { hablante: 'Rosa', texto: "Who's this in the photo?" },
@@ -593,6 +626,17 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
             { en: 'This is my aunt. Her name is Carla.', es: 'Esta es mi tía. Su nombre es Carla.' },
           ],
         },
+        {
+          titulo: 'Practica con una foto de tu familia',
+          contenido:
+            'El examen oral de la academia casi siempre es describir una foto. Arma oraciones con el patrón: This is my ___ + His/Her name is ___ y repítelas con TU familia real: así nunca se te olvida qué posesivo toca.',
+          ejemplos: [
+            { en: 'This is my mother. Her name is Elsa.', es: 'Esta es mi madre. Su nombre es Elsa.' },
+            { en: 'These are my cousins. Their names are Dani and Eva.', es: 'Estos son mis primos. Sus nombres son Dani y Eva.' },
+            { en: 'Our family is from Valencia.', es: 'Nuestra familia es de Valencia.' },
+            { en: 'The dog is happy with its new house.', es: 'El perro está feliz con su casa nueva.' },
+          ],
+        },
       ],
       dialogo: [
         { hablante: 'Vera', texto: 'Is this your family?' },
@@ -666,6 +710,17 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
           ejemplos: [
             { en: 'This is my grandmother. Her name is Rosa.', es: 'Esta es mi abuela. Su nombre es Rosa.' },
             { en: 'This is my brother. His name is Luis.', es: 'Este es mi hermano. Su nombre es Luis.' },
+          ],
+        },
+        {
+          titulo: 'El árbol en cadena (para no perderte)',
+          contenido:
+            'Lee la cadena completa en voz alta: My grandparents have two children: my father and my uncle. My uncle\u2019s children are my cousins. Si puedes recorrer el árbol así, dominaste el tema.',
+          ejemplos: [
+            { en: 'My father\u2019s mother is my grandmother.', es: 'La madre de mi padre es mi abuela.' },
+            { en: 'My uncle\u2019s children are my cousins.', es: 'Los hijos de mi tío son mis primos.' },
+            { en: 'My wife\u2019s father is 70 years old.', es: 'El padre de mi esposa tiene 70 años.' },
+            { en: 'Our son and our daughter are our children.', es: 'Nuestro hijo y nuestra hija son nuestros hijos.' },
           ],
         },
       ],
@@ -752,6 +807,17 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
             },
           ],
         },
+        {
+          titulo: 'Retratos exprés (combina 3 rasgos)',
+          contenido:
+            'El secreto para sonar fluido: personalidad + físico + cabello/ojos en una sola oración con and y with. Practica armando retratos de tres personas que conozcas.',
+          ejemplos: [
+            { en: 'My boss is serious but generous, with short black hair.', es: 'Mi jefe es serio pero generoso, de cabello negro corto.' },
+            { en: 'Her sister is young and funny, with blue eyes.', es: 'Su hermana es joven y divertida, de ojos azules.' },
+            { en: 'My grandfather is old and sweet. He is bald.', es: 'Mi abuelo es mayor y tierno. Es calvo.' },
+            { en: 'The new student is shy, with long straight hair.', es: 'La estudiante nueva es tímida, de cabello largo y liso.' },
+          ],
+        },
       ],
       dialogo: [
         { hablante: 'Sara', texto: "Who's this in the photo?" },
@@ -814,6 +880,17 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
           ejemplos: [
             { en: 'The male gorilla is the leader of the family.', es: 'El gorila macho es el líder de la familia.' },
             { en: 'A male lion has long hair on his neck.', es: 'El león macho tiene pelo largo en el cuello.' },
+          ],
+        },
+        {
+          titulo: 'Compara animales (el puente al siguiente nivel)',
+          contenido:
+            'Combina lo aprendido: be + adjetivo + live in groups / alone. Comparar dos animales en una oración es un mini ensayo de examen.',
+          ejemplos: [
+            { en: 'The meerkat is small, but the rhino is big.', es: 'La suricata es pequeña, pero el rinoceronte es grande.' },
+            { en: 'Lions live in groups; polar bears live alone.', es: 'Los leones viven en grupos; los osos polares viven solos.' },
+            { en: 'The dolphin is intelligent and fast.', es: 'El delfín es inteligente y rápido.' },
+            { en: 'Wolves are strong and they live in family groups.', es: 'Los lobos son fuertes y viven en grupos familiares.' },
           ],
         },
       ],
@@ -879,6 +956,17 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
           ejemplos: [
             { en: 'I don\u2019t watch TV in the morning.', es: 'No veo televisión en la mañana.' },
             { en: '— Does he cook? — No, he doesn\u2019t.', es: '— ¿Él cocina? — No.' },
+          ],
+        },
+        {
+          titulo: 'Tu día completo en 6 oraciones',
+          contenido:
+            'Narrar tu rutina de corrido es LA pregunta del examen oral. Plantilla: hora + acción, de la mañana a la noche. Cámbiala por tu rutina real y repítela en el shadowing.',
+          ejemplos: [
+            { en: 'I get up at six and take a shower.', es: 'Me levanto a las seis y me ducho.' },
+            { en: 'I have breakfast and go to work at eight.', es: 'Desayuno y voy al trabajo a las ocho.' },
+            { en: 'I have lunch at noon with my team.', es: 'Almuerzo al mediodía con mi equipo.' },
+            { en: 'In the evening, I cook dinner and watch TV. I go to bed at eleven.', es: 'En la noche cocino y veo televisión. Me acuesto a las once.' },
           ],
         },
       ],
@@ -958,6 +1046,17 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
             { en: 'What time does the bus arrive?', es: '¿A qué hora llega el autobús?' },
           ],
         },
+        {
+          titulo: 'El reloj en 4 jugadas',
+          contenido:
+            'Toda hora se dice con una de estas 4 piezas: o\u2019clock (en punto), half past (y media), a quarter after (y cuarto), a quarter to (cuarto para). Si dudas, di los números directos: 6:45 = six forty-five. ¡También es correcto!',
+          ejemplos: [
+            { en: '3:00 → It\u2019s three o\u2019clock.', es: 'Son las tres en punto.' },
+            { en: '3:30 → It\u2019s half past three.', es: 'Son las tres y media.' },
+            { en: '3:15 → It\u2019s a quarter after three.', es: 'Son las tres y cuarto.' },
+            { en: '3:45 → It\u2019s a quarter to four (three forty-five).', es: 'Es un cuarto para las cuatro.' },
+          ],
+        },
       ],
       dialogo: [
         { hablante: 'Leo', texto: 'What time is it?' },
@@ -1031,6 +1130,17 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
           ejemplos: [
             { en: 'I get dressed in the morning.', es: 'Me visto en la mañana.' },
             { en: 'We travel in December.', es: 'Viajamos en diciembre.' },
+          ],
+        },
+        {
+          titulo: 'La pirámide completa, de un vistazo',
+          contenido:
+            'AT (punta, lo exacto): at 9:00, at noon, at midnight, at night.\nON (medio, el día): on Monday, on April 17, on Christmas Day, on the weekend.\nIN (base, lo grande): in the morning/afternoon/evening, in June, in 2013, in winter.\nUna oración puede usar varias a la vez.',
+          ejemplos: [
+            { en: 'The class is on Monday at 7:00 in the evening.', es: 'La clase es el lunes a las 7 de la noche.' },
+            { en: 'My birthday is on March 2nd.', es: 'Mi cumpleaños es el 2 de marzo.' },
+            { en: 'We work in the morning and rest at night.', es: 'Trabajamos en la mañana y descansamos en la noche.' },
+            { en: 'She was born in 1991, in the winter.', es: 'Ella nació en 1991, en el invierno.' },
           ],
         },
       ],
@@ -1108,6 +1218,17 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
             { en: 'Get off the bus at the museum.', es: 'Bájate del autobús en el museo.' },
           ],
         },
+        {
+          titulo: 'Guía a alguien de principio a fin',
+          contenido:
+            'Una indicación real encadena 3 o 4 instrucciones. Practica dando la ruta de tu casa a un lugar que conozcas, paso a paso, como si hablaras con un turista.',
+          ejemplos: [
+            { en: 'Go straight ahead two blocks and turn right at the bank.', es: 'Sigue derecho dos cuadras y gira a la derecha en el banco.' },
+            { en: 'Go past the supermarket. The pharmacy is next to the park.', es: 'Pasa el supermercado. La farmacia está al lado del parque.' },
+            { en: 'Take bus 7, get off at the mall, and walk to the corner.', es: 'Toma el bus 7, bájate en el centro comercial y camina a la esquina.' },
+            { en: 'It\u2019s opposite the train station. You can\u2019t miss it!', es: 'Está frente a la estación de tren. ¡No tiene pérdida!' },
+          ],
+        },
       ],
       dialogo: [
         { hablante: 'Turista', texto: 'Excuse me, where is the museum?' },
@@ -1183,6 +1304,17 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
           ejemplos: [
             { en: 'I don\u2019t have to work on the weekend.', es: 'No tengo que trabajar el fin de semana.' },
             { en: '— Does he have to study? — Yes, he does.', es: '— ¿Él tiene que estudiar? — Sí.' },
+          ],
+        },
+        {
+          titulo: 'Tus obligaciones reales de la semana',
+          contenido:
+            'La forma más rápida de fijar have to es usarlo con TU semana: trabajo, casa, estudio. Arma tres obligaciones tuyas y una que NO tengas (don\u2019t have to) y repítelas.',
+          ejemplos: [
+            { en: 'I have to answer emails every morning.', es: 'Tengo que responder correos cada mañana.' },
+            { en: 'She has to open the store at nine.', es: 'Ella tiene que abrir la tienda a las nueve.' },
+            { en: 'We have to study for the Cevaz exam.', es: 'Tenemos que estudiar para el examen del Cevaz.' },
+            { en: 'I don\u2019t have to work on Sundays.', es: 'No tengo que trabajar los domingos.' },
           ],
         },
       ],
@@ -1264,6 +1396,8 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
             { en: 'It was raining when I got home.', es: 'Estaba lloviendo cuando llegué a casa. (it obligatorio)' },
             { en: 'I was working, not "I working".', es: 'Nunca olvides was/were antes del -ing.' },
             { en: 'At 9 pm I was driving back home.', es: 'A las 9 pm yo venía manejando a casa. (frase lista para tu examen oral)' },
+            { en: 'They were living in Texas in 2020.', es: 'Ellos vivían en Texas en 2020.' },
+            { en: 'What was she doing at noon? She was having lunch.', es: '¿Qué estaba haciendo ella al mediodía? Estaba almorzando.' },
           ],
         },
       ],
@@ -1352,6 +1486,8 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
             { en: 'When the teacher arrived, we were talking.', es: 'Cuando llegó el profesor, estábamos hablando.' },
             { en: 'She was reading when the lights went out.', es: 'Ella estaba leyendo cuando se fue la luz.' },
             { en: 'While I was waiting for the bus, I saw an accident.', es: 'Mientras esperaba el bus, vi un accidente.' },
+            { en: 'He broke his leg while he was playing soccer.', es: 'Se rompió la pierna mientras jugaba fútbol.' },
+            { en: 'When the movie ended, everyone was crying.', es: 'Cuando terminó la película, todos estaban llorando.' },
           ],
         },
       ],
@@ -1396,6 +1532,12 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
         { pregunta: 'While I ___ for the bus, I ___ an accident.', opciones: ['was waiting / saw', 'waited / was seeing', 'wait / see'], respuesta: 0 },
         { pregunta: 'My dog ___ while I ___ a shower.', opciones: ['escaped / was taking', 'was escaping / took hard', 'escape / taking'], respuesta: 0 },
         { pregunta: 'El verbo pegado a "while" casi siempre va en…', opciones: ['pasado continuo', 'pasado simple', 'presente'], respuesta: 0 },
+        { pregunta: 'We ___ at the breakfast table when the doorbell ___.', opciones: ['were sitting / rang', 'sat / was ringing', 'sitting / rang'], respuesta: 0 },
+        { pregunta: 'He ___ a lot of friendly people while he ___ in California.', opciones: ['met / was working', 'was meeting / worked', 'meets / works'], respuesta: 0 },
+        { pregunta: 'When they ___ the museum, the sun ___.', opciones: ['left / was shining', 'were leaving / shone', 'leave / shines'], respuesta: 0 },
+        { pregunta: 'The students ___ cards when the teacher ___ in.', opciones: ['were playing / came', 'played / was coming', 'play / came'], respuesta: 0 },
+        { pregunta: 'While the children ___, their parents ___ TV.', opciones: ['were sleeping / were watching', 'slept / watched suddenly', 'sleep / watch'], respuesta: 0 },
+        { pregunta: 'Dos acciones largas en paralelo (con while) van…', opciones: ['las dos en pasado continuo', 'las dos en pasado simple', 'una en presente'], respuesta: 0 },
       ],
     },
     {
@@ -1444,6 +1586,8 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
             { en: "She's not old enough to vote.", es: 'Ella no tiene edad suficiente para votar.' },
             { en: "We don't have enough time to visit the museum.", es: 'No tenemos tiempo suficiente para visitar el museo.' },
             { en: 'This coffee is too hot to drink.', es: 'Este café está demasiado caliente para beberlo.' },
+            { en: 'There aren\u2019t enough chairs for everyone.', es: 'No hay suficientes sillas para todos.' },
+            { en: 'He didn\u2019t work hard enough to pass.', es: 'No trabajó lo suficientemente duro para aprobar.' },
           ],
         },
       ],
@@ -1485,6 +1629,13 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
         { pregunta: 'This coffee is too hot ___ drink.', opciones: ['to', 'for', 'enough'], respuesta: 0 },
         { pregunta: 'La fórmula correcta es…', opciones: ['too + adjetivo + to + verbo', 'too + to + adjetivo', 'adjetivo + too + verbo'], respuesta: 0 },
         { pregunta: 'Si la oración suena a requisito que se alcanza o no, usa…', opciones: ['enough', 'too', 'very'], respuesta: 0 },
+        { pregunta: "I didn't buy the car because it was ___ expensive.", opciones: ['too', 'enough', 'to'], respuesta: 0 },
+        { pregunta: "He wasn't strong ___ to lift that heavy box.", opciones: ['enough', 'too', 'much'], respuesta: 0 },
+        { pregunta: "There aren't ___ policemen in our town.", opciones: ['enough', 'too', 'too many'], respuesta: 0 },
+        { pregunta: 'Do you have ___ information to help me?', opciones: ['enough', 'too', 'to'], respuesta: 0 },
+        { pregunta: "He didn't work hard ___ to pass the exam.", opciones: ['enough', 'too', 'very'], respuesta: 0 },
+        { pregunta: "My mum can't sleep because she drinks ___ much coffee.", opciones: ['too', 'enough', 'so enough'], respuesta: 0 },
+        { pregunta: "She isn't old ___ to start driving.", opciones: ['enough', 'too', 'much'], respuesta: 0 },
       ],
     },
     {
@@ -1533,6 +1684,8 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
             { en: 'I ran into my boss at the pharmacy.', es: 'Me topé con mi jefe en la farmacia.' },
             { en: "I didn't give up: I kept on working.", es: 'No me rendí: seguí trabajando.' },
             { en: 'Before the test, go over the phrasal verbs.', es: 'Antes del examen, repasa los phrasal verbs.' },
+            { en: 'She grew up in Maracay and set out for Texas at 25.', es: 'Creció en Maracay y partió a Texas a los 25.' },
+            { en: 'Watch out! We\u2019re running out of time.', es: '¡Cuidado! Se nos acaba el tiempo.' },
           ],
         },
       ],
@@ -1576,6 +1729,16 @@ export const SEMILLA_NIVEL1: SemillaNivel1 = {
         { pregunta: 'They ___ the meeting until Friday. (pospusieron)', opciones: ['put off', 'put up with', 'passed away'], respuesta: 0 },
         { pregunta: 'How did you ___ about the party? (enterarte)', opciones: ['find out', 'watch out', 'go over'], respuesta: 0 },
         { pregunta: 'UP suele indicar…', opciones: ['cerrar o completar un proceso', 'ir hacia abajo', 'el futuro'], respuesta: 0 },
+        { pregunta: 'To accept someone or something unpleasant in a patient way:', opciones: ['put up with', 'put off', 'give up'], respuesta: 0 },
+        { pregunta: 'To check something carefully:', opciones: ['go over', 'get on', 'grow up'], respuesta: 0 },
+        { pregunta: 'To get into a bus, plane, or train:', opciones: ['get on', 'get off', 'get out'], respuesta: 0 },
+        { pregunta: "To die (used to avoid saying 'die'):", opciones: ['pass away', 'run out', 'set out'], respuesta: 0 },
+        { pregunta: 'To get or discover information about something:', opciones: ['find out', 'watch out', 'keep on'], respuesta: 0 },
+        { pregunta: 'To persist, continue:', opciones: ['keep on', 'give up', 'put off'], respuesta: 0 },
+        { pregunta: 'To have no more of something:', opciones: ['run out of', 'run into', 'go over'], respuesta: 0 },
+        { pregunta: 'The process of going from childhood to adulthood:', opciones: ['grow up', 'get up', 'set out'], respuesta: 0 },
+        { pregunta: 'To begin a journey:', opciones: ['set out', 'find out', 'watch out'], respuesta: 0 },
+        { pregunta: 'Used to leave a bus, plane, or train:', opciones: ['get off', 'get on', 'get in'], respuesta: 0 },
       ],
     },
   ],
