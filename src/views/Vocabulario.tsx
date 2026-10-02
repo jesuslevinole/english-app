@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import type { CSSProperties } from 'react';
 import { Check, Keyboard, ListChecks, Play, Plus, RotateCcw, Shuffle, Trash2, X } from 'lucide-react';
 import GatoSuerte from '../components/GatoSuerte';
@@ -243,7 +244,7 @@ export default function Vocabulario({
   // ── Juego de tarjetas (pantallas) ──────────────────
   if (mazo !== null) {
     if (mazo.length === 0) {
-      return (
+      return createPortal(
         <div className="juego-full">
           <div className="tarjeta juego-final">
             <GatoSuerte mensaje="You did it!" />
@@ -254,7 +255,8 @@ export default function Vocabulario({
               Volver al vocabulario
             </button>
           </div>
-        </div>
+        </div>,
+        document.body,
       );
     }
     const carta = mazo[0];
@@ -271,7 +273,7 @@ export default function Vocabulario({
           ? ejemplo.es
           : ejemplo.en
       : null;
-    return (
+    return createPortal(
       <div className="juego juego-full">
         <div className="juego-estado">
           <span className="texto-suave">Quedan {mazo.length} tarjetas</span>
@@ -322,7 +324,8 @@ export default function Vocabulario({
             La sé
           </button>
         </div>
-      </div>
+      </div>,
+      document.body,
     );
   }
 
