@@ -5,6 +5,7 @@
 
 .tarjeta.usuario-item {
   display: flex;
+  flex-wrap: wrap; /* el pie de módulos baja a su propia fila */
   align-items: center;
   gap: 12px;
 }
@@ -25,7 +26,7 @@
 }
 
 .usuario-textos {
-  flex: 1;
+  flex: 1 1 160px;
   min-width: 0;
 }
 
@@ -50,7 +51,7 @@
 
 @media (min-width: 900px) {
   .usuarios-lista {
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
     gap: 14px;
   }
 }
@@ -63,6 +64,7 @@
 
 .usuario-pie {
   flex-basis: 100%;
+  min-width: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;

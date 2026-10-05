@@ -57,6 +57,9 @@
   justify-items: center;
   text-align: center;
   padding: 10px 0;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
 }
 
 .practica-consigna {
@@ -93,6 +96,20 @@
 .verbos-config {
   display: grid;
   gap: 12px;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  min-width: 0;
+}
+
+.verbos-config .examen-acciones {
+  display: flex;
+  gap: 10px;
+}
+
+.verbos-config .examen-acciones .btn-primario {
+  flex: 1;
+  justify-content: center;
 }
 
 .campo-check {
@@ -120,10 +137,4 @@
     grid-template-columns: repeat(4, 1fr);
   }
 
-  .practica-verbo,
-  .verbos-config {
-    max-width: 640px;
-    margin: 0 auto;
-    width: 100%;
-  }
 }
