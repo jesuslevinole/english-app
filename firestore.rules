@@ -20,7 +20,7 @@ service cloud.firestore {
       // Nota: la primera cuenta se crea como admin desde la app. Cuando ya
       // exista tu cuenta admin, puedes endurecer esta línea agregando:
       //   && request.resource.data.rol == 'estudiante'
-      allow create: if conSesion() && request.auth.uid == uid;
+      allow create: if esAdmin() || (conSesion() && request.auth.uid == uid);
       allow update: if esAdmin()
         || (conSesion() && request.auth.uid == uid && request.resource.data.rol == resource.data.rol);
       allow delete: if esAdmin();

@@ -4,7 +4,7 @@ import { initializeFirestore, persistentLocalCache } from 'firebase/firestore';
 
 // Config web de Firebase. Estos valores son públicos por diseño (van en el
 // bundle del navegador); la seguridad real vive en las reglas de Firestore.
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: 'AIzaSyA_Ba_K4BVCdl6jMY_h7QR6nJnup0-u7FE',
   authDomain: 'english-app-c8ddd.firebaseapp.com',
   projectId: 'english-app-c8ddd',

@@ -54,3 +54,25 @@
     gap: 14px;
   }
 }
+
+.usuarios-aviso {
+  font-weight: 700;
+  color: var(--verde-700);
+  margin-bottom: 10px;
+}
+
+.usuario-pie {
+  flex-basis: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  border-top: 2px dashed var(--gris-suave);
+  padding-top: 10px;
+}
+
+.texto-error {
+  color: var(--coral);
+  font-weight: 800;
+}

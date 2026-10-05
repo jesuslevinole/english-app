@@ -1,16 +1,18 @@
 // Sesión y cuentas: Firebase Auth (correo/contraseña) + colección usuarios.
 // La PRIMERA cuenta registrada queda como admin; las demás, como estudiante
 // (el admin puede cambiar roles en la vista Usuarios).
+import { getApps, initializeApp } from 'firebase/app';
 import {
   createUserWithEmailAndPassword,
+  getAuth,
   onAuthStateChanged,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut,
 } from 'firebase/auth';
 import { collection, doc, getDoc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
-import { auth, db } from '../firebase';
-import type { RolUsuario, Usuario } from '../types';
+import { auth, db, firebaseConfig } from '../firebase';
+import type { ModuloApp, RolUsuario, Usuario } from '../types';
 
 export function observarSesion(alCambiar: (uid: string | null) => void): () => void {
   return onAuthStateChanged(auth, (u) => alCambiar(u ? u.uid : null));
@@ -57,6 +59,46 @@ export async function cargarUsuarios(): Promise<Usuario[]> {
   return snap.docs
     .map((d) => ({ id: d.id, ...(d.data() as Omit<Usuario, 'id'>) }))
     .sort((a, b) => a.creadoEn - b.creadoEn);
+}
+
+// Crea una cuenta nueva SIN cerrar la sesión del admin: usa una instancia
+// secundaria de Firebase Auth con contraseña aleatoria y envía al correo el
+// enlace para que la persona establezca la suya (plantilla de restablecer).
+export async function crearUsuarioInvitado(
+  nombre: string,
+  correo: string,
+  rol: RolUsuario,
+): Promise<Usuario> {
+  const secundaria =
+    getApps().find((a) => a.name === 'secundaria') ?? initializeApp(firebaseConfig, 'secundaria');
+  const authSecundaria = getAuth(secundaria);
+  const claveTemporal = crypto.randomUUID();
+  const credencial = await createUserWithEmailAndPassword(
+    authSecundaria,
+    correo.trim(),
+    claveTemporal,
+  );
+  const datos: Omit<Usuario, 'id'> = {
+    nombre: nombre.trim(),
+    correo: correo.trim(),
+    rol,
+    creadoEn: Date.now(),
+  };
+  // El doc lo escribe el ADMIN desde su sesión principal (regla esAdmin)
+  await setDoc(doc(db, 'usuarios', credencial.user.uid), datos);
+  await signOut(authSecundaria);
+  await sendPasswordResetEmail(auth, correo.trim());
+  return { id: credencial.user.uid, ...datos };
+}
+
+// Reenvía la invitación (enlace para establecer contraseña), las veces que haga falta.
+export async function reenviarInvitacion(correo: string): Promise<void> {
+  await sendPasswordResetEmail(auth, correo.trim());
+}
+
+// Guarda qué módulos puede ver un usuario (ausente = todos).
+export async function guardarModulos(uid: string, modulos: ModuloApp[]): Promise<void> {
+  await updateDoc(doc(db, 'usuarios', uid), { modulos });
 }
 
 export async function cambiarRol(uid: string, rol: RolUsuario): Promise<void> {

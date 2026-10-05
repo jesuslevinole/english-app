@@ -30,6 +30,7 @@ import Gramatica from './views/Gramatica';
 import Listening from './views/Listening';
 import Lectura from './views/Lectura';
 import Usuarios from './views/Usuarios';
+import Perfil from './views/Perfil';
 import './App.css';
 
 // App.tsx es el único dueño de los datos: observa la sesión, y con sesión
@@ -251,6 +252,7 @@ export default function App() {
         nombre={usuario.nombre}
         onSalir={() => void salir()}
         onUsuarios={esAdmin ? () => setVista('usuarios') : undefined}
+        onPerfil={() => setVista('perfil')}
       />
       <main className="app-contenido">
         {vista === 'inicio' && (
@@ -360,8 +362,11 @@ export default function App() {
           />
         )}
         {vista === 'usuarios' && esAdmin && <Usuarios miUid={usuario.id} />}
+        {vista === 'perfil' && (
+          <Perfil usuario={usuario} personaje={personaje} palabras={palabras} />
+        )}
       </main>
-      <NavInferior vista={vista} onCambiar={setVista} />
+      <NavInferior vista={vista} onCambiar={setVista} modulos={esAdmin ? undefined : usuario.modulos} />
     </div>
   );
 }

@@ -1,0 +1,62 @@
+.perfil {
+  display: grid;
+  gap: 14px;
+}
+
+.perfil-identidad {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.perfil-avatar {
+  width: 72px;
+  height: 72px;
+  border: var(--borde);
+  border-radius: 50%;
+  background: var(--verde-100);
+  display: grid;
+  place-items: center;
+  font-size: 2.2rem;
+  box-shadow: var(--sombra-dura);
+}
+
+.perfil-datos {
+  display: grid;
+  gap: 2px;
+}
+
+.perfil-nombre {
+  font-size: 1.3rem;
+  font-weight: 900;
+}
+
+.actividad-lista {
+  display: grid;
+  gap: 8px;
+}
+
+.actividad-dia {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.actividad-fecha {
+  font-weight: 900;
+  width: 100px;
+}
+
+.reforzar-lista {
+  display: grid;
+  gap: 6px;
+}
+
+@media (min-width: 900px) {
+  .perfil {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}

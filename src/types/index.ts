@@ -113,11 +113,18 @@ export interface Duelo {
   creadoEn: number;
 }
 
+// Módulos de estudio que un usuario puede ver (Inicio siempre es visible)
+export type ModuloApp = 'vocabulario' | 'gramatica' | 'listening' | 'lectura';
+
+export const MODULOS_APP: ModuloApp[] = ['vocabulario', 'gramatica', 'listening', 'lectura'];
+
 export interface Usuario {
   id: string; // uid de Firebase Auth
   nombre: string;
   correo: string;
   rol: RolUsuario;
+  // Módulos visibles para este usuario; ausente = todos
+  modulos?: ModuloApp[];
   creadoEn: number;
 }
 
@@ -137,4 +144,4 @@ export interface Personaje {
   porRepasar?: string[];
 }
 
-export type Vista = 'inicio' | 'vocabulario' | 'gramatica' | 'listening' | 'lectura' | 'usuarios';
+export type Vista = 'inicio' | 'vocabulario' | 'gramatica' | 'listening' | 'lectura' | 'usuarios' | 'perfil';
