@@ -138,3 +138,65 @@
   }
 
 }
+
+/* Flashcards de conjugaciones */
+.verbos .juego-estado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.juego-estado-acciones {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.carta-verbo {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.carta-formas {
+  display: grid;
+  gap: 8px;
+  text-align: left;
+}
+
+.carta-forma {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.carta-forma em {
+  font-style: normal;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.65;
+  display: inline-block;
+  width: 86px;
+}
+
+.verbos .juego-botones {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.verbos .juego-botones .btn-primario,
+.verbos .juego-botones .btn-contorno {
+  flex: 1;
+  justify-content: center;
+}

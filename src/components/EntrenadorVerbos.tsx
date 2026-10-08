@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import { ArrowLeft, ArrowRight, Check, Dumbbell, RotateCcw, Table } from 'lucide-react';
+import { useMemo, useRef, useState } from 'react';
+import { ArrowLeft, ArrowRight, Check, Dumbbell, Play, RotateCcw, Shuffle, Table, X } from 'lucide-react';
 import type { Verbo } from '../data/verbos';
 import { VERBOS } from '../data/verbos';
 import { barajar } from '../utils/barajar';
@@ -53,7 +53,7 @@ function esCorrecta(escrito: string, p: Pregunta): boolean {
 // Entrenador de verbos: tabla de consulta (253 verbos con todas sus formas)
 // y práctica escrita de conjugaciones con corrección inmediata.
 export default function EntrenadorVerbos({ onTerminar, onSalir }: Props) {
-  const [pestana, setPestana] = useState<'practicar' | 'tabla'>('practicar');
+  const [pestana, setPestana] = useState<'practicar' | 'tarjetas' | 'tabla'>('practicar');
 
   // ── Tabla ──
   const [busqueda, setBusqueda] = useState('');
@@ -77,6 +77,37 @@ export default function EntrenadorVerbos({ onTerminar, onSalir }: Props) {
   const [resultado, setResultado] = useState<'bien' | 'mal' | null>(null);
   const [aciertos, setAciertos] = useState(0);
   const [avisado, setAvisado] = useState(false);
+
+  // ── Flashcards de conjugaciones: frente el verbo, reverso TODAS sus formas ──
+  const [mazo, setMazo] = useState<Verbo[] | null>(null);
+  const [volteada, setVolteada] = useState(false);
+  const [sabidas, setSabidas] = useState(0);
+  const [jugadasMazo, setJugadasMazo] = useState(0);
+  const avisadoMazo = useRef(false);
+
+  function empezarMazo(cantidad: number) {
+    const pool = soloIrregulares ? VERBOS.filter((vb) => vb.irregular) : VERBOS;
+    setMazo(barajar(pool).slice(0, Math.min(cantidad, pool.length)));
+    setVolteada(false);
+    setSabidas(0);
+    setJugadasMazo(0);
+    avisadoMazo.current = false;
+  }
+
+  function pasarVerbo(laSabe: boolean) {
+    if (!mazo || mazo.length === 0) return;
+    const [actual, ...resto] = mazo;
+    // "Repasar" la recicla al final; "La sé" la retira del mazo
+    const siguiente = laSabe ? resto : [...resto, actual];
+    setJugadasMazo((j) => j + 1);
+    if (laSabe) setSabidas((s) => s + 1);
+    setVolteada(false);
+    setMazo(siguiente);
+    if (siguiente.length === 0 && !avisadoMazo.current) {
+      avisadoMazo.current = true;
+      onTerminar(sabidas + (laSabe ? 1 : 0), jugadasMazo + 1);
+    }
+  }
 
   function empezar(cantidad: number, poolElegido?: Verbo[]) {
     const pool = poolElegido ?? (soloIrregulares ? VERBOS.filter((vb) => vb.irregular) : VERBOS);
@@ -117,6 +148,87 @@ export default function EntrenadorVerbos({ onTerminar, onSalir }: Props) {
     }
     setEscrito('');
     setResultado(null);
+  }
+
+  // ── Render: flashcards de verbos ──
+  if (mazo) {
+    if (mazo.length === 0) {
+      return (
+        <div className="tarjeta practica-verbo">
+          <GatoSuerte mensaje="Well done!" />
+          <p className="cuestionario-puntaje">Repasaste {jugadasMazo} tarjetas</p>
+          <p className="texto-suave">
+            Las que marcaste “Repasar” volvieron al mazo hasta que las dominaste.
+          </p>
+          <div className="examen-acciones">
+            <button className="btn-primario" onClick={() => empezarMazo(10)}>
+              <RotateCcw size={18} />
+              Otro mazo
+            </button>
+            <button className="btn-contorno" onClick={() => setMazo(null)}>
+              Volver
+            </button>
+          </div>
+        </div>
+      );
+    }
+    const verbo = mazo[0];
+    return (
+      <div className="verbos">
+        <div className="juego-estado">
+          <span className="texto-suave">Quedan {mazo.length} tarjetas</span>
+          <div className="juego-estado-acciones">
+            <button className="btn-contorno" onClick={() => setMazo(barajar(mazo))}>
+              <Shuffle size={18} />
+              Barajar
+            </button>
+            <button className="btn-icono" onClick={() => setMazo(null)} aria-label="Salir">
+              <X size={20} />
+            </button>
+          </div>
+        </div>
+        <button
+          className={`tarjeta carta carta-verbo${volteada ? ' volteada' : ''}`}
+          onClick={() => setVolteada(!volteada)}
+        >
+          {volteada ? (
+            <span className="carta-formas">
+              <span className="carta-forma">
+                <em>he/she/it</em> {verbo.tercera}
+              </span>
+              <span className="carta-forma">
+                <em>-ing</em> {verbo.gerundio}
+              </span>
+              <span className="carta-forma">
+                <em>pasado</em> {verbo.pasado}
+              </span>
+              <span className="carta-forma">
+                <em>participio</em> {verbo.participio}
+              </span>
+              <span className="carta-forma">
+                <em>futuro</em> will {verbo.base}
+              </span>
+            </span>
+          ) : (
+            <>
+              <span className="carta-palabra">{verbo.base}</span>
+              <span className="carta-ejemplo">{verbo.es}</span>
+              <span className="carta-pista">Di sus formas y toca para comprobar</span>
+            </>
+          )}
+        </button>
+        <div className="juego-botones">
+          <button className="btn-contorno" onClick={() => pasarVerbo(false)}>
+            <RotateCcw size={18} />
+            Repasar
+          </button>
+          <button className="btn-primario" onClick={() => pasarVerbo(true)}>
+            <Check size={18} />
+            Las sé
+          </button>
+        </div>
+      </div>
+    );
   }
 
   // ── Render: ronda de práctica activa ──
@@ -215,6 +327,12 @@ export default function EntrenadorVerbos({ onTerminar, onSalir }: Props) {
           <Dumbbell size={14} /> Practicar
         </button>
         <button
+          className={`chip${pestana === 'tarjetas' ? ' activo' : ''}`}
+          onClick={() => setPestana('tarjetas')}
+        >
+          <Play size={14} /> Tarjetas
+        </button>
+        <button
           className={`chip${pestana === 'tabla' ? ' activo' : ''}`}
           onClick={() => setPestana('tabla')}
         >
@@ -256,6 +374,31 @@ export default function EntrenadorVerbos({ onTerminar, onSalir }: Props) {
             </button>
             <button className="btn-primario" onClick={() => empezar(20)}>
               Ronda de 20
+            </button>
+          </div>
+        </div>
+      )}
+
+      {pestana === 'tarjetas' && (
+        <div className="tarjeta verbos-config">
+          <BuhoGuia
+            curiosidades={[]}
+            fallback="Mira el verbo, DI sus formas en voz alta (pasado, participio, -ing, tercera y futuro) y voltea para comprobar. Si fallaste una, márcala Repasar: vuelve al mazo hasta que la domines."
+          />
+          <label className="campo-check">
+            <input
+              type="checkbox"
+              checked={soloIrregulares}
+              onChange={(e) => setSoloIrregulares(e.target.checked)}
+            />
+            Solo verbos irregulares (los que caen en el examen)
+          </label>
+          <div className="examen-acciones">
+            <button className="btn-primario" onClick={() => empezarMazo(10)}>
+              Mazo de 10
+            </button>
+            <button className="btn-primario" onClick={() => empezarMazo(20)}>
+              Mazo de 20
             </button>
           </div>
         </div>

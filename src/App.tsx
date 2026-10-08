@@ -356,6 +356,8 @@ export default function App() {
             esAdmin={esAdmin}
             onCrearCuento={crearCuento}
             onBorrarCuento={borrarCuento}
+            palabras={palabras}
+            onTextoAnalizado={() => completarActividad('lectura', 15 + nivel * 2)}
             onLecturaTerminada={(aciertos) =>
               completarActividad('lectura', aciertos * 4 + nivel * 2)
             }

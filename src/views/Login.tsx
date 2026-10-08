@@ -105,6 +105,9 @@ export default function Login() {
             onChange={(e) => setClave(e.target.value)}
             placeholder="Mínimo 6 caracteres"
             autoComplete={modo === 'entrar' ? 'current-password' : 'new-password'}
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
             onKeyDown={(e) => {
               if (e.key === 'Enter') void enviar();
             }}

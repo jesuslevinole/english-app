@@ -19,7 +19,8 @@ export function observarSesion(alCambiar: (uid: string | null) => void): () => v
 }
 
 export async function entrar(correo: string, clave: string): Promise<void> {
-  await signInWithEmailAndPassword(auth, correo.trim(), clave);
+  // trim + minúsculas: los teclados móviles meten espacios y mayúsculas solos
+  await signInWithEmailAndPassword(auth, correo.trim().toLowerCase(), clave);
 }
 
 export async function registrar(correo: string, clave: string, nombre: string): Promise<void> {
@@ -118,7 +119,7 @@ export function mensajeErrorSesion(error: unknown): string {
     codigo.includes('wrong-password') ||
     codigo.includes('user-not-found')
   ) {
-    return 'Correo o contraseña incorrectos.';
+    return 'Correo o contraseña incorrectos. Si te invitaron al aula y aún no creaste tu contraseña, toca "¿Olvidaste tu contraseña?" para establecerla con tu correo.';
   }
   if (codigo.includes('email-already-in-use')) return 'Ese correo ya tiene una cuenta. Prueba entrar.';
   if (codigo.includes('weak-password')) return 'La contraseña debe tener al menos 6 caracteres.';

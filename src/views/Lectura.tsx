@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { ArrowLeft, BookMarked, Plus, Trash2 } from 'lucide-react';
-import type { Cuento, Ejercicio, EjemploFrase, Nivel } from '../types';
+import { FlaskConical, ArrowLeft, BookMarked, Plus, Trash2 } from 'lucide-react';
+import type { Cuento, Ejercicio, EjemploFrase, Nivel, Palabra } from '../types';
 import { preguntasPorCuestionario } from '../utils/dificultad';
 import Modal from '../components/Modal';
 import Cuestionario from '../components/Cuestionario';
 import EditorEjercicios from '../components/EditorEjercicios';
 import BuhoGuia from '../components/BuhoGuia';
+import AnalizadorTexto from '../components/AnalizadorTexto';
 import './Lectura.css';
 
 interface Props {
@@ -16,6 +17,9 @@ interface Props {
   onBorrarCuento: (cuento: Cuento) => void;
   // XP al terminar las preguntas de un cuento
   onLecturaTerminada: (aciertos: number, total: number) => void;
+  // Laboratorio de textos
+  palabras: Palabra[];
+  onTextoAnalizado: () => void;
 }
 
 const NIVELES: Nivel[] = ['A1', 'A2', 'B1', 'B2', 'C1'];
@@ -28,8 +32,11 @@ export default function Lectura({
   onCrearCuento,
   onBorrarCuento,
   onLecturaTerminada,
+  palabras,
+  onTextoAnalizado,
 }: Props) {
   const [filtro, setFiltro] = useState<'todos' | Nivel>('todos');
+  const [enLaboratorio, setEnLaboratorio] = useState(false);
   const [abiertoId, setAbiertoId] = useState<string | null>(null);
   const [pestana, setPestana] = useState<'leer' | 'preguntas'>('leer');
   const [creando, setCreando] = useState(false);
@@ -43,6 +50,16 @@ export default function Lectura({
 
   const filtrados = filtro === 'todos' ? cuentos : cuentos.filter((c) => c.nivel === filtro);
   const abierto = cuentos.find((c) => c.id === abiertoId) ?? null;
+
+  if (enLaboratorio) {
+    return (
+      <AnalizadorTexto
+        palabras={palabras}
+        onAnalizado={onTextoAnalizado}
+        onSalir={() => setEnLaboratorio(false)}
+      />
+    );
+  }
 
   function guardarCuento() {
     if (!titulo.trim() || !texto.trim()) return;
@@ -157,6 +174,20 @@ export default function Lectura({
           </button>
         )}
       </div>
+
+      <section className="tarjeta verbos-invitacion">
+        <FlaskConical size={22} />
+        <div className="verbos-invitacion-textos">
+          <p className="cuento-titulo">Laboratorio de textos</p>
+          <p className="texto-suave">
+            Pega un cómic, la letra de una canción o cualquier texto en inglés: lo desarmo en
+            tiempos verbales, verbos, expresiones cotidianas y vocabulario nuevo para ti.
+          </p>
+        </div>
+        <button className="btn-primario" onClick={() => setEnLaboratorio(true)}>
+          Analizar un texto
+        </button>
+      </section>
 
       <div className="fila-chips">
         <button
